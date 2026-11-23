@@ -24,10 +24,21 @@ function base32(bytes: Uint8Array): string {
   return out;
 }
 
-function base64url(bytes: Uint8Array): string {
+export function base64url(bytes: Uint8Array): string {
   let binary = '';
   for (const byte of bytes) binary += String.fromCharCode(byte);
   return btoa(binary).replaceAll('+', '-').replaceAll('/', '_').replaceAll('=', '');
+}
+
+/** Strict base64url: no padding, no other alphabet. Null for anything else. */
+export function fromBase64url(text: string): Uint8Array<ArrayBuffer> | null {
+  if (!/^[A-Za-z0-9_-]*$/.test(text) || text.length % 4 === 1) return null;
+  try {
+    const binary = atob(text.replaceAll('-', '+').replaceAll('_', '/'));
+    return Uint8Array.from(binary, (char) => char.charCodeAt(0));
+  } catch {
+    return null;
+  }
 }
 
 async function hmac(secret: string, message: string): Promise<Uint8Array> {

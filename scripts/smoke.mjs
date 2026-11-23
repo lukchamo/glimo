@@ -91,6 +91,15 @@ await check('API health', async () => {
   return `v${body.version}, ${body.spec}`;
 });
 
+// Reported, never required: a deployment without VAPID keys is a healthy one.
+await check('notifications (optional)', async () => {
+  const response = await fetch(`${base}/api/push/key`).catch(() => null);
+  const body = await response?.json().catch(() => null);
+  if (response?.status === 200 && typeof body?.publicKey === 'string') return 'configured';
+  if (body?.error?.code === 'push_not_configured') return 'not configured on this deployment';
+  return `could not tell (${response?.status ?? 'no answer'})`;
+});
+
 await check('skills catalog comes from D1 and is cached at the edge', async () => {
   const first = await fetch(`${base}/api/skills`);
   const body = await json(first);

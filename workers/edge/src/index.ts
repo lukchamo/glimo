@@ -14,6 +14,7 @@ import { drizzle } from 'drizzle-orm/d1';
 import { type Context, Hono } from 'hono';
 import { actionLog, skills, vitrinas } from './db/schema';
 import { handleMcpMessage, type JsonRpcResponse } from './mcp';
+import { checkPushEndpoint, loadVapid, parseSubscription } from './push';
 import {
   API_SECURITY_HEADERS,
   BASE_SECURITY_HEADERS,
@@ -38,6 +39,7 @@ const CATALOG_REV = '1';
 const MAX_STATUS_BYTES = LIMITS.bytes;
 const MAX_ACTION_BYTES = 2048;
 const MAX_MCP_BYTES = 65_536;
+const MAX_PUSH_BYTES = 2048;
 const MAX_NOTE = 500;
 
 type App = { Bindings: Env; Variables: { vitrinaId: string } };
@@ -68,6 +70,10 @@ const ERROR_STATUS: Record<VitrinaError, [400 | 401 | 404 | 409 | 429, string]> 
     'This action is sensitive. Send "confirm": true once the person has confirmed it.',
   ],
   too_many_actions: [429, 'Too many decisions are waiting to be collected by the agents.'],
+  too_many_subscriptions: [
+    409,
+    'This vitrina already notifies as many devices as it can. Turn notifications off on one first.',
+  ],
 };
 
 function failWith(c: Ctx, error: VitrinaError) {
@@ -323,6 +329,50 @@ app.get('/api/vitrinas/:id/log', async (c) => {
     .orderBy(desc(actionLog.createdAt))
     .limit(50);
   return c.json({ log: rows });
+});
+
+// ---------- notifications (Web Push) ----------
+
+function pushOff(c: Ctx) {
+  return fail(c, 503, 'push_not_configured', 'Notifications are not set up on this deployment.');
+}
+
+// The public key a browser needs to subscribe.
+app.get('/api/push/key', async (c) => {
+  if (await limited(c.env.RL_READ, clientIp(c))) return tooMany(c);
+  const vapid = await loadVapid(c.env);
+  if (!vapid) return pushOff(c);
+  return c.json({ publicKey: vapid.publicKey });
+});
+
+// A device asks to be told when an agent needs the person. Watching is a read
+// capability, so the vitrina id is enough. What it sends is never returned by any read.
+app.post('/api/vitrinas/:id/push', async (c) => {
+  if (await limited(c.env.RL_WRITE, c.get('vitrinaId'))) return tooMany(c);
+  const body = await readJson(c.req.raw, MAX_PUSH_BYTES);
+  if (!body.ok) return fail(c, body.status, 'invalid_body', body.message);
+  // The address is checked before anything else: this server will post to it.
+  const parsed = await parseSubscription(body.value);
+  if (!parsed.ok) return fail(c, parsed.status, parsed.code, parsed.message);
+  if (!(await loadVapid(c.env))) return pushOff(c);
+  const result = await stubFor(c).subscribe({ ...parsed.subscription, site: origin(c) });
+  if (!result.ok) return failWith(c, result.error);
+  return c.json({ ok: true }, 201);
+});
+
+app.delete('/api/vitrinas/:id/push', async (c) => {
+  if (await limited(c.env.RL_WRITE, c.get('vitrinaId'))) return tooMany(c);
+  const body = await readJson(c.req.raw, MAX_PUSH_BYTES);
+  if (!body.ok) return fail(c, body.status, 'invalid_body', body.message);
+  const endpoint = (body.value as { endpoint?: unknown } | null)?.endpoint;
+  if (typeof endpoint !== 'string') {
+    return fail(c, 422, 'invalid_subscription', 'Send "endpoint": the address to forget.');
+  }
+  const checked = checkPushEndpoint(endpoint);
+  if (!checked.ok) return fail(c, checked.status, checked.code, checked.message);
+  const result = await stubFor(c).unsubscribe(checked.endpoint);
+  if (!result.ok) return failWith(c, result.error);
+  return c.json({ ok: true });
 });
 
 // ---------- skills catalog (D1 + Drizzle, cached at the edge) ----------

@@ -4,44 +4,7 @@ import { afterEach, describe, expect, it, vi } from 'vitest';
 // The static site's headers file must carry the same policy the Worker sends.
 import siteHeaders from '../../../apps/web/public/_headers?raw';
 import { HTML_CSP, KEY_PATTERN, VITRINA_ID_PATTERN } from '../src/security';
-
-const ORIGIN = 'https://glimo.test';
-
-type Json = Record<string, unknown>;
-
-function call(path: string, init: RequestInit & { key?: string; json?: unknown } = {}) {
-  const headers = new Headers(init.headers);
-  if (init.key) headers.set('authorization', `Bearer ${init.key}`);
-  let body = init.body;
-  if (init.json !== undefined) {
-    headers.set('content-type', 'application/json');
-    body = JSON.stringify(init.json);
-  }
-  return exports.default.fetch(new Request(`${ORIGIN}${path}`, { ...init, headers, body }));
-}
-
-let visitor = 0;
-
-/** Each test visitor comes from its own address, like real people do. */
-async function createVitrina() {
-  visitor += 1;
-  const response = await call('/api/vitrinas', {
-    method: 'POST',
-    headers: { 'cf-connecting-ip': `203.0.113.${visitor % 250}` },
-  });
-  expect(response.status).toBe(201);
-  return (await response.json()) as { id: string; key: string; url: string; mcp: string };
-}
-
-const status = (id: string, state: string, extra: Json = {}) => ({
-  agent: { id, name: id[0]?.toUpperCase() + id.slice(1) },
-  state,
-  ...extra,
-});
-
-async function push(v: { id: string; key: string }, body: unknown) {
-  return call(`/api/vitrinas/${v.id}/status`, { method: 'POST', key: v.key, json: body });
-}
+import { call, createVitrina, type Json, ORIGIN, push, status } from './helpers';
 
 describe('health and hardening', () => {
   it('answers health with hardened headers and no caching', async () => {

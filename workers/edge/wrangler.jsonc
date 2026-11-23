@@ -47,5 +47,7 @@
     // Hours without activity before a hosted vitrina is deleted.
     "VITRINA_TTL_HOURS": "168"
   }
-  // Secret (not in this file): ID_SECRET, set with `wrangler secret put ID_SECRET`.
+  // Secrets (not in this file), set with `wrangler secret put <NAME>`:
+  //   ID_SECRET                              signs vitrina ids
+  //   VAPID_PUBLIC_KEY, VAPID_PRIVATE_KEY    notifications (optional, `node scripts/gen-vapid.mjs`)
 }

@@ -5,6 +5,7 @@
 //   · SQLite storage inside the object: strongly consistent, zero network hops
 //   · WebSocket Hibernation: idle vitrinas cost nothing while screens stay connected
 //   · writes need the vitrina key (only its SHA-256 is stored)
+//   · devices that asked for it get a Web Push when an agent needs the person
 //   · an alarm deletes everything after a period without activity
 
 import { DurableObject } from 'cloudflare:workers';
@@ -12,14 +13,19 @@ import type { GlimActionRequest, GlimoStatus, LiveEvent } from '@glimo/spec';
 import { eq } from 'drizzle-orm';
 import { drizzle } from 'drizzle-orm/d1';
 import { vitrinas } from './db/schema';
+import { type CallingState, notifySubscribers, type PushSubscriber, pushMessage } from './push';
 import { timingSafeEqual } from './security';
 import type { Env } from './types';
 
 export const MAX_AGENTS = 50;
 export const MAX_SOCKETS = 64;
 export const MAX_PENDING_ACTIONS = 100;
+export const MAX_SUBSCRIPTIONS = 20;
+/** A vitrina calls the person back this many times a minute at most, whatever its agents do. */
+export const MAX_NOTIFICATIONS_PER_MINUTE = 12;
 export const MAX_WAIT_MS = 20_000;
-const HOUR = 3_600_000;
+const MINUTE = 60_000;
+const HOUR = 60 * MINUTE;
 
 export type VitrinaError =
   | 'not_found'
@@ -28,7 +34,8 @@ export type VitrinaError =
   | 'unknown_agent'
   | 'unknown_action'
   | 'confirmation_required'
-  | 'too_many_actions';
+  | 'too_many_actions'
+  | 'too_many_subscriptions';
 
 export type Result<T> = ({ ok: true } & T) | { ok: false; error: VitrinaError };
 
@@ -51,6 +58,8 @@ export class Vitrina extends DurableObject<Env> {
   private meta: Meta | null = null;
   private agents = new Map<string, GlimoStatus>();
   private waiters = new Map<string, Set<() => void>>();
+  /** When this vitrina last called the person back. In memory: waking up starts it again. */
+  private notifiedAt: number[] = [];
 
   constructor(ctx: DurableObjectState, env: Env) {
     super(ctx, env);
@@ -64,6 +73,13 @@ export class Vitrina extends DurableObject<Env> {
         action_id TEXT NOT NULL,
         note TEXT,
         at TEXT NOT NULL
+      );
+      CREATE TABLE IF NOT EXISTS subscriptions (
+        endpoint TEXT PRIMARY KEY,
+        p256dh TEXT NOT NULL,
+        auth TEXT NOT NULL,
+        locale TEXT NOT NULL,
+        site TEXT NOT NULL
       );
     `);
     const row = sql.exec<{ v: string }>("SELECT v FROM meta WHERE k = 'meta'").toArray()[0];
@@ -147,7 +163,8 @@ export class Vitrina extends DurableObject<Env> {
     if (!this.meta) return { ok: false, error: 'not_found' };
     if (!this.authorized(keyHash)) return { ok: false, error: 'unauthorized' };
     const id = status.agent.id;
-    if (!this.agents.has(id) && this.agents.size >= MAX_AGENTS) {
+    const previous = this.agents.get(id)?.state;
+    if (previous === undefined && this.agents.size >= MAX_AGENTS) {
       return { ok: false, error: 'too_many_agents' };
     }
     this.agents.set(id, status);
@@ -160,7 +177,80 @@ export class Vitrina extends DurableObject<Env> {
     );
     this.saveMeta();
     this.broadcast({ t: 'upsert', seq: this.meta.seq, agent: status });
+    // Only the change calls the person back: writing the same state again stays quiet.
+    if ((status.state === 'waiting' || status.state === 'blocked') && status.state !== previous) {
+      this.notify(status, status.state);
+    }
     return { ok: true, seq: this.meta.seq };
+  }
+
+  /**
+   * An agent now needs the person: every subscribed device gets a Web Push. The write
+   * that caused it does not wait for the push services, and never fails because of them.
+   */
+  private notify(status: GlimoStatus, state: CallingState): void {
+    if (!this.meta) return;
+    const vitrinaId = this.meta.id;
+    try {
+      const sql = this.ctx.storage.sql;
+      const subscribers = sql
+        .exec<PushSubscriber>('SELECT endpoint, p256dh, auth, locale, site FROM subscriptions')
+        .toArray();
+      if (subscribers.length === 0) return;
+      // An agent that keeps changing its mind must not flood a phone, or the push services.
+      const now = Date.now();
+      this.notifiedAt = this.notifiedAt.filter((at) => now - at < MINUTE);
+      if (this.notifiedAt.length >= MAX_NOTIFICATIONS_PER_MINUTE) return;
+      this.notifiedAt.push(now);
+      this.ctx.waitUntil(
+        notifySubscribers(this.env, subscribers, (locale) =>
+          pushMessage(vitrinaId, status, state, locale),
+        )
+          .then((gone) => {
+            // If the vitrina expired meanwhile, the table went with everything else.
+            if (!this.meta) return;
+            for (const endpoint of gone) {
+              sql.exec('DELETE FROM subscriptions WHERE endpoint = ?1', endpoint);
+            }
+          })
+          .catch(() => undefined),
+      );
+    } catch {
+      // Calling the person back is best effort.
+    }
+  }
+
+  /**
+   * A device asks to be told when an agent needs the person. Watching is enough to ask,
+   * so there is no key here. Subscribing again with the same endpoint updates it.
+   */
+  async subscribe(subscriber: PushSubscriber): Promise<Result<object>> {
+    if (!this.meta) return { ok: false, error: 'not_found' };
+    const sql = this.ctx.storage.sql;
+    const known =
+      sql.exec('SELECT 1 FROM subscriptions WHERE endpoint = ?1', subscriber.endpoint).toArray()
+        .length > 0;
+    const total = sql.exec<{ n: number }>('SELECT COUNT(*) AS n FROM subscriptions').one().n;
+    if (!known && total >= MAX_SUBSCRIPTIONS) {
+      return { ok: false, error: 'too_many_subscriptions' };
+    }
+    sql.exec(
+      `INSERT INTO subscriptions (endpoint, p256dh, auth, locale, site) VALUES (?1, ?2, ?3, ?4, ?5)
+       ON CONFLICT (endpoint) DO UPDATE SET p256dh = ?2, auth = ?3, locale = ?4, site = ?5`,
+      subscriber.endpoint,
+      subscriber.p256dh,
+      subscriber.auth,
+      subscriber.locale,
+      subscriber.site,
+    );
+    return { ok: true };
+  }
+
+  /** The device stops being told. Forgetting an endpoint that was not there is fine. */
+  async unsubscribe(endpoint: string): Promise<Result<object>> {
+    if (!this.meta) return { ok: false, error: 'not_found' };
+    this.ctx.storage.sql.exec('DELETE FROM subscriptions WHERE endpoint = ?1', endpoint);
+    return { ok: true };
   }
 
   async remove(keyHash: string, agentId: string): Promise<Result<{ seq: number }>> {
