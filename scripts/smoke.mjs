@@ -97,7 +97,11 @@ await check('skills catalog comes from D1 and is cached at the edge', async () =
   assert(body.skills?.length >= 7, 'catalog is empty');
   const second = await fetch(`${base}/api/skills`);
   await second.arrayBuffer();
-  assert(second.headers.get('x-glimo-cache') === 'HIT', 'second request was not a cache hit');
+  // HIT, or STALE while a fresh copy is fetched behind it: either way it came from the cache.
+  assert(
+    ['HIT', 'STALE'].includes(second.headers.get('x-glimo-cache')),
+    `second request was not served from the cache (${second.headers.get('x-glimo-cache')})`,
+  );
   return `${body.skills.length} skills, ${second.headers.get('x-glimo-cache')}`;
 });
 

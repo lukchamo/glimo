@@ -483,7 +483,8 @@ async function serveVitrinaPage(request: Request, env: Env): Promise<Response> {
   response.headers.set('content-security-policy', HTML_CSP);
   response.headers.set('referrer-policy', 'no-referrer');
   response.headers.set('x-robots-tag', 'noindex, nofollow');
-  response.headers.set('cache-control', 'private, no-cache');
+  // no-transform: nothing may inject scripts into this page on its way out.
+  response.headers.set('cache-control', 'private, no-cache, no-transform');
   return response;
 }
 
