@@ -74,12 +74,13 @@ A maintainer replies within 5 business days.
 
 ## Releasing (maintainers)
 
-Releases are cut from `main` by pushing a tag. Everything else is automatic.
+Releases are cut from `main`. Everything after the version bump is automatic.
 
 1. Set the new version in every package, `workers/edge/src/version.ts` and the CLI
    (`node scripts/check-version.mjs` tells you if one is out of step).
 2. Add a `## x.y.z (date)` section to `CHANGELOG.md`.
-3. Merge to `main`, then tag and push:
+3. Merge to `main`, then either run the `release` workflow by hand (Actions → release →
+   Run workflow, on `main`), or tag and push:
 
    ```bash
    git tag -a v0.2.0 -m "Glimo 0.2.0" && git push origin v0.2.0
