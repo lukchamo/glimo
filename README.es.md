@@ -58,6 +58,18 @@ npx glimo status ventas waiting "Quiere enviar 12 correos" --action approve:"Apr
 npx glimo wait ventas
 ```
 
+## Claude Code, por su cuenta
+
+```bash
+npx glimo hooks install
+```
+
+A partir de ahí Claude Code avisa solo mediante [hooks](docs/claude-code.md). Cada sesión es un glim: piensa cuando le envías un prompt, trabaja cuando usa una herramienta, te espera cuando necesita tu permiso y termina cuando acaba su turno. El modelo no tiene que acordarse de nada, y tus prompts, comandos y nombres de archivo no salen de tu equipo. Con `--approve` puedes responder a sus peticiones de permiso desde la vitrina.
+
+## Te avisa
+
+Abre tu vitrina en el móvil y elige "Avísame cuando un glim me necesite". Recibes un aviso cuando un agente empieza a esperarte o se bloquea, con la página cerrada, y la vitrina dice desde cuándo te espera. En un iPhone, añade antes la vitrina a la pantalla de inicio.
+
 ## Funciona con
 
 Glimo es un servidor MCP por HTTP, así que cualquier cliente MCP puede usarlo. Tres herramientas: `glimo_status`, `glimo_action`, `glimo_vitrina`.

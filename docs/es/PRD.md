@@ -93,7 +93,7 @@ Fuentes en `docs/01-investigacion-mercado.md`.
 3. Mundos: Oficina, Jardín y Órbita, más plantillas propias (`world.json`).
 4. Tienda pública de skills con `glimo publish`, revisión de seguridad y firma.
 5. MCP App de la vitrina para clientes compatibles.
-6. App móvil nativa con notificaciones push.
+6. App móvil nativa. Las notificaciones push ya llegan por Web Push desde la vitrina web.
 7. Sincronización cifrada entre dispositivos.
 
 ### 6.3 Futuro
@@ -194,10 +194,18 @@ Detalle en `docs/05-privacidad-y-cifrado.md`.
 - **RF-L1** `npx glimo init` crea la configuración y abre la vitrina.
 - **RF-L2** `glimo connect ./mcp.json` conecta servidores.
 - **RF-L3** `glimo publish <skill>` publica una skill.
+- **RF-L4** `glimo hooks install` conecta Claude Code mediante hooks: cada sesión aparece
+  como un glim sin que el modelo tenga que llamar a nada. Por defecto no sale del equipo
+  ningún prompt, comando ni nombre de archivo; `--detail` y `--approve` (responder permisos
+  desde la vitrina) son opcionales. Hecho en la CLI; detalle en `docs/claude-code.md`.
 
 ### M. Notificaciones
 
 - **RF-M1** Aviso push cuando un glim pasa a `waiting` o `blocked`, con acción directa.
+  Hecho como Web Push en la vitrina alojada: el aviso abre la vitrina, donde está la
+  acción. Como máximo 20 dispositivos y 12 avisos por minuto por vitrina.
+- **RF-M2** La vitrina dice desde cuándo espera cada glim que te necesita, y la pestaña
+  cuenta cuántos te necesitan.
 
 ### N. Acuerdos entre glimos (futuro)
 

@@ -25,6 +25,21 @@ escaparate y español desde el día 1 (`README.es.md`, `glimo.dev/es/`).
   solo dominio, sin terceros.
 - Animación: 60 fps estables con 28 glims; solo se animan propiedades compuestas.
 
+### Motivo para volver (hecho, pendiente de desplegar)
+
+El diagnóstico de producto fue que la vitrina no daba un motivo para volver: el glim solo
+se movía si el modelo se acordaba de avisar, y nada te llamaba cuando te necesitaba.
+
+- **Claude Code avisa solo**: `glimo hooks install` registra hooks y cada sesión es un glim
+  sin que el modelo llame a nada. Por defecto no sale del equipo ningún prompt, comando ni
+  nombre de archivo. Con `--approve` se responden los permisos desde la vitrina.
+- **Avisos**: Web Push cuando un glim empieza a esperarte o se bloquea, con la página
+  cerrada. Probado de punta a punta con el servicio push de Mozilla.
+- **Tiempo de espera**: la vitrina dice desde cuándo te espera cada glim y la pestaña
+  cuenta cuántos te necesitan.
+- En local: 242 pruebas unitarias y de Worker, 42 de navegador, humo 12 de 12 y 29 sondas
+  de seguridad (28 pasan, 1 se confirma a mano).
+
 ## Auditoría del repositorio
 
 | Punto                                                                                      | Estado                                                                                                     |
@@ -49,6 +64,10 @@ escaparate y español desde el día 1 (`README.es.md`, `glimo.dev/es/`).
 
 ## Antes de lanzar, por orden de impacto
 
+0. **Desplegar el motivo para volver**: generar las claves con `node scripts/gen-vapid.mjs`,
+   guardarlas como secretos del Worker y desplegar. Después, probar el aviso en un iPhone
+   (desde la pantalla de inicio), en Android y en escritorio, y una sesión real de Claude
+   Code con los hooks. Usarlo dos semanas con agentes reales antes de lanzar.
 1. **Publicar en npm** `glimo`, `@glimo/spec` y `@glimo/glim` (reservar la organización
    `glimo`). Después, poner `cliPublished: true` en `apps/web/src/lib/site.ts` para que la
    web muestre `npx glimo@latest init`. Hasta entonces el comando principal del README falla.

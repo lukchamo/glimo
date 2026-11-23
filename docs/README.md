@@ -3,7 +3,8 @@
 | Document                                                   | What it covers                                                        |
 | ---------------------------------------------------------- | --------------------------------------------------------------------- |
 | [spec.md](spec.md)                                         | Glimo Spec v0.1: the status contract between any agent and a Glimo UI |
-| [api.md](api.md)                                           | REST API, live channel (WebSocket) and MCP endpoint                   |
+| [api.md](api.md)                                           | REST API, live channel (WebSocket), notifications and MCP endpoint    |
+| [claude-code.md](claude-code.md)                           | Claude Code reports on its own through hooks: setup, privacy, limits  |
 | [architecture.md](architecture.md)                         | How the pieces fit, what runs where, how it stays fast                |
 | [animation-performance.md](animation-performance.md)       | How glims stay alive at 60 fps: rules, research and measurements      |
 | [self-hosting.md](self-hosting.md)                         | Run your own Glimo on your Cloudflare account                         |

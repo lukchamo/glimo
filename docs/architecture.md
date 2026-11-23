@@ -15,6 +15,7 @@
 │    current status of every agent (SQLite)            skills catalog (cached at edge)   │
 │    WebSocket Hibernation fan-out                     index of vitrinas                 │
 │    pending decisions, expiry alarm                   audit log of decisions            │
+│    notification subscriptions (Web Push)                                               │
 └────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -25,9 +26,9 @@
 | `spec/`            | Glimo Spec: JSON Schema and examples. Source of truth of the protocol           |
 | `packages/spec`    | `@glimo/spec`: types, Zod validator, ASP mapping, urgency, live-channel reducer |
 | `packages/glim`    | `@glimo/glim`: the React component and its life engine                          |
-| `packages/cli`     | `glimo`: zero-dependency CLI and stdio MCP bridge                               |
+| `packages/cli`     | `glimo`: zero-dependency CLI, stdio MCP bridge and Claude Code hooks            |
 | `apps/web`         | glimo.dev: landing (English and Spanish), playground, live vitrina page         |
-| `workers/edge`     | The Worker: API, MCP endpoint, Durable Object, D1 schema and migrations         |
+| `workers/edge`     | The Worker: API, MCP endpoint, Durable Object, Web Push, D1 schema, migrations  |
 | `skills/`          | Starter skills (Agent Skills format) and the catalog                            |
 | `scripts/`         | `smoke.mjs` and `pentest.mjs`: check any deployment in seconds                  |
 | `docs/`, `design/` | Documentation and design sources                                                |
@@ -38,6 +39,7 @@
 | ------------------------------------------------- | ---------------------------------- | --------------------------------------------------------------- |
 | Live status of a vitrina                          | Durable Object (SQLite storage)    | One writer, strongly consistent, co-located with its WebSockets |
 | Pending decisions                                 | Durable Object                     | Delivered exactly once to the agent                             |
+| Notification subscriptions                        | Durable Object                     | Deleted with the vitrina, never returned by any read            |
 | Skills catalog, vitrina index, audit log          | D1 (Drizzle)                       | Shared, queryable, cheap to cache                               |
 | What an agent sees and thinks (`pov`, `thoughts`) | Nowhere on the server              | Dropped at the edge until end-to-end encryption ships           |
 | The write key                                     | The person's browser and the agent | The server only keeps its SHA-256                               |
@@ -50,9 +52,11 @@
 3. The Durable Object stores it, bumps `seq` and sends one `upsert` message to every
    connected screen. Measured in production: about 75 ms from the request leaving the
    agent to the change arriving on a screen.
-4. The screen applies it with a pure reducer; only the glim that changed renders again,
+4. If that moved the agent into `waiting` or `blocked`, every device that asked for it gets
+   a Web Push, encrypted for that browser. The write does not wait for it.
+5. The screen applies it with a pure reducer; only the glim that changed renders again,
    and its neighbours glance at it.
-5. If the person decides, the action goes back through the API, is checked against what
+6. If the person decides, the action goes back through the API, is checked against what
    the agent declared, logged in D1 and delivered once to the agent.
 
 ## Why it is fast
@@ -71,4 +75,4 @@
 The original product vision (see [`es/PRD.md`](es/PRD.md)) goes further. Not in this
 release: the local engine that runs agents and brains, end-to-end encryption with a
 12-word phrase, the living world and the immersive view, world templates, the public
-skills store with signing, the MCP App, the mobile app and push notifications.
+skills store with signing, the MCP App and the mobile app.
