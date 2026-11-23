@@ -1,0 +1,62 @@
+{
+  "name": "@glimo/glim",
+  "version": "0.1.0",
+  "description": "The glim: a living avatar for AI agents. Its expression is the agent's real status. React component, compositor-only animation.",
+  "license": "Apache-2.0",
+  "type": "module",
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "exports": {
+    ".": "./src/index.ts",
+    "./glim.css": "./src/glim.css"
+  },
+  "publishConfig": {
+    "access": "public",
+    "exports": {
+      ".": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "./glim.css": "./dist/glim.css"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json && cp src/glim.css dist/glim.css",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@glimo/spec": "workspace:*"
+  },
+  "peerDependencies": {
+    "react": ">=18"
+  },
+  "devDependencies": {
+    "@types/node": "^22.19.0",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "typescript": "^7.0.2",
+    "vitest": "^4.1.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lukchamo/glimo.git",
+    "directory": "packages/glim"
+  },
+  "homepage": "https://glimo.dev",
+  "keywords": [
+    "glimo",
+    "avatar",
+    "agents",
+    "react",
+    "animation",
+    "status"
+  ]
+}

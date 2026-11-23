@@ -1,0 +1,93 @@
+[
+  {
+    "slug": "glimo-status",
+    "name": "Glimo status",
+    "nameEs": "Estado en Glimo",
+    "summary": "Teaches any agent to show its real status on your vitrina and to wait for your decision before anything sensitive.",
+    "summaryEs": "Enseña a cualquier agente a mostrar su estado real en tu vitrina y a esperar tu decisión antes de algo sensible.",
+    "needs": "A Glimo vitrina",
+    "needsEs": "Una vitrina de Glimo",
+    "icon": "pulse",
+    "category": "core",
+    "states": ["thinking", "working", "waiting", "blocked", "done", "tired"],
+    "path": "skills/glimo-status"
+  },
+  {
+    "slug": "inbox-digest",
+    "name": "Inbox digest",
+    "nameEs": "Resumen de correo",
+    "summary": "Reads your inbox every morning and leaves you three lines for each thread that matters.",
+    "summaryEs": "Lee tu bandeja cada mañana y te deja tres líneas por cada hilo importante.",
+    "needs": "Gmail or Outlook",
+    "needsEs": "Gmail u Outlook",
+    "icon": "mail",
+    "category": "email",
+    "states": ["working", "done", "blocked"],
+    "path": "skills/inbox-digest"
+  },
+  {
+    "slug": "sales-follow-up",
+    "name": "Sales follow-up",
+    "nameEs": "Seguimiento de ventas",
+    "summary": "Finds customers who never answered and drafts the follow-up email for you to approve.",
+    "summaryEs": "Detecta clientes sin respuesta y prepara el correo de seguimiento para que lo apruebes.",
+    "needs": "Your CRM and your email",
+    "needsEs": "Tu CRM y tu correo",
+    "icon": "chart",
+    "category": "sales",
+    "states": ["working", "waiting", "done"],
+    "path": "skills/sales-follow-up"
+  },
+  {
+    "slug": "invoice-matching",
+    "name": "Invoice matching",
+    "nameEs": "Conciliación de facturas",
+    "summary": "Matches invoices against your bank movements and tells you what does not add up.",
+    "summaryEs": "Cruza facturas con los movimientos del banco y te avisa de lo que no cuadra.",
+    "needs": "Your bank and your ERP",
+    "needsEs": "Tu banco y tu ERP",
+    "icon": "receipt",
+    "category": "finance",
+    "states": ["working", "waiting", "tired", "done"],
+    "path": "skills/invoice-matching"
+  },
+  {
+    "slug": "tender-radar",
+    "name": "Tender radar",
+    "nameEs": "Radar de licitaciones",
+    "summary": "Checks public procurement portals and brings back only the tenders that fit your company.",
+    "summaryEs": "Revisa portales públicos y te trae solo las licitaciones que encajan con tu empresa.",
+    "needs": "Web access",
+    "needsEs": "Acceso web",
+    "icon": "search",
+    "category": "research",
+    "states": ["thinking", "working", "waiting", "done"],
+    "path": "skills/tender-radar"
+  },
+  {
+    "slug": "calendar-defrag",
+    "name": "Clash-free calendar",
+    "nameEs": "Agenda sin choques",
+    "summary": "Reorders meetings around your priorities and protects your focus hours.",
+    "summaryEs": "Reordena reuniones según tus prioridades y protege tus horas de foco.",
+    "needs": "Your calendar",
+    "needsEs": "Tu calendario",
+    "icon": "calendar",
+    "category": "calendar",
+    "states": ["working", "waiting", "done"],
+    "path": "skills/calendar-defrag"
+  },
+  {
+    "slug": "social-calendar",
+    "name": "Social calendar",
+    "nameEs": "Calendario de redes",
+    "summary": "Schedules your posts and shows you which ones need your OK before they go out.",
+    "summaryEs": "Programa publicaciones y te muestra cuáles necesitan tu visto bueno antes de salir.",
+    "needs": "Your social accounts",
+    "needsEs": "Tus cuentas sociales",
+    "icon": "megaphone",
+    "category": "marketing",
+    "states": ["working", "waiting", "done"],
+    "path": "skills/social-calendar"
+  }
+]

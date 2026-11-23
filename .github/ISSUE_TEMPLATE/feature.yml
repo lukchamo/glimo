@@ -1,0 +1,45 @@
+name: Feature
+description: Propose something new. Wait for the "accepted" label before building it.
+title: "feat: "
+labels: [feature]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: The problem
+      description: Who has it, and what do they do today instead?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: What you propose
+      description: The smallest version that solves it.
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Glimo Spec (needs an RFC)
+        - Glim component and animation
+        - Vitrina and interface
+        - API, live channel or MCP
+        - CLI
+        - Skills and worlds
+        - Privacy and encryption
+        - Docs
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives you considered
+  - type: checkboxes
+    id: plugin
+    attributes:
+      label: Scope
+      options:
+        - label: This could live in a plugin, a skill or a world instead of core.
+        - label: I would like to build it once it is accepted.

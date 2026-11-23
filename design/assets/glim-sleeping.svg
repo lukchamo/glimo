@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" width="240" height="240" role="img" aria-label="Glim: Durmiendo">
+  <clipPath id="sleeping-clip"><path d="M111 53 H111 A101 108.46 0 0 1 212 161.46 V161.46 A88.88 78.54 0 0 1 123.12 240 H98.88 A88.88 78.54 0 0 1 10 161.46 V161.46 A101 108.46 0 0 1 111 53 Z"/></clipPath>
+  <path d="M111 53 H111 A101 108.46 0 0 1 212 161.46 V161.46 A88.88 78.54 0 0 1 123.12 240 H98.88 A88.88 78.54 0 0 1 10 161.46 V161.46 A101 108.46 0 0 1 111 53 Z" fill="#C9CDE3"/>
+  <path d="M111 53 H111 A101 108.46 0 0 1 212 161.46 V161.46 A88.88 78.54 0 0 1 123.12 240 H98.88 A88.88 78.54 0 0 1 10 161.46 V161.46 A101 108.46 0 0 1 111 53 Z" fill="#15173A" fill-opacity="0.14"/>
+  <g clip-path="url(#sleeping-clip)"><path d="M111 53 H111 A101 108.46 0 0 1 212 161.46 V161.46 A88.88 78.54 0 0 1 123.12 240 H98.88 A88.88 78.54 0 0 1 10 161.46 V161.46 A101 108.46 0 0 1 111 53 Z" fill="#C9CDE3" transform="translate(-14 -14)"/></g>
+  <rect x="58" y="120" width="34" height="10" rx="5" fill="#15173A"/>
+  <rect x="130" y="120" width="34" height="10" rx="5" fill="#15173A"/>
+  <path d="M204 4.8 H240 L204 40.8 H240" fill="none" stroke="#15173A" stroke-width="6.48" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M192 48 H216 L192 72 H216" fill="none" stroke="#15173A" stroke-width="4.32" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

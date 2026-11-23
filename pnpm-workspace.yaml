@@ -1,0 +1,10 @@
+packages:
+  - "packages/*"
+  - "apps/*"
+  - "workers/*"
+
+onlyBuiltDependencies:
+  - esbuild
+  - workerd
+  - sharp
+  - "@biomejs/biome"

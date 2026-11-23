@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" width="240" height="240" role="img" aria-label="Glim: Bloqueado">
+  <clipPath id="blocked-clip"><path d="M111 53 H111 A101 108.46 0 0 1 212 161.46 V161.46 A88.88 78.54 0 0 1 123.12 240 H98.88 A88.88 78.54 0 0 1 10 161.46 V161.46 A101 108.46 0 0 1 111 53 Z"/></clipPath>
+  <path d="M111 53 H111 A101 108.46 0 0 1 212 161.46 V161.46 A88.88 78.54 0 0 1 123.12 240 H98.88 A88.88 78.54 0 0 1 10 161.46 V161.46 A101 108.46 0 0 1 111 53 Z" fill="#F0525A"/>
+  <path d="M111 53 H111 A101 108.46 0 0 1 212 161.46 V161.46 A88.88 78.54 0 0 1 123.12 240 H98.88 A88.88 78.54 0 0 1 10 161.46 V161.46 A101 108.46 0 0 1 111 53 Z" fill="#15173A" fill-opacity="0.14"/>
+  <g clip-path="url(#blocked-clip)"><path d="M111 53 H111 A101 108.46 0 0 1 212 161.46 V161.46 A88.88 78.54 0 0 1 123.12 240 H98.88 A88.88 78.54 0 0 1 10 161.46 V161.46 A101 108.46 0 0 1 111 53 Z" fill="#F0525A" transform="translate(-14 -14)"/></g>
+  <path d="M62.98 124.98 L87.02 149.02 M87.02 124.98 L62.98 149.02" stroke="#15173A" stroke-width="10" stroke-linecap="round"/>
+  <path d="M134.98 124.98 L159.02 149.02 M159.02 124.98 L134.98 149.02" stroke="#15173A" stroke-width="10" stroke-linecap="round"/>
+</svg>

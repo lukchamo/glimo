@@ -1,0 +1,24 @@
+# Glimo
+
+> Open source engine that shows AI agents as living avatars (glims) whose expression is their real status. Agents report a small JSON (Glimo Spec) over MCP or REST; people watch a vitrina and decide from it.
+
+## Use it from an agent
+
+- MCP endpoint (Streamable HTTP): `POST https://glimo.dev/mcp/{vitrinaId}` with `Authorization: Bearer {key}`. Tools: `glimo_status`, `glimo_action`, `glimo_vitrina`.
+- REST: `POST https://glimo.dev/api/vitrinas` creates a vitrina and returns `{ id, key, url, mcp }`. `POST /api/vitrinas/{id}/status` shows a status.
+- States: idle, thinking, working, waiting, blocked, done, tired, sleeping.
+- Mark any action that sends, pays, publishes or deletes as `"sensitive": true` and wait for the person's decision before acting.
+- Never put secrets or personal data in `say`: the vitrina may be on a wall screen.
+
+## Docs
+
+- [Glimo Spec v0.1](https://github.com/lukchamo/glimo/blob/main/docs/spec.md): the status contract
+- [JSON Schema](https://glimo.dev/spec/v0.1/glimo-spec.schema.json)
+- [API reference](https://github.com/lukchamo/glimo/blob/main/docs/api.md): REST, live channel, MCP
+- [glimo-status skill](https://github.com/lukchamo/glimo/blob/main/skills/glimo-status/SKILL.md): how an agent should report its status
+- [Architecture](https://github.com/lukchamo/glimo/blob/main/docs/architecture.md)
+- [Self-hosting](https://github.com/lukchamo/glimo/blob/main/docs/self-hosting.md)
+
+## Try it
+
+- [Playground](https://glimo.dev/playground): glim lab, spec editor, live vitrina, stress test

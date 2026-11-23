@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Glim, el avatar de Glimo</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&family=Unbounded:wght@500;600;700;800&display=swap" rel="stylesheet">
+<style>body{margin:0}</style>
+</helmet>
+<div role="img" aria-label="{{label}}" style="position: relative; width: {{size}}px; height: {{size}}px; flex-shrink: 0; font-family: Figtree, system-ui, sans-serif; color: #15173A">
+  <div style="position: absolute; left: {{bodyLeft}}px; bottom: 0; width: {{bw}}px; height: {{bh}}px; background: {{body}}; border-radius: 50% 50% 44% 44% / 58% 58% 42% 42%; box-shadow: inset -{{shade}}px -{{shade}}px 0 rgba(21, 23, 58, 0.14){{ring}}">
+    <div style="position: absolute; left: 0; right: 0; top: {{eyeTop}}px; display: flex; justify-content: center; align-items: center; transform: translate({{lookX}}px, {{lookY}}px)">
+      <sc-if value="{{isDot}}" hint-placeholder-val="{{ true }}">
+        <div style="display: flex; align-items: center; gap: {{eyeGap}}px">
+          <div style="width: {{dot}}px; height: {{dot}}px; border-radius: 50%; background: {{eye}}"></div>
+          <div style="width: {{dot}}px; height: {{dot}}px; border-radius: 50%; background: {{eye}}"></div>
+        </div>
+      </sc-if>
+      <sc-if value="{{isLine}}" hint-placeholder-val="{{ false }}">
+        <div style="display: flex; align-items: center; gap: {{eyeGap}}px">
+          <div style="width: {{lineW}}px; height: {{stroke}}px; border-radius: {{stroke}}px; background: {{eye}}"></div>
+          <div style="width: {{lineW}}px; height: {{stroke}}px; border-radius: {{stroke}}px; background: {{eye}}"></div>
+        </div>
+      </sc-if>
+      <sc-if value="{{isFocus}}" hint-placeholder-val="{{ false }}">
+        <div style="display: flex; align-items: center; gap: {{eyeGap}}px">
+          <div style="width: {{focusW}}px; height: {{focusH}}px; border-radius: 50%; background: {{eye}}"></div>
+          <div style="width: {{focusW}}px; height: {{focusH}}px; border-radius: 50%; background: {{eye}}"></div>
+        </div>
+      </sc-if>
+      <sc-if value="{{isBig}}" hint-placeholder-val="{{ false }}">
+        <div style="display: flex; align-items: center; gap: {{bigGap}}px">
+          <div style="width: {{bigW}}px; height: {{bigW}}px; border-radius: 50%; background: #FFFFFF; box-shadow: 0 0 0 {{hair}}px rgba(21, 23, 58, 0.22); display: flex; align-items: center; justify-content: center">
+            <div style="width: {{pupil}}px; height: {{pupil}}px; border-radius: 50%; background: {{eye}}"></div>
+          </div>
+          <div style="width: {{bigW}}px; height: {{bigW}}px; border-radius: 50%; background: #FFFFFF; box-shadow: 0 0 0 {{hair}}px rgba(21, 23, 58, 0.22); display: flex; align-items: center; justify-content: center">
+            <div style="width: {{pupil}}px; height: {{pupil}}px; border-radius: 50%; background: {{eye}}"></div>
+          </div>
+        </div>
+      </sc-if>
+      <sc-if value="{{isHappy}}" hint-placeholder-val="{{ false }}">
+        <div style="display: flex; align-items: flex-end; gap: {{eyeGap}}px">
+          <div style="width: {{arcW}}px; height: {{arcH}}px; box-sizing: border-box; border: {{stroke}}px solid {{eye}}; border-bottom: none; border-radius: {{arcW}}px {{arcW}}px 0 0"></div>
+          <div style="width: {{arcW}}px; height: {{arcH}}px; box-sizing: border-box; border: {{stroke}}px solid {{eye}}; border-bottom: none; border-radius: {{arcW}}px {{arcW}}px 0 0"></div>
+        </div>
+      </sc-if>
+      <sc-if value="{{isX}}" hint-placeholder-val="{{ false }}">
+        <div style="display: flex; align-items: center; gap: {{eyeGap}}px">
+          <div style="position: relative; width: {{xW}}px; height: {{xW}}px">
+            <div style="position: absolute; left: 0; top: {{xTop}}px; width: {{xW}}px; height: {{stroke}}px; border-radius: {{stroke}}px; background: {{eye}}; transform: rotate(45deg)"></div>
+            <div style="position: absolute; left: 0; top: {{xTop}}px; width: {{xW}}px; height: {{stroke}}px; border-radius: {{stroke}}px; background: {{eye}}; transform: rotate(-45deg)"></div>
+          </div>
+          <div style="position: relative; width: {{xW}}px; height: {{xW}}px">
+            <div style="position: absolute; left: 0; top: {{xTop}}px; width: {{xW}}px; height: {{stroke}}px; border-radius: {{stroke}}px; background: {{eye}}; transform: rotate(45deg)"></div>
+            <div style="position: absolute; left: 0; top: {{xTop}}px; width: {{xW}}px; height: {{stroke}}px; border-radius: {{stroke}}px; background: {{eye}}; transform: rotate(-45deg)"></div>
+          </div>
+        </div>
+      </sc-if>
+      <sc-if value="{{isDroop}}" hint-placeholder-val="{{ false }}">
+        <div style="display: flex; align-items: center; gap: {{eyeGap}}px">
+          <div style="width: {{focusW}}px; height: {{droopH}}px; border-radius: 0 0 {{focusW}}px {{focusW}}px; background: {{eye}}"></div>
+          <div style="width: {{focusW}}px; height: {{droopH}}px; border-radius: 0 0 {{focusW}}px {{focusW}}px; background: {{eye}}"></div>
+        </div>
+      </sc-if>
+    </div>
+  </div>
+
+  <sc-if value="{{showWait}}" hint-placeholder-val="{{ false }}">
+    <div style="position: absolute; top: 0; right: 0; width: {{bub}}px; height: {{bub}}px; border-radius: 50%; background: #15173A; color: #FFD43B; display: flex; align-items: center; justify-content: center; font-family: Unbounded, system-ui, sans-serif; font-weight: 800; font-size: {{bubFont}}px; line-height: 1">!</div>
+  </sc-if>
+  <sc-if value="{{showZ}}" hint-placeholder-val="{{ false }}">
+    <div style="position: absolute; top: 0; right: 0; display: flex; flex-direction: column; align-items: flex-end; font-family: Unbounded, system-ui, sans-serif; font-weight: 700; color: #15173A; line-height: 0.9">
+      <span style="font-size: {{zBig}}px">z</span>
+      <span style="font-size: {{zSmall}}px; margin-right: {{zShift}}px">z</span>
+    </div>
+  </sc-if>
+  <sc-if value="{{showThink}}" hint-placeholder-val="{{ false }}">
+    <div style="position: absolute; top: {{t1Top}}px; right: {{t1Right}}px; width: {{t1}}px; height: {{t1}}px; border-radius: 50%; background: #15173A"></div>
+    <div style="position: absolute; top: {{t2Top}}px; right: {{t2Right}}px; width: {{t2}}px; height: {{t2}}px; border-radius: 50%; background: #15173A"></div>
+    <div style="position: absolute; top: 0; right: 0; width: {{t3}}px; height: {{t3}}px; border-radius: 50%; background: #15173A"></div>
+  </sc-if>
+  <sc-if value="{{showSpin}}" hint-placeholder-val="{{ false }}">
+    <div style="position: absolute; top: {{spinPad}}px; right: {{spinPad}}px; width: {{spin}}px; height: {{spin}}px; box-sizing: border-box; border-radius: 50%; border: {{stroke}}px solid rgba(21, 23, 58, 0.18); border-top-color: #15173A; border-right-color: #15173A"></div>
+  </sc-if>
+  <sc-if value="{{showCheck}}" hint-placeholder-val="{{ false }}">
+    <div style="position: absolute; top: 0; right: 0; width: {{bub}}px; height: {{bub}}px; border-radius: 50%; background: #15173A; display: flex; align-items: center; justify-content: center">
+      <svg aria-hidden="true" width="{{chk}}" height="{{chk}}" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="5 12.5 10 17 19 7"></polyline></svg>
+    </div>
+  </sc-if>
+  <sc-if value="{{showBatt}}" hint-placeholder-val="{{ false }}">
+    <div style="position: absolute; top: {{battTop}}px; right: 0; display: flex; align-items: center; gap: 1px">
+      <div style="width: {{battW}}px; height: {{battH}}px; box-sizing: border-box; border: {{stroke}}px solid #15173A; border-radius: {{battR}}px; padding: {{battPad}}px; display: flex">
+        <div style="width: 24%; background: #F0525A; border-radius: 1px"></div>
+      </div>
+      <div style="width: {{nubW}}px; height: {{nubH}}px; background: #15173A; border-radius: 0 2px 2px 0"></div>
+    </div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"state":{"editor":"enum","options":["idle","thinking","working","waiting","blocked","done","tired","sleeping"],"default":"waiting"},"size":{"editor":"int","min":16,"max":480,"default":240},"body":{"editor":"color","default":"#FFD43B"},"eye":{"editor":"color","default":"#15173A"},"badge":{"editor":"boolean","default":true},"$preview":{"width":240,"height":240}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const STATES = {
+      idle: { body: '#FFFFFF', eyes: 'dot', label: 'Listo' },
+      thinking: { body: '#B9A6FF', eyes: 'dot', label: 'Pensando' },
+      working: { body: '#FF8A3D', eyes: 'focus', label: 'Trabajando' },
+      waiting: { body: '#FFD43B', eyes: 'big', label: 'Te espera' },
+      blocked: { body: '#F0525A', eyes: 'x', label: 'Bloqueado' },
+      done: { body: '#5BC7F5', eyes: 'happy', label: 'Hecho' },
+      tired: { body: '#8E93B5', eyes: 'droop', label: 'Sin energía' },
+      sleeping: { body: '#C9CDE3', eyes: 'line', label: 'Durmiendo' }
+    };
+    const key = STATES[this.props.state] ? this.props.state : 'waiting';
+    const st = STATES[key];
+    const size = Math.max(16, Number(this.props.size) || 240);
+    const r = (n) => Math.max(1, Math.round(n));
+    const stroke = Math.max(2, r(size * 0.04));
+    const badgeOn = !(this.props.badge === false || this.props.badge === 'false') && size >= 32;
+    const body = this.props.body || st.body;
+    const ring = (!this.props.body && key === 'idle') ? ', 0 0 0 ' + Math.max(1, r(size * 0.012)) + 'px rgba(21, 23, 58, 0.2)' : '';
+    const bub = r(size * 0.3);
+    const xW = r(size * 0.14);
+    return {
+      label: this.props.alt || ('Glim: ' + st.label),
+      size: size,
+      body: body,
+      ring: ring,
+      eye: this.props.eye || '#15173A',
+      bodyLeft: r(size * 0.04),
+      bw: r(size * 0.84),
+      bh: r(size * 0.78),
+      shade: Math.max(2, r(size * 0.06)),
+      eyeTop: r(size * 0.78 * 0.36),
+      eyeGap: r(size * 0.16),
+      lookX: key === 'thinking' ? r(size * 0.05) : 0,
+      lookY: key === 'thinking' ? -r(size * 0.05) : (key === 'working' ? r(size * 0.03) : 0),
+      stroke: stroke,
+      hair: Math.max(1, r(size * 0.008)),
+      dot: r(size * 0.11),
+      lineW: r(size * 0.14),
+      focusW: r(size * 0.13),
+      focusH: r(size * 0.065),
+      droopH: r(size * 0.07),
+      bigW: r(size * 0.2),
+      bigGap: r(size * 0.08),
+      pupil: r(size * 0.1),
+      arcW: r(size * 0.15),
+      arcH: r(size * 0.08),
+      xW: xW,
+      xTop: Math.round((xW - stroke) / 2),
+      isDot: st.eyes === 'dot',
+      isLine: st.eyes === 'line',
+      isFocus: st.eyes === 'focus',
+      isBig: st.eyes === 'big',
+      isHappy: st.eyes === 'happy',
+      isX: st.eyes === 'x',
+      isDroop: st.eyes === 'droop',
+      showWait: badgeOn && key === 'waiting',
+      showZ: badgeOn && key === 'sleeping',
+      showThink: badgeOn && key === 'thinking',
+      showSpin: badgeOn && key === 'working',
+      showCheck: badgeOn && key === 'done',
+      showBatt: badgeOn && key === 'tired',
+      bub: bub,
+      bubFont: r(size * 0.19),
+      chk: r(bub * 0.62),
+      zBig: r(size * 0.2),
+      zSmall: r(size * 0.13),
+      zShift: r(size * 0.1),
+      t1: r(size * 0.05), t1Top: r(size * 0.2), t1Right: r(size * 0.21),
+      t2: r(size * 0.075), t2Top: r(size * 0.1), t2Right: r(size * 0.12),
+      t3: r(size * 0.1),
+      spin: r(size * 0.24),
+      spinPad: r(size * 0.02),
+      battW: r(size * 0.26),
+      battH: r(size * 0.15),
+      battR: r(size * 0.03),
+      battPad: Math.max(1, r(size * 0.015)),
+      battTop: r(size * 0.04),
+      nubW: Math.max(2, r(size * 0.025)),
+      nubH: r(size * 0.06)
+    };
+  }
+}
+</script>
+</body>
+</html>

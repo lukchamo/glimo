@@ -1,0 +1,46 @@
+{
+  "spec": "glimo/0.1",
+  "agent": { "id": "ventas", "name": "Ventas" },
+  "state": "waiting",
+  "reason": "awaiting-approval",
+  "say": "Quiere enviar 12 correos",
+  "urgency": "high",
+  "actions": [
+    { "id": "approve", "label": "Aprobar envío", "kind": "primary", "sensitive": true },
+    { "id": "open", "label": "Editar borradores", "kind": "secondary" }
+  ],
+  "pov": {
+    "app": "Correo: borradores",
+    "focus": "Leyendo el borrador para Hotel Azahar",
+    "items": [
+      {
+        "title": "Clínica Dental Sonrisa",
+        "detail": "Seguimiento de la propuesta del 4 de noviembre",
+        "tag": "Listo"
+      },
+      {
+        "title": "Talleres Martí",
+        "detail": "Les mando la tarifa nueva que pidieron",
+        "tag": "Listo"
+      },
+      {
+        "title": "Hotel Azahar",
+        "detail": "Recordatorio: la oferta vence el viernes",
+        "tag": "Revisando"
+      }
+    ]
+  },
+  "thoughts": [
+    { "at": "2026-11-23T10:24:00Z", "text": "Hay 12 clientes de noviembre que no contestaron." },
+    {
+      "at": "2026-11-23T10:26:00Z",
+      "text": "Tres pidieron precio: a esos les adjunto la tarifa nueva."
+    },
+    { "at": "2026-11-23T10:30:00Z", "text": "No envío nada sin tu visto bueno. Te espero." }
+  ],
+  "tools": ["gmail", "hubspot"],
+  "skills": ["seguimiento-ventas"],
+  "world": { "id": "oficina", "spot": "desk-1", "activity": "desk" },
+  "talkingTo": [],
+  "updatedAt": "2026-11-23T10:30:00Z"
+}

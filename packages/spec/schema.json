@@ -1,0 +1,125 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://glimo.dev/spec/v0.1/glimo-spec.schema.json",
+  "title": "Glimo Spec",
+  "description": "Status of one agent for a Glimo UI: how it is, what it sees, what it thinks, what it needs and what the person can do. Draft v0.1.",
+  "type": "object",
+  "required": ["spec", "agent", "state", "updatedAt"],
+  "additionalProperties": true,
+  "properties": {
+    "spec": { "const": "glimo/0.1" },
+    "agent": {
+      "type": "object",
+      "required": ["id", "name"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]{0,63}$" },
+        "name": { "type": "string", "minLength": 1, "maxLength": 40 }
+      }
+    },
+    "state": {
+      "type": "string",
+      "enum": ["idle", "thinking", "working", "waiting", "blocked", "done", "tired", "sleeping"],
+      "description": "Visual state of the glim."
+    },
+    "reason": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 64,
+      "description": "Agent Status Protocol value that caused the state, for example awaiting-approval or quota-exhausted."
+    },
+    "say": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 120,
+      "description": "Short line for the vitrina."
+    },
+    "urgency": {
+      "type": "string",
+      "enum": ["high", "mid", "low"],
+      "description": "Derived from the state when missing."
+    },
+    "actions": {
+      "type": "array",
+      "maxItems": 4,
+      "items": {
+        "type": "object",
+        "required": ["id", "label"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z0-9][a-z0-9-]{0,31}$",
+            "description": "approve, respond, open, pause, resume, retry, wake, undo, renew-access, raise-limit or your own."
+          },
+          "label": { "type": "string", "minLength": 1, "maxLength": 32 },
+          "kind": { "type": "string", "enum": ["primary", "secondary"], "default": "secondary" },
+          "sensitive": {
+            "type": "boolean",
+            "default": false,
+            "description": "Requires confirmation from the person and is always logged."
+          }
+        }
+      }
+    },
+    "pov": {
+      "type": "object",
+      "description": "What the agent sees. Sensitive: stored encrypted, never sent to public surfaces.",
+      "properties": {
+        "app": { "type": "string", "minLength": 1, "maxLength": 200 },
+        "focus": { "type": "string", "minLength": 1, "maxLength": 200 },
+        "items": {
+          "type": "array",
+          "maxItems": 20,
+          "items": {
+            "type": "object",
+            "required": ["title"],
+            "properties": {
+              "title": { "type": "string", "minLength": 1, "maxLength": 200 },
+              "detail": { "type": "string", "minLength": 1, "maxLength": 280 },
+              "tag": { "type": "string", "minLength": 1, "maxLength": 24 }
+            }
+          }
+        }
+      }
+    },
+    "thoughts": {
+      "type": "array",
+      "maxItems": 50,
+      "description": "What the agent thinks. The last one is the current one. Sensitive: stored encrypted.",
+      "items": {
+        "type": "object",
+        "required": ["at", "text"],
+        "properties": {
+          "at": { "type": "string", "format": "date-time" },
+          "text": { "type": "string", "minLength": 1, "maxLength": 280 }
+        }
+      }
+    },
+    "tools": {
+      "type": "array",
+      "maxItems": 32,
+      "items": { "type": "string", "minLength": 1, "maxLength": 64 }
+    },
+    "skills": {
+      "type": "array",
+      "maxItems": 32,
+      "items": { "type": "string", "minLength": 1, "maxLength": 64 }
+    },
+    "world": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "minLength": 1, "maxLength": 64 },
+        "spot": { "type": "string", "minLength": 1, "maxLength": 64 },
+        "activity": {
+          "type": "string",
+          "enum": ["desk", "phone", "board", "meeting", "coffee", "sofa", "door", "walk"]
+        }
+      }
+    },
+    "talkingTo": {
+      "type": "array",
+      "maxItems": 16,
+      "items": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]{0,63}$" }
+    },
+    "updatedAt": { "type": "string", "format": "date-time" }
+  }
+}

@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" width="240" height="240" role="img" aria-label="Glim: Sin energía">
+  <clipPath id="tired-clip"><path d="M111 53 H111 A101 108.46 0 0 1 212 161.46 V161.46 A88.88 78.54 0 0 1 123.12 240 H98.88 A88.88 78.54 0 0 1 10 161.46 V161.46 A101 108.46 0 0 1 111 53 Z"/></clipPath>
+  <path d="M111 53 H111 A101 108.46 0 0 1 212 161.46 V161.46 A88.88 78.54 0 0 1 123.12 240 H98.88 A88.88 78.54 0 0 1 10 161.46 V161.46 A101 108.46 0 0 1 111 53 Z" fill="#8E93B5"/>
+  <path d="M111 53 H111 A101 108.46 0 0 1 212 161.46 V161.46 A88.88 78.54 0 0 1 123.12 240 H98.88 A88.88 78.54 0 0 1 10 161.46 V161.46 A101 108.46 0 0 1 111 53 Z" fill="#15173A" fill-opacity="0.14"/>
+  <g clip-path="url(#tired-clip)"><path d="M111 53 H111 A101 108.46 0 0 1 212 161.46 V161.46 A88.88 78.54 0 0 1 123.12 240 H98.88 A88.88 78.54 0 0 1 10 161.46 V161.46 A101 108.46 0 0 1 111 53 Z" fill="#8E93B5" transform="translate(-14 -14)"/></g>
+  <path d="M61 120 H92 V121.5 A15.5 15.5 0 0 1 61 121.5 Z" fill="#15173A"/>
+  <path d="M130 120 H161 V121.5 A15.5 15.5 0 0 1 130 121.5 Z" fill="#15173A"/>
+  <rect x="176" y="15" width="52" height="26" rx="7" fill="none" stroke="#15173A" stroke-width="10"/>
+  <rect x="185" y="24" width="8.16" height="8" rx="1" fill="#F0525A"/>
+  <rect x="234" y="21" width="6" height="14" rx="1" fill="#15173A"/>
+</svg>

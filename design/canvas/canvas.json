@@ -1,0 +1,31 @@
+{
+  "v": 3,
+  "createdOnFiles": { "v": 1, "at": "2026-11-23T10:10:00Z" },
+  "title": "Glimo — Propuesta de marca y homes",
+  "launch": { "view": "canvas", "page": "marca" },
+  "pages": [
+    { "id": "marca", "name": "Marca" },
+    { "id": "homes", "name": "Homes" },
+    { "id": "producto", "name": "Producto" }
+  ],
+  "boards": {
+    "Main.dc.html": { "x": 0, "y": 0, "w": 1440, "h": 1480, "title": "Marca Glimo", "page": "marca" },
+    "App.dc.html": { "x": 1520, "y": 0, "w": 390, "h": 844, "title": "App móvil: la vitrina", "page": "marca", "is_interactive": true },
+    "Glim.dc.html": { "x": 1990, "y": 0, "w": 240, "h": 240, "title": "Componente Glim", "page": "marca" },
+    "Estados.dc.html": { "x": 0, "y": 1600, "w": 1440, "h": 960, "title": "Sistema de estados", "page": "marca" },
+    "HomeA.dc.html": { "x": 0, "y": 0, "w": 1440, "h": 3700, "title": "Home A: La vitrina", "page": "homes", "expand": "fill" },
+    "HomeB.dc.html": { "x": 1520, "y": 0, "w": 1440, "h": 3000, "title": "Home B: Mundos", "page": "homes", "expand": "fill" },
+    "HomeC.dc.html": { "x": 3040, "y": 0, "w": 1440, "h": 2600, "title": "Home C: Skills primero", "page": "homes", "expand": "fill" },
+    "Mundo.dc.html": { "x": 0, "y": 0, "w": 1440, "h": 960, "title": "Mundo vivo y vista desde dentro", "page": "producto", "expand": "fill", "is_interactive": true },
+    "Cifrado.dc.html": { "x": 1520, "y": 0, "w": 390, "h": 844, "title": "Alta con frase de cifrado", "page": "producto", "is_interactive": true },
+    "Acuerdo.dc.html": { "x": 1990, "y": 0, "w": 390, "h": 844, "title": "Glimos de acuerdo (futuro)", "page": "producto" },
+    "Inmersiva.dc.html": { "x": 0, "y": 1080, "w": 1440, "h": 900, "title": "Modo inmersivo: dentro de un glim", "page": "producto", "expand": "fill", "is_interactive": true }
+  },
+  "order": ["Main.dc.html", "App.dc.html", "Glim.dc.html", "Estados.dc.html", "HomeA.dc.html", "HomeB.dc.html", "HomeC.dc.html", "Mundo.dc.html", "Cifrado.dc.html", "Acuerdo.dc.html", "Inmersiva.dc.html"],
+  "notes": {
+    "tituloMarca": { "x": 0, "y": -300, "text": "Glimo: identidad y producto", "kind": "title1", "maxW": 2230, "page": "marca" },
+    "tituloHomes": { "x": 0, "y": -300, "text": "Tres homes para glimo.dev", "kind": "title1", "maxW": 4480, "page": "homes" },
+    "tituloProducto": { "x": 0, "y": -300, "text": "Mundo vivo, cifrado y glimos de acuerdo", "kind": "title1", "maxW": 2380, "page": "producto" }
+  },
+  "designSystems": []
+}

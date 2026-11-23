@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="Glimo">
+  <rect width="64" height="64" rx="18" fill="#2B34D6"/>
+  <clipPath id="fav-clip"><path d="M30.5 20 H30.5 A17.5 19.14 0 0 1 48 39.14 V39.14 A15.4 13.86 0 0 1 32.6 53 H28.4 A15.4 13.86 0 0 1 13 39.14 V39.14 A17.5 19.14 0 0 1 30.5 20 Z"/></clipPath>
+  <path d="M30.5 20 H30.5 A17.5 19.14 0 0 1 48 39.14 V39.14 A15.4 13.86 0 0 1 32.6 53 H28.4 A15.4 13.86 0 0 1 13 39.14 V39.14 A17.5 19.14 0 0 1 30.5 20 Z" fill="#FFFFFF"/>
+  <path d="M30.5 20 H30.5 A17.5 19.14 0 0 1 48 39.14 V39.14 A15.4 13.86 0 0 1 32.6 53 H28.4 A15.4 13.86 0 0 1 13 39.14 V39.14 A17.5 19.14 0 0 1 30.5 20 Z" fill="#15173A" fill-opacity="0.14"/>
+  <g clip-path="url(#fav-clip)"><path d="M30.5 20 H30.5 A17.5 19.14 0 0 1 48 39.14 V39.14 A15.4 13.86 0 0 1 32.6 53 H28.4 A15.4 13.86 0 0 1 13 39.14 V39.14 A17.5 19.14 0 0 1 30.5 20 Z" fill="#FFFFFF" transform="translate(-3 -3)"/></g>
+  <circle cx="24.5" cy="34.5" r="2.5" fill="#2B34D6"/>
+  <circle cx="36.5" cy="34.5" r="2.5" fill="#2B34D6"/>
+</svg>

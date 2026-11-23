@@ -1,0 +1,53 @@
+name: Skill
+description: List your skill or world in the Glimo catalog.
+title: "skill: "
+labels: [skill]
+body:
+  - type: input
+    id: repo
+    attributes:
+      label: Repository
+      description: Where the SKILL.md lives. Skills stay in their own repository.
+      placeholder: "https://github.com/you/your-skill"
+    validations:
+      required: true
+  - type: input
+    id: name
+    attributes:
+      label: Name and one-line summary
+      placeholder: "Inbox digest: three lines for each email thread that matters"
+    validations:
+      required: true
+  - type: input
+    id: needs
+    attributes:
+      label: What it needs
+      description: MCP servers or access the agent must have.
+      placeholder: "Gmail or Outlook, read access"
+    validations:
+      required: true
+  - type: input
+    id: states
+    attributes:
+      label: States and actions it can produce
+      placeholder: "working, waiting, done · approve, open"
+    validations:
+      required: true
+  - type: textarea
+    id: sensitive
+    attributes:
+      label: Sensitive actions
+      description: Everything it can send, pay, publish or delete, and how it asks first.
+    validations:
+      required: true
+  - type: checkboxes
+    id: rules
+    attributes:
+      label: Rules
+      options:
+        - label: Sensitive actions are declared as sensitive and wait for the person's decision.
+          required: true
+        - label: Nothing private goes into `say`, labels or names.
+          required: true
+        - label: It has an open source license.
+          required: true

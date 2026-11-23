@@ -1,0 +1,68 @@
+/* Tokens de Glimo. Fuente: docs/02-marca.md */
+@import url("https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&family=Unbounded:wght@500;600;700;800&display=swap");
+
+:root {
+  /* Marca */
+  --glimo-ultramar: #2B34D6;
+  --glimo-ultramar-deep: #1F27B0;
+  --glimo-ink: #15173A;
+  --glimo-cloud: #F3F4FB;
+  --glimo-white: #FFFFFF;
+  --glimo-yellow: #FFD43B;
+
+  /* Texto */
+  --glimo-text: #15173A;
+  --glimo-text-2: #2C2F5A;
+  --glimo-text-muted: #4B4F7A;
+  --glimo-text-on-dark: #FFFFFF;
+  --glimo-text-on-dark-muted: #C7C9F5;
+  --glimo-text-on-ultramar: #DCDEFF;
+
+  /* Líneas */
+  --glimo-line: #D9DCEE;
+  --glimo-line-soft: #E3E5F2;
+  --glimo-tint: #EEF0FB;
+
+  /* Estados */
+  --glimo-state-idle: #FFFFFF;
+  --glimo-state-thinking: #B9A6FF;
+  --glimo-state-working: #FF8A3D;
+  --glimo-state-waiting: #FFD43B;
+  --glimo-state-blocked: #F0525A;
+  --glimo-state-done: #5BC7F5;
+  --glimo-state-tired: #8E93B5;
+  --glimo-state-sleeping: #C9CDE3;
+
+  /* Tipografía */
+  --glimo-font-display: Unbounded, system-ui, sans-serif;
+  --glimo-font-body: Figtree, system-ui, sans-serif;
+  --glimo-font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /* Forma */
+  --glimo-radius-sm: 12px;
+  --glimo-radius-md: 16px;
+  --glimo-radius-lg: 24px;
+  --glimo-radius-xl: 28px;
+  --glimo-radius-panel: 36px;
+  --glimo-touch-min: 44px;
+
+  /* Sombras */
+  --glimo-shadow-floating: 0 8px 24px rgba(21, 23, 58, 0.08);
+  --glimo-shadow-hero: 0 30px 60px rgba(10, 14, 90, 0.35);
+}
+
+body {
+  margin: 0;
+  background: var(--glimo-cloud);
+  color: var(--glimo-text);
+  font-family: var(--glimo-font-body);
+}
+
+:focus-visible {
+  outline: 3px solid var(--glimo-ultramar);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}

@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" width="240" height="240" role="img" aria-label="Glim: Hecho">
+  <clipPath id="done-clip"><path d="M111 53 H111 A101 108.46 0 0 1 212 161.46 V161.46 A88.88 78.54 0 0 1 123.12 240 H98.88 A88.88 78.54 0 0 1 10 161.46 V161.46 A101 108.46 0 0 1 111 53 Z"/></clipPath>
+  <path d="M111 53 H111 A101 108.46 0 0 1 212 161.46 V161.46 A88.88 78.54 0 0 1 123.12 240 H98.88 A88.88 78.54 0 0 1 10 161.46 V161.46 A101 108.46 0 0 1 111 53 Z" fill="#5BC7F5"/>
+  <path d="M111 53 H111 A101 108.46 0 0 1 212 161.46 V161.46 A88.88 78.54 0 0 1 123.12 240 H98.88 A88.88 78.54 0 0 1 10 161.46 V161.46 A101 108.46 0 0 1 111 53 Z" fill="#15173A" fill-opacity="0.14"/>
+  <g clip-path="url(#done-clip)"><path d="M111 53 H111 A101 108.46 0 0 1 212 161.46 V161.46 A88.88 78.54 0 0 1 123.12 240 H98.88 A88.88 78.54 0 0 1 10 161.46 V161.46 A101 108.46 0 0 1 111 53 Z" fill="#5BC7F5" transform="translate(-14 -14)"/></g>
+  <path d="M61 139 V138 A13 13 0 0 1 87 138 V139" fill="none" stroke="#15173A" stroke-width="10" stroke-linecap="round"/>
+  <path d="M135 139 V138 A13 13 0 0 1 161 138 V139" fill="none" stroke="#15173A" stroke-width="10" stroke-linecap="round"/>
+  <circle cx="204" cy="36" r="36" fill="#15173A"/>
+  <polyline points="190.98,36.93 200.28,45.3 217.02,26.7" fill="none" stroke="#FFFFFF" stroke-width="5.58" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

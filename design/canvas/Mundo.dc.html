@@ -1,0 +1,323 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Glimo, mundo vivo y vista de cada glim</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&family=Unbounded:wght@500;600;700;800&display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#2B34D6}a:hover{color:#15173A}
+button:focus-visible,a:focus-visible{outline:3px solid #2B34D6;outline-offset:2px}
+.station:hover{background:rgba(43,52,214,0.07)}
+.feedrow:hover{background:#EEF0FB}
+</style>
+</helmet>
+<div style="min-height: 100vh; box-sizing: border-box; background: #F3F4FB; font-family: Figtree, system-ui, sans-serif; color: #15173A; display: flex; flex-direction: column">
+
+  <header style="background: #FFFFFF; border-bottom: 1px solid #E3E5F2">
+    <div style="max-width: 1360px; margin: 0 auto; padding: 14px clamp(16px, 3vw, 32px); display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap">
+      <div style="display: flex; align-items: center; gap: 28px; flex-wrap: wrap">
+        <div style="display: flex; align-items: flex-end; gap: 1px" aria-label="glimo">
+          <span style="font-family: Unbounded, system-ui, sans-serif; font-weight: 800; font-size: 26px; line-height: 1; letter-spacing: -0.045em">glim</span>
+          <span style="margin-bottom: 3px; display: flex"><dc-import name="Glim" state="idle" size="19" body="#2B34D6" eye="#FFFFFF" badge="false" alt="o" hint-size="19px,19px"></dc-import></span>
+        </div>
+        <nav aria-label="Vistas" style="display: flex; gap: 4px; background: #F3F4FB; border-radius: 14px; padding: 4px">
+          <a href="App.dc.html" style="padding: 10px 16px; border-radius: 10px; font-weight: 600; font-size: 15px; color: #2C2F5A; text-decoration: none">Vitrina</a>
+          <button type="button" onClick="{{goWorld}}" aria-current="page" style="padding: 10px 16px; border: none; border-radius: 10px; background: #FFFFFF; box-shadow: 0 1px 3px rgba(21, 23, 58, 0.12); font-family: inherit; font-weight: 700; font-size: 15px; color: #15173A; cursor: pointer">Mundo vivo</button>
+        </nav>
+      </div>
+      <div style="display: flex; align-items: center; gap: 10px">
+        <span style="display: flex; align-items: center; gap: 8px; height: 40px; padding: 0 14px; border-radius: 20px; background: #EEF0FB; font-size: 14px; font-weight: 600; color: #2C2F5A">
+          <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2B34D6" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="2"></rect><path d="M8 11V8a4 4 0 0 1 8 0v3"></path></svg>
+          Datos cifrados con tu frase
+        </span>
+        <button type="button" aria-label="Tu perfil" style="width: 44px; height: 44px; border-radius: 50%; border: 1px solid #D9DCEE; background: #FFFFFF; display: flex; align-items: center; justify-content: center; cursor: pointer">
+          <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#15173A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="9" r="4"></circle><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"></path></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <sc-if value="{{inWorld}}" hint-placeholder-val="{{ true }}">
+    <main style="max-width: 1360px; width: 100%; box-sizing: border-box; margin: 0 auto; padding: 24px clamp(16px, 3vw, 32px) 32px; display: flex; flex-direction: column; gap: 20px">
+      <div style="display: flex; justify-content: space-between; align-items: flex-end; gap: 12px 24px; flex-wrap: wrap">
+        <div style="display: flex; flex-direction: column; gap: 4px">
+          <h1 style="margin: 0; font-family: Unbounded, system-ui, sans-serif; font-weight: 600; font-size: clamp(24px, 2.4vw, 32px); line-height: 1.15">Oficina, martes por la mañana</h1>
+          <p style="margin: 0; font-size: 16px; color: #4B4F7A">Tus 9 glims, cada uno en lo suyo. Toca uno para entrar en su cabeza.</p>
+        </div>
+        <div role="group" aria-label="Mundo" style="display: flex; gap: 8px; flex-wrap: wrap">
+          <button type="button" aria-pressed="true" style="height: 44px; padding: 0 16px; border-radius: 22px; border: 1px solid #15173A; background: #15173A; color: #FFFFFF; font-family: inherit; font-size: 15px; font-weight: 600; cursor: pointer">Oficina</button>
+          <button type="button" aria-pressed="false" style="height: 44px; padding: 0 16px; border-radius: 22px; border: 1px solid #D9DCEE; background: #FFFFFF; color: #15173A; font-family: inherit; font-size: 15px; font-weight: 600; cursor: pointer">Jardín</button>
+          <button type="button" aria-pressed="false" style="height: 44px; padding: 0 16px; border-radius: 22px; border: 1px solid #D9DCEE; background: #FFFFFF; color: #15173A; font-family: inherit; font-size: 15px; font-weight: 600; cursor: pointer">Órbita</button>
+        </div>
+      </div>
+
+      <div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: flex-start">
+        <div style="flex: 999 1 760px; min-width: 0; overflow-x: auto; border-radius: 32px">
+          <div aria-label="Escena de la oficina" style="position: relative; min-width: 880px; height: 640px; background: #FFFFFF; border-radius: 32px; overflow: hidden">
+            <div aria-hidden="true" style="position: absolute; left: 2%; top: 3%; width: 46%; height: 50%; border-radius: 24px; background: #F3F4FB"></div>
+            <div aria-hidden="true" style="position: absolute; left: 50%; top: 3%; width: 48%; height: 50%; border-radius: 24px; background: #EEF0FB"></div>
+            <div aria-hidden="true" style="position: absolute; left: 2%; top: 55%; width: 28%; height: 42%; border-radius: 24px; background: #FFF6DE"></div>
+            <div aria-hidden="true" style="position: absolute; left: 32%; top: 55%; width: 32%; height: 42%; border-radius: 24px; background: #F1EEFF"></div>
+            <div aria-hidden="true" style="position: absolute; left: 66%; top: 55%; width: 32%; height: 42%; border-radius: 24px; background: #ECEDF4"></div>
+            <span style="position: absolute; left: 3.5%; top: 5%; font-size: 13px; font-weight: 600; color: #4B4F7A">Escritorios</span>
+            <span style="position: absolute; left: 51.5%; top: 5%; font-size: 13px; font-weight: 600; color: #4B4F7A">Sala de reuniones</span>
+            <span style="position: absolute; left: 3.5%; top: 57%; font-size: 13px; font-weight: 600; color: #4B4F7A">Cocina</span>
+            <span style="position: absolute; left: 33.5%; top: 57%; font-size: 13px; font-weight: 600; color: #4B4F7A">Sofá</span>
+            <span style="position: absolute; left: 67.5%; top: 57%; font-size: 13px; font-weight: 600; color: #4B4F7A">Archivo</span>
+
+            <sc-for list="{{glims}}" as="g" hint-placeholder-count="9">
+              <button type="button" class="station" onClick="{{g.pick}}" aria-label="Entrar en la cabeza de {{g.name}}: {{g.doing}}" style="position: absolute; left: {{g.x}}%; top: {{g.y}}%; width: 140px; padding: 6px 4px 8px; border: none; border-radius: 20px; background: transparent; display: flex; flex-direction: column; align-items: center; gap: 4px; cursor: pointer; font-family: inherit; color: #15173A">
+                <sc-if value="{{g.hasBubble}}" hint-placeholder-val="{{ false }}">
+                  <span style="max-width: 136px; background: #15173A; color: #FFFFFF; border-radius: 14px; padding: 6px 10px; font-size: 12px; font-weight: 600; line-height: 1.3">{{g.bubble}}</span>
+                </sc-if>
+                <div style="display: flex; align-items: flex-end; justify-content: center; gap: 4px">
+                  <sc-if value="{{g.isDoor}}" hint-placeholder-val="{{ false }}">
+                    <div aria-hidden="true" style="width: 44px; height: 78px; border-radius: 10px 10px 0 0; background: #8E93B5; display: flex; align-items: center; justify-content: center">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="2"></rect><path d="M8 11V8a4 4 0 0 1 8 0v3"></path></svg>
+                    </div>
+                  </sc-if>
+                  <sc-if value="{{g.isBoard}}" hint-placeholder-val="{{ false }}">
+                    <div aria-hidden="true" style="width: 54px; height: 44px; margin-bottom: 30px; box-sizing: border-box; border: 2px solid #C9CDE3; border-radius: 6px; background: #FFFFFF; padding: 7px 6px; display: flex; flex-direction: column; gap: 5px">
+                      <div style="height: 3px; width: 80%; background: #B9A6FF; border-radius: 2px"></div>
+                      <div style="height: 3px; width: 60%; background: #C9CDE3; border-radius: 2px"></div>
+                      <div style="height: 3px; width: 70%; background: #C9CDE3; border-radius: 2px"></div>
+                    </div>
+                  </sc-if>
+                  <dc-import name="Glim" state="{{g.state}}" size="68" hint-size="68px,68px"></dc-import>
+                  <sc-if value="{{g.isMug}}" hint-placeholder-val="{{ false }}">
+                    <div aria-hidden="true" style="display: flex; align-items: center; margin-bottom: 4px">
+                      <div style="width: 16px; height: 18px; box-sizing: border-box; border: 3px solid #15173A; border-top: none; border-radius: 0 0 6px 6px; background: #FFFFFF"></div>
+                      <div style="width: 6px; height: 9px; box-sizing: border-box; border: 3px solid #15173A; border-left: none; border-radius: 0 6px 6px 0"></div>
+                    </div>
+                  </sc-if>
+                  <sc-if value="{{g.isPhone}}" hint-placeholder-val="{{ false }}">
+                    <div aria-hidden="true" style="width: 14px; height: 24px; margin-bottom: 14px; border-radius: 4px; background: #15173A"></div>
+                  </sc-if>
+                </div>
+                <sc-if value="{{g.isDesk}}" hint-placeholder-val="{{ false }}">
+                  <div aria-hidden="true" style="width: 108px; height: 12px; margin-top: -8px; border-radius: 6px; background: #C9CDE3; display: flex; justify-content: center">
+                    <div style="width: 34px; height: 16px; margin-top: -12px; border-radius: 4px 4px 0 0; background: #15173A"></div>
+                  </div>
+                </sc-if>
+                <sc-if value="{{g.isSofa}}" hint-placeholder-val="{{ false }}">
+                  <div aria-hidden="true" style="width: 124px; height: 26px; margin-top: -18px; border-radius: 14px; background: #B9A6FF"></div>
+                </sc-if>
+                <span style="font-size: 14px; font-weight: 700">{{g.name}}</span>
+                <span style="font-size: 12px; line-height: 1.3; color: #4B4F7A; text-align: center">{{g.doing}}</span>
+              </button>
+            </sc-for>
+          </div>
+        </div>
+
+        <aside aria-label="Ahora mismo" style="flex: 1 1 300px; max-width: 400px; min-width: 0; background: #FFFFFF; border-radius: 28px; padding: 20px 14px 14px; display: flex; flex-direction: column; gap: 6px">
+          <h2 style="margin: 0 8px 8px; font-family: Unbounded, system-ui, sans-serif; font-weight: 600; font-size: 18px">Ahora mismo</h2>
+          <sc-for list="{{feed}}" as="f" hint-placeholder-count="8">
+            <button type="button" class="feedrow" onClick="{{f.pick}}" style="width: 100%; min-height: 52px; border: none; border-radius: 16px; background: transparent; padding: 8px; display: flex; align-items: center; gap: 12px; text-align: left; cursor: pointer; font-family: inherit; color: #15173A">
+              <dc-import name="Glim" state="{{f.state}}" size="36" badge="false" hint-size="36px,36px"></dc-import>
+              <span style="flex: 1; font-size: 14px; line-height: 1.35"><strong>{{f.name}}</strong> {{f.feed}}</span>
+            </button>
+          </sc-for>
+        </aside>
+      </div>
+    </main>
+  </sc-if>
+
+  <sc-if value="{{inRoom}}" hint-placeholder-val="{{ false }}">
+    <main style="max-width: 1360px; width: 100%; box-sizing: border-box; margin: 0 auto; padding: 20px clamp(16px, 3vw, 32px) 32px; display: flex; flex-direction: column; gap: 20px">
+      <div style="display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap">
+        <button type="button" onClick="{{goWorld}}" style="height: 44px; padding: 0 16px 0 10px; border: 1px solid #D9DCEE; border-radius: 14px; background: #FFFFFF; display: flex; align-items: center; gap: 6px; font-family: inherit; font-size: 15px; font-weight: 600; color: #15173A; cursor: pointer">
+          <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"></path></svg>
+          Volver al mundo
+        </button>
+        <nav aria-label="Tipo de vista" style="display: flex; gap: 4px; background: #E4E6FB; border-radius: 14px; padding: 4px">
+          <span aria-current="page" style="padding: 10px 14px; border-radius: 10px; background: #FFFFFF; font-weight: 700; font-size: 14px; color: #15173A">Panel</span>
+          <a href="Inmersiva.dc.html" style="padding: 10px 14px; border-radius: 10px; font-weight: 600; font-size: 14px; color: #2C2F5A; text-decoration: none">Inmersiva</a>
+        </nav>
+      </div>
+
+      <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 20px">
+        <div style="display: flex; align-items: center; gap: 20px; flex-wrap: wrap">
+          <dc-import name="Glim" state="{{cur.state}}" size="96" hint-size="96px,96px"></dc-import>
+          <div style="display: flex; flex-direction: column; gap: 4px">
+            <h1 style="margin: 0; font-family: Unbounded, system-ui, sans-serif; font-weight: 600; font-size: clamp(26px, 2.6vw, 36px); line-height: 1.1">Dentro de {{cur.name}}</h1>
+            <p style="margin: 0; font-size: 17px; color: #2C2F5A">{{cur.summary}}</p>
+          </div>
+        </div>
+        <div style="display: flex; gap: 10px; flex-wrap: wrap">
+          <button type="button" style="height: 48px; padding: 0 22px; border: none; border-radius: 14px; background: #2B34D6; color: #FFFFFF; font-family: inherit; font-size: 16px; font-weight: 700; cursor: pointer">{{cur.primary}}</button>
+          <button type="button" style="height: 48px; padding: 0 22px; border: 1px solid #D9DCEE; border-radius: 14px; background: #FFFFFF; color: #15173A; font-family: inherit; font-size: 16px; font-weight: 600; cursor: pointer">{{cur.secondary}}</button>
+        </div>
+      </div>
+
+      <div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: flex-start">
+        <section aria-label="Lo que ve" style="flex: 999 1 600px; min-width: 0; display: flex; flex-direction: column; gap: 12px">
+          <h2 style="margin: 0; font-family: Unbounded, system-ui, sans-serif; font-weight: 600; font-size: 18px">Lo que ve {{cur.name}}</h2>
+          <div style="border: 10px solid {{cur.body}}; border-radius: 40px; background: #FFFFFF; overflow: hidden">
+            <div style="display: flex; align-items: center; gap: 10px; padding: 14px 20px; border-bottom: 1px solid #E3E5F2; background: #FAFAFE">
+              <span aria-hidden="true" style="width: 10px; height: 10px; border-radius: 50%; background: {{cur.body}}; box-shadow: 0 0 0 2px rgba(21, 23, 58, 0.15)"></span>
+              <span style="font-size: 15px; font-weight: 700">{{cur.app}}</span>
+            </div>
+            <div style="padding: 18px 20px 6px">
+              <p style="margin: 0; display: inline-flex; align-items: center; gap: 8px; background: #15173A; color: #FFFFFF; border-radius: 12px; padding: 8px 12px; font-size: 14px; font-weight: 600">
+                <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFD43B" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                {{cur.focus}}
+              </p>
+            </div>
+            <ul style="margin: 0; padding: 8px 12px 14px; list-style: none; display: flex; flex-direction: column">
+              <sc-for list="{{cur.rows}}" as="r" hint-placeholder-count="4">
+                <li style="display: flex; align-items: center; gap: 16px; padding: 14px 8px; border-bottom: 1px solid #EEF0FB">
+                  <div style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px">
+                    <span style="font-size: 16px; font-weight: 700">{{r.a}}</span>
+                    <span style="font-size: 15px; color: #2C2F5A">{{r.b}}</span>
+                  </div>
+                  <sc-if value="{{r.hasTag}}" hint-placeholder-val="{{ true }}">
+                    <span style="flex-shrink: 0; font-size: 13px; font-weight: 700; border-radius: 10px; padding: 5px 10px; background: {{r.tagBg}}; color: {{r.tagFg}}">{{r.tag}}</span>
+                  </sc-if>
+                </li>
+              </sc-for>
+            </ul>
+          </div>
+          <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap">
+            <span style="font-size: 14px; color: #4B4F7A">Usa:</span>
+            <sc-for list="{{cur.tools}}" as="t" hint-placeholder-count="3">
+              <span style="font-size: 14px; font-weight: 600; background: #FFFFFF; border: 1px solid #D9DCEE; border-radius: 12px; padding: 6px 12px">{{t}}</span>
+            </sc-for>
+          </div>
+        </section>
+
+        <section aria-label="Lo que piensa" style="flex: 1 1 340px; max-width: 460px; min-width: 0; display: flex; flex-direction: column; gap: 12px">
+          <h2 style="margin: 0; font-family: Unbounded, system-ui, sans-serif; font-weight: 600; font-size: 18px">Lo que piensa</h2>
+          <ol style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 10px">
+            <sc-for list="{{cur.thoughts}}" as="th" hint-placeholder-count="4">
+              <li style="display: flex; gap: 10px; align-items: flex-start">
+                <div aria-hidden="true" style="width: 22px; flex-shrink: 0; padding-top: 16px; display: flex; flex-direction: column; align-items: center; gap: 4px">
+                  <span style="width: 6px; height: 6px; border-radius: 50%; background: {{th.dot}}"></span>
+                  <span style="width: 10px; height: 10px; border-radius: 50%; background: {{th.dot}}"></span>
+                </div>
+                <div style="flex: 1; background: #FFFFFF; border-radius: 20px; padding: 12px 16px; border: 2px solid {{th.border}}; display: flex; flex-direction: column; gap: 4px">
+                  <span style="font-size: 12px; font-weight: 600; color: #4B4F7A">{{th.when}}</span>
+                  <span style="font-size: 15px; line-height: 1.45">{{th.text}}</span>
+                </div>
+              </li>
+            </sc-for>
+          </ol>
+          <p style="margin: 4px 0 0; font-size: 13px; line-height: 1.45; color: #4B4F7A">Los pensamientos se guardan cifrados y solo tú los ves.</p>
+        </section>
+      </div>
+    </main>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":960}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const BODY = { idle: '#FFFFFF', thinking: '#B9A6FF', working: '#FF8A3D', waiting: '#FFD43B', blocked: '#F0525A', done: '#5BC7F5', tired: '#8E93B5', sleeping: '#C9CDE3' };
+    const TAG = {
+      ok: { bg: '#E1F4FD', fg: '#0C4A6E' },
+      busy: { bg: '#FFE9D6', fg: '#7A3300' },
+      wait: { bg: '#EEF0FB', fg: '#2C2F5A' },
+      bad: { bg: '#FDE2E3', fg: '#8A1C22' },
+      mid: { bg: '#FFF4C9', fg: '#6B5200' }
+    };
+    const TAGKIND = { 'Listo': 'ok', 'Hecho': 'ok', 'Programado': 'ok', 'Bien': 'ok', 'Movida': 'ok', 'Libre': 'ok', 'Alta': 'ok', 'Revisando': 'busy', 'Respondiendo': 'busy', 'Escribiendo': 'busy', 'Enviando': 'busy', 'En cola': 'wait', 'Baja': 'wait', 'Media': 'mid', 'Agotado': 'bad', 'Error': 'bad' };
+    const G = [
+      { id: 'ventas', name: 'Ventas', state: 'waiting', prop: 'desk', x: 4, y: 9, bubble: '¿Envío estos 12?', doing: 'Escribe correos de seguimiento', feed: 'te espera: quiere enviar 12 correos.', order: 1,
+        summary: 'Te espera. Quiere enviar 12 correos de seguimiento.', primary: 'Aprobar envío', secondary: 'Editar borradores', app: 'Correo: borradores',
+        focus: 'Leyendo el borrador para Hotel Azahar',
+        rows: [['Clínica Dental Sonrisa', 'Seguimiento de la propuesta del 4 de noviembre', 'Listo'], ['Talleres Martí', 'Les mando la tarifa nueva que pidieron', 'Listo'], ['Hotel Azahar', 'Recordatorio: la oferta vence el viernes', 'Revisando'], ['9 borradores más', 'Mismo tono, cada uno con su caso', '']],
+        thoughts: [['hace 6 min', 'Hay 12 clientes de noviembre que no contestaron.'], ['hace 4 min', 'Tres pidieron precio: a esos les adjunto la tarifa nueva.'], ['hace 1 min', 'Al Hotel Azahar le recuerdo que la oferta vence el viernes, sin presionar.'], ['ahora', 'No envío nada sin tu visto bueno. Te espero.']],
+        tools: ['Gmail', 'HubSpot', 'Skill: Seguimiento de ventas'] },
+      { id: 'soporte', name: 'Soporte', state: 'working', prop: 'desk', x: 18.5, y: 16, bubble: '', doing: 'Responde tickets', feed: 'va por el ticket 18 de 40.', order: 5,
+        summary: 'Trabajando. Va por el ticket 18 de 40.', primary: 'Ver progreso', secondary: 'Pausar', app: 'Soporte: ticket 18 de 40',
+        focus: 'Redactando la respuesta del ticket 18',
+        rows: [['Ticket 18', 'No me llega la factura de octubre', 'Respondiendo'], ['Ticket 19', '¿Puedo cambiar el método de pago?', 'En cola'], ['Ticket 20', 'Error al entrar desde el móvil', 'En cola'], ['17 tickets', 'Cerrados esta mañana', 'Hecho']],
+        thoughts: [['hace 3 min', 'La factura existe: se envió a una dirección antigua.'], ['hace 2 min', 'Se la reenvío y le explico cómo cambiar el correo.'], ['hace 1 min', 'El ticket 20 parece un fallo real. Si se repite, aviso a Datos.'], ['ahora', 'Respondo con el tono de la marca: cercano y breve.']],
+        tools: ['Zendesk', 'Gmail', 'Skill: Respuestas de soporte'] },
+      { id: 'redes', name: 'Redes', state: 'working', prop: 'phone', x: 33, y: 16, bubble: '', doing: 'Programa la semana', feed: 'programa las publicaciones de la semana.', order: 6,
+        summary: 'Trabajando. Programa las publicaciones de la semana.', primary: 'Ver calendario', secondary: 'Pausar', app: 'Calendario de redes',
+        focus: 'Escribiendo la encuesta del viernes',
+        rows: [['Lunes 10:00', 'Carrusel: 3 consejos para tu agenda', 'Programado'], ['Miércoles 13:00', 'Vídeo corto del equipo', 'Programado'], ['Viernes 18:00', 'Encuesta: ¿qué tarea te quita más tiempo?', 'Escribiendo']],
+        thoughts: [['hace 5 min', 'El carrusel del lunes funcionó bien la semana pasada: repito formato.'], ['hace 2 min', 'Evito publicar el viernes por la tarde en LinkedIn.'], ['ahora', 'Si la encuesta suena a anuncio, la reescribo.']],
+        tools: ['LinkedIn', 'Instagram', 'Skill: Calendario de redes'] },
+      { id: 'agenda', name: 'Agenda', state: 'done', prop: '', x: 52.5, y: 9, bubble: 'Te paso la hora nueva del jueves', doing: 'Habla con Correo', feed: 'y Correo están moviendo la reunión del jueves.', order: 3,
+        summary: 'Hecho. Te dejó libre el jueves por la tarde y se lo pasó a Correo.', primary: 'Ver cambios', secondary: 'Deshacer', app: 'Calendario: esta semana',
+        focus: 'Comprobando que nadie quede con dos reuniones a la vez',
+        rows: [['Jueves 10:00', 'Revisión de proyecto movida al viernes 9:30', 'Movida'], ['Jueves 16:00', 'Llamada con el proveedor movida al lunes', 'Movida'], ['Jueves 15:00 a 19:00', 'Bloque libre para ti', 'Libre']],
+        thoughts: [['hace 9 min', 'Pediste el jueves por la tarde libre.'], ['hace 5 min', 'Moví 3 reuniones a huecos donde todos estaban libres.'], ['hace 2 min', 'Le pedí a Correo que avise a los asistentes.'], ['ahora', 'Listo. Si algo no te cuadra, lo deshago.']],
+        tools: ['Google Calendar', 'Skill: Agenda sin choques'] },
+      { id: 'correo', name: 'Correo', state: 'working', prop: '', x: 66, y: 9, bubble: 'Aviso a los asistentes', doing: 'Habla con Agenda', feed: 'avisa a los asistentes del cambio de hora.', order: 7,
+        summary: 'Trabajando con Agenda. Avisa a los asistentes del cambio.', primary: 'Ver mensajes', secondary: 'Pausar', app: 'Correo: mensajes a asistentes',
+        focus: 'Usando la hora nueva que le pasó Agenda',
+        rows: [['Para: equipo de proyecto', 'La revisión pasa al viernes a las 9:30', 'Enviando'], ['Para: proveedor', '¿Te va bien el lunes a las 16:00?', 'Escribiendo']],
+        thoughts: [['hace 2 min', 'Agenda me pasó las horas nuevas.'], ['hace 1 min', 'Respondo en el mismo hilo para que nadie se pierda.'], ['ahora', 'Si el proveedor no puede el lunes, se lo devuelvo a Agenda.']],
+        tools: ['Gmail', 'Skill: Resumen de correo'] },
+      { id: 'research', name: 'Research', state: 'thinking', prop: 'board', x: 82, y: 14, bubble: '', doing: 'Compara licitaciones', feed: 'compara 5 licitaciones nuevas.', order: 4,
+        summary: 'Pensando. Compara 5 licitaciones nuevas.', primary: 'Ver el plan', secondary: 'Darle contexto', app: 'Pizarra: licitaciones de esta semana',
+        focus: 'Leyendo los requisitos de solvencia técnica',
+        rows: [['Plataforma digital para ONG', 'Encaja con lo que ya hacéis', 'Alta'], ['Formación en IA para técnicos', 'Pide experiencia previa en formación', 'Media'], ['Mantenimiento de web municipal', 'Precio bajo para el trabajo que pide', 'Baja'], ['2 más', 'Todavía leyendo los pliegos', '']],
+        thoughts: [['hace 12 min', 'Encontré 5 licitaciones publicadas esta semana.'], ['hace 6 min', 'La de la plataforma para ONG es la que más encaja.'], ['hace 2 min', 'Me falta saber si podéis acreditar la solvencia técnica que piden.'], ['ahora', 'Armo el plan antes de recomendarte nada.']],
+        tools: ['Contratación pública (web)', 'Skill: Radar de licitaciones'] },
+      { id: 'facturas', name: 'Facturas', state: 'tired', prop: 'mug', x: 7, y: 61, bubble: 'Recargo hasta las 00:00', doing: 'Toma un respiro', feed: 'recarga energía hasta las 00:00.', order: 8,
+        summary: 'Sin energía. Llegó al límite diario del banco.', primary: 'Revisar límites', secondary: 'Avisarme', app: 'Límites de uso',
+        focus: 'Esperando a que se renueve el límite del banco',
+        rows: [['API del banco', '500 de 500 consultas hoy', 'Agotado'], ['ERP', '120 de 1.000 consultas hoy', 'Bien'], ['Próxima recarga', 'Hoy a las 00:00', '']],
+        thoughts: [['hace 20 min', 'Concilié 212 de 260 movimientos.'], ['hace 8 min', 'El banco no me deja más consultas hasta medianoche.'], ['ahora', 'Sigo a las 00:00. Si lo necesitas antes, sube el límite.']],
+        tools: ['Banco (API)', 'Holded', 'Skill: Conciliación de facturas'] },
+      { id: 'legal', name: 'Legal', state: 'sleeping', prop: 'sofa', x: 41, y: 64, bubble: '', doing: 'Duerme en el sofá', feed: 'duerme hasta que llegue un contrato.', order: 9,
+        summary: 'Durmiendo hasta que llegue un contrato nuevo.', primary: 'Despertar', secondary: 'Ajustes', app: 'Bandeja de contratos',
+        focus: 'Nada a la vista: está durmiendo',
+        rows: [['Sin contratos nuevos', 'Última revisión: ayer a las 18:00', '']],
+        thoughts: [['ayer', 'Revisé el contrato de alquiler y marqué 2 cláusulas para que las mires.'], ['ahora', 'Me despierto cuando llegue un contrato a tu correo.']],
+        tools: ['Gmail', 'Skill: Revisión de contratos'] },
+      { id: 'datos', name: 'Datos', state: 'blocked', prop: 'door', x: 73, y: 60, bubble: 'La llave caducó', doing: 'Atascado en la puerta', feed: 'está bloqueado: su credencial caducó.', order: 2,
+        summary: 'Bloqueado. Su credencial de la base de datos caducó.', primary: 'Renovar acceso', secondary: 'Ver error', app: 'Base de datos de clientes',
+        focus: 'Delante de la puerta cerrada del archivo',
+        rows: [['Conexión', 'La credencial caducó el 22 de noviembre', 'Error'], ['Último informe', 'Ventas de octubre, generado el día 1', 'Hecho']],
+        thoughts: [['hace 15 min', 'Iba a preparar el informe semanal de ventas.'], ['hace 14 min', 'La llave de la base de datos ya no funciona.'], ['ahora', 'Necesito que renueves el acceso. Mientras, no intento nada más.']],
+        tools: ['Postgres (MCP)', 'Skill: Informe semanal'] }
+    ];
+    const s = this.state || {};
+    const sel = s.sel || null;
+    const pick = (id) => () => this.setState({ sel: id });
+    const glims = G.map((g) => ({
+      name: g.name, state: g.state, x: g.x, y: g.y, doing: g.doing, bubble: g.bubble, hasBubble: !!g.bubble,
+      isDesk: g.prop === 'desk', isMug: g.prop === 'mug', isSofa: g.prop === 'sofa', isDoor: g.prop === 'door', isBoard: g.prop === 'board', isPhone: g.prop === 'phone',
+      pick: pick(g.id)
+    }));
+    const feed = G.slice().sort((a, b) => a.order - b.order).filter((g) => g.id !== 'correo')
+      .map((g) => ({ name: g.name, state: g.state, feed: g.feed, pick: pick(g.id) }));
+    const c = G.find((g) => g.id === sel) || G[0];
+    const body = BODY[c.state];
+    const cur = {
+      name: c.name, state: c.state, summary: c.summary, primary: c.primary, secondary: c.secondary, app: c.app, focus: c.focus,
+      body: c.state === 'idle' ? '#2B34D6' : body,
+      tools: c.tools,
+      rows: c.rows.map(([a, b, tag]) => {
+        const k = TAG[TAGKIND[tag] || 'wait'];
+        return { a: a, b: b, tag: tag, hasTag: !!tag, tagBg: k.bg, tagFg: k.fg };
+      }),
+      thoughts: c.thoughts.map(([when, text], i, arr) => ({
+        when: when, text: text,
+        border: i === arr.length - 1 ? '#15173A' : '#FFFFFF',
+        dot: i === arr.length - 1 ? '#15173A' : '#C9CDE3'
+      }))
+    };
+    return {
+      inWorld: !sel,
+      inRoom: !!sel,
+      goWorld: () => this.setState({ sel: null }),
+      glims: glims,
+      feed: feed,
+      cur: cur
+    };
+  }
+}
+</script>
+</body>
+</html>

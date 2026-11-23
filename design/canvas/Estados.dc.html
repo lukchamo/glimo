@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Glimo, sistema de estados</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&family=Unbounded:wght@500;600;700;800&display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#2B34D6}a:hover{color:#15173A}
+</style>
+</helmet>
+<div style="width: 1440px; height: 960px; box-sizing: border-box; background: #F3F4FB; padding: 72px 80px; font-family: Figtree, system-ui, sans-serif; color: #15173A; display: flex; flex-direction: column; gap: 40px">
+  <header style="display: flex; justify-content: space-between; align-items: flex-end; gap: 48px">
+    <h2 style="margin: 0; font-family: Unbounded, system-ui, sans-serif; font-weight: 600; font-size: 48px; line-height: 1.08; letter-spacing: -0.02em; max-width: 720px; text-wrap: balance">Ocho estados que se leen de un vistazo</h2>
+    <p style="margin: 0; max-width: 520px; font-size: 17px; line-height: 1.55; color: #2C2F5A; text-wrap: pretty">Cada estado cambia los ojos, el color y la señal del glim, así que se entiende sin leer. Los nombres técnicos siguen los estados de Agent Status Protocol y cada uno trae su acción en la vitrina.</p>
+  </header>
+  <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px">
+    <sc-for list="{{states}}" as="s" hint-placeholder-count="8">
+      <article style="background: #FFFFFF; border-radius: 28px; padding: 24px 24px 26px; display: flex; flex-direction: column; gap: 12px">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start">
+          <dc-import name="Glim" state="{{s.state}}" size="112" hint-size="112px,112px"></dc-import>
+          <span style="font-size: 13px; font-weight: 600; color: #2C2F5A; background: #F3F4FB; border-radius: 10px; padding: 5px 9px">{{s.key}}</span>
+        </div>
+        <h3 style="margin: 4px 0 0; font-family: Unbounded, system-ui, sans-serif; font-weight: 600; font-size: 22px">{{s.name}}</h3>
+        <p style="margin: 0; font-size: 15px; line-height: 1.45; color: #2C2F5A">{{s.when}}</p>
+        <p style="margin: 0; font-size: 14px; line-height: 1.4; color: #4B4F7A">En la vitrina: <strong style="color: #15173A">{{s.action}}</strong></p>
+      </article>
+    </sc-for>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":960}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      states: [
+        { state: 'idle', key: 'idle', name: 'Listo', when: 'Conectado y sin tarea. Espera que le pidas algo.', action: 'Darle una tarea' },
+        { state: 'thinking', key: 'queued', name: 'Pensando', when: 'Recibió la tarea y está armando el plan.', action: 'Ver el plan' },
+        { state: 'working', key: 'working', name: 'Trabajando', when: 'Ejecuta herramientas MCP o delega en otro agente.', action: 'Ver progreso o pausar' },
+        { state: 'waiting', key: 'input-required', name: 'Te espera', when: 'Necesita tu aprobación, una respuesta o un acceso.', action: 'Aprobar o responder' },
+        { state: 'blocked', key: 'failed', name: 'Bloqueado', when: 'Algo falló: una credencial, un servicio caído o un error.', action: 'Ver el error y reintentar' },
+        { state: 'done', key: 'completed', name: 'Hecho', when: 'Terminó la tarea y dejó el resultado listo.', action: 'Ver el resultado' },
+        { state: 'tired', key: 'quota-exhausted', name: 'Sin energía', when: 'Llegó a un límite de uso o de cuota de un proveedor.', action: 'Revisar límites' },
+        { state: 'sleeping', key: 'paused', name: 'Durmiendo', when: 'Pausado o fuera de línea hasta que algo lo despierte.', action: 'Despertar' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

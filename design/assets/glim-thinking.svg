@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" width="240" height="240" role="img" aria-label="Glim: Pensando">
+  <clipPath id="thinking-clip"><path d="M111 53 H111 A101 108.46 0 0 1 212 161.46 V161.46 A88.88 78.54 0 0 1 123.12 240 H98.88 A88.88 78.54 0 0 1 10 161.46 V161.46 A101 108.46 0 0 1 111 53 Z"/></clipPath>
+  <path d="M111 53 H111 A101 108.46 0 0 1 212 161.46 V161.46 A88.88 78.54 0 0 1 123.12 240 H98.88 A88.88 78.54 0 0 1 10 161.46 V161.46 A101 108.46 0 0 1 111 53 Z" fill="#B9A6FF"/>
+  <path d="M111 53 H111 A101 108.46 0 0 1 212 161.46 V161.46 A88.88 78.54 0 0 1 123.12 240 H98.88 A88.88 78.54 0 0 1 10 161.46 V161.46 A101 108.46 0 0 1 111 53 Z" fill="#15173A" fill-opacity="0.14"/>
+  <g clip-path="url(#thinking-clip)"><path d="M111 53 H111 A101 108.46 0 0 1 212 161.46 V161.46 A88.88 78.54 0 0 1 123.12 240 H98.88 A88.88 78.54 0 0 1 10 161.46 V161.46 A101 108.46 0 0 1 111 53 Z" fill="#B9A6FF" transform="translate(-14 -14)"/></g>
+  <circle cx="91" cy="121" r="13" fill="#15173A"/>
+  <circle cx="155" cy="121" r="13" fill="#15173A"/>
+  <circle cx="183.6" cy="54" r="6" fill="#15173A"/>
+  <circle cx="202.2" cy="33" r="9" fill="#15173A"/>
+  <circle cx="228" cy="12" r="12" fill="#15173A"/>
+</svg>

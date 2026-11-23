@@ -1,0 +1,15 @@
+{
+  "spec": "glimo/0.1",
+  "agent": { "id": "sales", "name": "Sales" },
+  "state": "waiting",
+  "reason": "awaiting-approval",
+  "say": "Wants to send 12 follow-up emails",
+  "actions": [
+    { "id": "approve", "label": "Approve sending", "kind": "primary", "sensitive": true },
+    { "id": "open", "label": "Edit drafts", "kind": "secondary" }
+  ],
+  "tools": ["gmail", "hubspot"],
+  "skills": ["sales-follow-up"],
+  "world": { "id": "office", "spot": "desk-1", "activity": "desk" },
+  "updatedAt": "2026-11-23T10:30:00Z"
+}

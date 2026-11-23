@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Glimo, home B: mundos</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&family=Unbounded:wght@500;600;700;800&display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#2B34D6}a:hover{color:#15173A}
+a:focus-visible,button:focus-visible{outline:3px solid #2B34D6;outline-offset:2px}
+</style>
+</helmet>
+<div style="background: #F3F4FB; font-family: Figtree, system-ui, sans-serif; color: #15173A">
+
+  <header>
+    <div style="max-width: 1240px; margin: 0 auto; padding: 20px clamp(20px, 4vw, 40px); display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap">
+      <a href="#" aria-label="Glimo, inicio" style="display: flex; align-items: flex-end; gap: 1px; text-decoration: none">
+        <span style="font-family: Unbounded, system-ui, sans-serif; font-weight: 800; font-size: 30px; line-height: 1; letter-spacing: -0.045em; color: #15173A">glim</span>
+        <span style="margin-bottom: 4px; display: flex"><dc-import name="Glim" state="idle" size="22" body="{{brand}}" eye="#FFFFFF" badge="false" alt="o" hint-size="22px,22px"></dc-import></span>
+      </a>
+      <nav aria-label="Principal" style="display: flex; align-items: center; gap: 4px; flex-wrap: wrap">
+        <a href="#mundos" style="color: #15173A; text-decoration: none; font-weight: 600; font-size: 16px; padding: 12px 14px">Mundos</a>
+        <a href="#tienda" style="color: #15173A; text-decoration: none; font-weight: 600; font-size: 16px; padding: 12px 14px">Skills</a>
+        <a href="#publicar" style="color: #15173A; text-decoration: none; font-weight: 600; font-size: 16px; padding: 12px 14px">Publicar</a>
+        <a href="https://github.com" style="color: #15173A; text-decoration: none; font-weight: 600; font-size: 16px; padding: 12px 14px">GitHub</a>
+        <a href="#instalar" style="background: {{brand}}; color: #FFFFFF; text-decoration: none; font-weight: 700; font-size: 16px; padding: 12px 20px; border-radius: 14px">Instalar</a>
+      </nav>
+    </div>
+  </header>
+
+  <section style="padding: 48px 0 40px">
+    <div style="max-width: 1240px; margin: 0 auto; padding: 0 clamp(20px, 4vw, 40px); display: flex; flex-wrap: wrap; gap: 32px 56px; align-items: flex-end">
+      <h1 style="flex: 1 1 560px; min-width: 0; margin: 0; font-family: Unbounded, system-ui, sans-serif; font-weight: 700; font-size: clamp(44px, 6vw, 88px); line-height: 1; letter-spacing: -0.035em; text-wrap: balance">Un cerebro. Los mundos que quieras.</h1>
+      <div style="flex: 1 1 320px; min-width: 0; display: flex; flex-direction: column; gap: 20px; padding-bottom: 8px">
+        <p style="margin: 0; font-size: 19px; line-height: 1.5; color: #2C2F5A; text-wrap: pretty">Tus agentes viven en un solo motor MCP. Tú eliges dónde se ven: en una oficina, en un jardín o flotando en órbita. El estado es el mismo; cambia el escenario.</p>
+        <div style="display: flex; gap: 10px; flex-wrap: wrap; align-items: center">
+          <a href="#mundos" style="background: {{brand}}; color: #FFFFFF; text-decoration: none; font-weight: 700; font-size: 16px; padding: 14px 22px; border-radius: 14px">Elegir un mundo</a>
+          <code id="instalar" style="font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 15px; background: #FFFFFF; border: 1px solid #D9DCEE; border-radius: 14px; padding: 13px 16px">npx glimo init</code>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="mundos" aria-label="Mundos" style="padding: 8px 0 96px">
+    <div style="max-width: 1240px; margin: 0 auto; padding: 0 clamp(20px, 4vw, 40px); display: grid; grid-template-columns: repeat(auto-fit, minmax(min(340px, 100%), 1fr)); gap: 16px">
+
+      <article style="position: relative; height: 460px; border-radius: 32px; background: #FFFFFF; overflow: hidden; display: flex; flex-direction: column">
+        <div style="flex: 1; padding: 36px 28px 0; display: flex; flex-direction: column; gap: 22px">
+          <div style="display: flex; justify-content: space-around; align-items: flex-end">
+            <sc-for list="{{officeTop}}" as="g" hint-placeholder-count="3">
+              <div style="display: flex; flex-direction: column; align-items: center; gap: 4px">
+                <dc-import name="Glim" state="{{g.state}}" size="76" hint-size="76px,76px"></dc-import>
+                <span style="font-size: 13px; font-weight: 700">{{g.name}}</span>
+              </div>
+            </sc-for>
+          </div>
+          <div style="height: 16px; border-radius: 8px; background: #D9DCEE; margin-top: -10px"></div>
+          <div style="display: flex; justify-content: space-around; align-items: flex-end">
+            <sc-for list="{{officeBottom}}" as="g" hint-placeholder-count="3">
+              <div style="display: flex; flex-direction: column; align-items: center; gap: 4px">
+                <dc-import name="Glim" state="{{g.state}}" size="76" hint-size="76px,76px"></dc-import>
+                <span style="font-size: 13px; font-weight: 700">{{g.name}}</span>
+              </div>
+            </sc-for>
+          </div>
+          <div style="height: 16px; border-radius: 8px; background: #D9DCEE; margin-top: -10px"></div>
+        </div>
+        <div style="padding: 20px 28px 26px; display: flex; flex-direction: column; gap: 4px">
+          <h2 style="margin: 0; font-family: Unbounded, system-ui, sans-serif; font-weight: 600; font-size: 24px">Oficina</h2>
+          <p style="margin: 0; font-size: 15px; color: #4B4F7A">Para equipos: cada agente en su puesto.</p>
+        </div>
+      </article>
+
+      <article style="position: relative; height: 460px; border-radius: 32px; background: #DDF3E4; overflow: hidden">
+        <div aria-hidden="true" style="position: absolute; left: -40px; bottom: 96px; width: 180px; height: 180px; border-radius: 50%; background: #B9E3C6"></div>
+        <div aria-hidden="true" style="position: absolute; right: -30px; bottom: 120px; width: 150px; height: 150px; border-radius: 50%; background: #A7DAB6"></div>
+        <div aria-hidden="true" style="position: absolute; left: 0; right: 0; bottom: 0; height: 130px; background: #C6EAD1"></div>
+        <div style="position: absolute; left: 10%; top: 44px; display: flex; flex-direction: column; align-items: center; gap: 4px">
+          <dc-import name="Glim" state="done" size="70" hint-size="70px,70px"></dc-import>
+          <span style="font-size: 13px; font-weight: 700">Agenda</span>
+        </div>
+        <div style="position: absolute; left: 42%; top: 96px; display: flex; flex-direction: column; align-items: center; gap: 4px">
+          <dc-import name="Glim" state="waiting" size="84" hint-size="84px,84px"></dc-import>
+          <span style="font-size: 13px; font-weight: 700">Ventas</span>
+        </div>
+        <div style="position: absolute; right: 9%; top: 40px; display: flex; flex-direction: column; align-items: center; gap: 4px">
+          <dc-import name="Glim" state="thinking" size="66" hint-size="66px,66px"></dc-import>
+          <span style="font-size: 13px; font-weight: 700">Research</span>
+        </div>
+        <div style="position: absolute; left: 16%; top: 210px; display: flex; flex-direction: column; align-items: center; gap: 4px">
+          <dc-import name="Glim" state="working" size="72" hint-size="72px,72px"></dc-import>
+          <span style="font-size: 13px; font-weight: 700">Soporte</span>
+        </div>
+        <div style="position: absolute; right: 14%; top: 200px; display: flex; flex-direction: column; align-items: center; gap: 4px">
+          <dc-import name="Glim" state="sleeping" size="64" hint-size="64px,64px"></dc-import>
+          <span style="font-size: 13px; font-weight: 700">Legal</span>
+        </div>
+        <div style="position: absolute; left: 0; right: 0; bottom: 0; padding: 20px 28px 26px; display: flex; flex-direction: column; gap: 4px">
+          <h2 style="margin: 0; font-family: Unbounded, system-ui, sans-serif; font-weight: 600; font-size: 24px">Jardín</h2>
+          <p style="margin: 0; font-size: 15px; color: #2F5A3E">Para tu día a día, a tu ritmo.</p>
+        </div>
+      </article>
+
+      <article style="position: relative; height: 460px; border-radius: 32px; background: #1C1F5C; overflow: hidden; color: #FFFFFF">
+        <div aria-hidden="true" style="position: absolute; right: -70px; top: -60px; width: 240px; height: 240px; border-radius: 50%; background: #2E337A"></div>
+        <div aria-hidden="true" style="position: absolute; left: 30px; bottom: 140px; width: 46px; height: 46px; border-radius: 50%; background: #FF8A3D"></div>
+        <div aria-hidden="true" style="position: absolute; left: 22%; top: 30px; width: 4px; height: 4px; border-radius: 50%; background: #FFFFFF"></div>
+        <div aria-hidden="true" style="position: absolute; left: 58%; top: 70px; width: 3px; height: 3px; border-radius: 50%; background: #FFFFFF"></div>
+        <div aria-hidden="true" style="position: absolute; left: 80%; top: 250px; width: 4px; height: 4px; border-radius: 50%; background: #FFFFFF"></div>
+        <div aria-hidden="true" style="position: absolute; left: 8%; top: 180px; width: 3px; height: 3px; border-radius: 50%; background: #FFFFFF"></div>
+        <div aria-hidden="true" style="position: absolute; left: 46%; top: 300px; width: 3px; height: 3px; border-radius: 50%; background: #FFFFFF"></div>
+        <div style="position: absolute; left: 12%; top: 54px; display: flex; flex-direction: column; align-items: center; gap: 4px">
+          <dc-import name="Glim" state="working" size="62" hint-size="62px,62px"></dc-import>
+          <span style="font-size: 13px; font-weight: 700">Redes</span>
+        </div>
+        <div style="position: absolute; left: 48%; top: 120px; display: flex; flex-direction: column; align-items: center; gap: 4px">
+          <dc-import name="Glim" state="blocked" size="78" hint-size="78px,78px"></dc-import>
+          <span style="font-size: 13px; font-weight: 700">Datos</span>
+        </div>
+        <div style="position: absolute; left: 24%; top: 214px; display: flex; flex-direction: column; align-items: center; gap: 4px">
+          <dc-import name="Glim" state="waiting" size="70" hint-size="70px,70px"></dc-import>
+          <span style="font-size: 13px; font-weight: 700">Correo</span>
+        </div>
+        <div style="position: absolute; right: 8%; top: 226px; display: flex; flex-direction: column; align-items: center; gap: 4px">
+          <dc-import name="Glim" state="tired" size="60" hint-size="60px,60px"></dc-import>
+          <span style="font-size: 13px; font-weight: 700">Facturas</span>
+        </div>
+        <div style="position: absolute; left: 0; right: 0; bottom: 0; padding: 20px 28px 26px; display: flex; flex-direction: column; gap: 4px">
+          <h2 style="margin: 0; font-family: Unbounded, system-ui, sans-serif; font-weight: 600; font-size: 24px">Órbita</h2>
+          <p style="margin: 0; font-size: 15px; color: #C7C9F5">Para flotas grandes: ves decenas sin perderte.</p>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section style="padding: 0 0 96px">
+    <div style="max-width: 1240px; margin: 0 auto; padding: 0 clamp(20px, 4vw, 40px); display: flex; flex-wrap: wrap; gap: 40px 64px; align-items: center">
+      <div style="flex: 1 1 420px; min-width: 0; display: flex; flex-direction: column; gap: 18px">
+        <h2 style="margin: 0; font-family: Unbounded, system-ui, sans-serif; font-weight: 600; font-size: clamp(30px, 3.4vw, 44px); line-height: 1.1; letter-spacing: -0.02em">Crea tu propio mundo</h2>
+        <p style="margin: 0; font-size: 18px; line-height: 1.55; color: #2C2F5A; max-width: 540px">Un mundo es una carpeta con un fondo, unos objetos y el lugar de cada glim. Duplica uno de los que vienen, cámbialo a tu gusto y publícalo como plantilla para que otros lo usen.</p>
+        <ul style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 10px; font-size: 16px; line-height: 1.5; color: #2C2F5A">
+          <li><strong style="color: #15173A">Sin tocar a tus agentes.</strong> El mundo solo cambia cómo se ven.</li>
+          <li><strong style="color: #15173A">Pensado para el móvil.</strong> Cada mundo trae su versión vertical.</li>
+          <li><strong style="color: #15173A">Con tu marca.</strong> Colores, fondo y objetos de tu empresa.</li>
+        </ul>
+      </div>
+      <div style="flex: 1 1 420px; min-width: 0; background: #15173A; color: #FFFFFF; border-radius: 28px; padding: 28px 32px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 15px; line-height: 1.9; display: flex; flex-direction: column" role="code" aria-label="Estructura de un mundo">
+        <span>mi-mundo/</span>
+        <span style="padding-left: 3ch">world.json <span style="color: #C7C9F5; font-family: Figtree, system-ui, sans-serif">dónde se sienta cada glim</span></span>
+        <span style="padding-left: 3ch">fondo.svg</span>
+        <span style="padding-left: 3ch">objetos/</span>
+        <span style="padding-left: 6ch">escritorio.svg</span>
+        <span style="padding-left: 6ch">planta.svg</span>
+        <span style="padding-left: 3ch">movil.json <span style="color: #C7C9F5; font-family: Figtree, system-ui, sans-serif">versión vertical</span></span>
+        <span style="padding-left: 3ch">README.md</span>
+      </div>
+    </div>
+  </section>
+
+  <section id="tienda" style="padding: 0 0 96px">
+    <div style="max-width: 1240px; margin: 0 auto; padding: 0 clamp(20px, 4vw, 40px); display: flex; flex-direction: column; gap: 24px">
+      <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 16px 32px">
+        <h2 style="margin: 0; font-family: Unbounded, system-ui, sans-serif; font-weight: 600; font-size: clamp(30px, 3.4vw, 44px); line-height: 1.1; letter-spacing: -0.02em">La tienda de skills</h2>
+        <p style="margin: 0; max-width: 480px; font-size: 17px; line-height: 1.55; color: #2C2F5A">Enseña a tus agentes tareas nuevas en un clic. Todas usan el formato abierto SKILL.md.</p>
+      </div>
+      <div role="group" aria-label="Categorías" style="display: flex; gap: 8px; flex-wrap: wrap">
+        <button type="button" aria-pressed="true" style="height: 44px; padding: 0 18px; border-radius: 22px; border: 1px solid #15173A; background: #15173A; color: #FFFFFF; font-family: inherit; font-size: 15px; font-weight: 600; cursor: pointer">Todas</button>
+        <button type="button" aria-pressed="false" style="height: 44px; padding: 0 18px; border-radius: 22px; border: 1px solid #D9DCEE; background: #FFFFFF; color: #15173A; font-family: inherit; font-size: 15px; font-weight: 600; cursor: pointer">Ventas</button>
+        <button type="button" aria-pressed="false" style="height: 44px; padding: 0 18px; border-radius: 22px; border: 1px solid #D9DCEE; background: #FFFFFF; color: #15173A; font-family: inherit; font-size: 15px; font-weight: 600; cursor: pointer">Finanzas</button>
+        <button type="button" aria-pressed="false" style="height: 44px; padding: 0 18px; border-radius: 22px; border: 1px solid #D9DCEE; background: #FFFFFF; color: #15173A; font-family: inherit; font-size: 15px; font-weight: 600; cursor: pointer">Operaciones</button>
+        <button type="button" aria-pressed="false" style="height: 44px; padding: 0 18px; border-radius: 22px; border: 1px solid #D9DCEE; background: #FFFFFF; color: #15173A; font-family: inherit; font-size: 15px; font-weight: 600; cursor: pointer">Sector público</button>
+        <button type="button" aria-pressed="false" style="height: 44px; padding: 0 18px; border-radius: 22px; border: 1px solid #D9DCEE; background: #FFFFFF; color: #15173A; font-family: inherit; font-size: 15px; font-weight: 600; cursor: pointer">Personal</button>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(520px, 100%), 1fr)); gap: 12px">
+        <sc-for list="{{skills}}" as="k" hint-placeholder-count="6">
+          <div style="background: #FFFFFF; border-radius: 20px; padding: 14px 14px 14px 18px; display: flex; align-items: center; gap: 16px; flex-wrap: wrap">
+            <dc-import name="Glim" state="idle" size="48" body="{{k.tint}}" eye="#15173A" badge="false" alt="" hint-size="48px,48px"></dc-import>
+            <div style="flex: 1 1 240px; min-width: 0; display: flex; flex-direction: column; gap: 2px">
+              <h3 style="margin: 0; font-size: 17px; font-weight: 700">{{k.name}}</h3>
+              <p style="margin: 0; font-size: 15px; line-height: 1.4; color: #2C2F5A">{{k.desc}}</p>
+            </div>
+            <button type="button" style="height: 44px; padding: 0 18px; border: 1px solid #D9DCEE; border-radius: 12px; background: #FFFFFF; color: #15173A; font-family: inherit; font-size: 15px; font-weight: 700; cursor: pointer">Instalar</button>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <section id="publicar" style="background: {{brand}}; color: #FFFFFF; padding: 88px 0 96px">
+    <div style="max-width: 1240px; margin: 0 auto; padding: 0 clamp(20px, 4vw, 40px); display: flex; flex-direction: column; gap: 40px">
+      <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 20px 40px">
+        <h2 style="margin: 0; font-family: Unbounded, system-ui, sans-serif; font-weight: 600; font-size: clamp(30px, 3.4vw, 48px); line-height: 1.08; letter-spacing: -0.02em; max-width: 640px; text-wrap: balance">Tu skill, disponible para todos</h2>
+        <a href="#" style="background: #FFD43B; color: #15173A; text-decoration: none; font-weight: 700; font-size: 16px; padding: 14px 22px; border-radius: 14px">Publicar una skill</a>
+      </div>
+      <ol style="margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr)); gap: 32px">
+        <li style="display: flex; flex-direction: column; gap: 12px; border-top: 2px solid #8C93F0; padding-top: 22px">
+          <span style="font-family: Unbounded, system-ui, sans-serif; font-weight: 600; font-size: 18px; color: #FFD43B">1</span>
+          <h3 style="margin: 0; font-family: Unbounded, system-ui, sans-serif; font-weight: 600; font-size: 21px">Escribe tu SKILL.md</h3>
+          <p style="margin: 0; font-size: 16px; line-height: 1.5; color: #DCDEFF">Explica la tarea en lenguaje normal y añade los scripts que necesite.</p>
+        </li>
+        <li style="display: flex; flex-direction: column; gap: 12px; border-top: 2px solid #8C93F0; padding-top: 22px">
+          <span style="font-family: Unbounded, system-ui, sans-serif; font-weight: 600; font-size: 18px; color: #FFD43B">2</span>
+          <h3 style="margin: 0; font-family: Unbounded, system-ui, sans-serif; font-weight: 600; font-size: 21px">Pruébala en tu vitrina</h3>
+          <p style="margin: 0; font-size: 16px; line-height: 1.5; color: #DCDEFF">Mira a tu glim usarla en vivo y ajusta hasta que funcione como quieres.</p>
+        </li>
+        <li style="display: flex; flex-direction: column; gap: 12px; border-top: 2px solid #8C93F0; padding-top: 22px">
+          <span style="font-family: Unbounded, system-ui, sans-serif; font-weight: 600; font-size: 18px; color: #FFD43B">3</span>
+          <h3 style="margin: 0; font-family: Unbounded, system-ui, sans-serif; font-weight: 600; font-size: 21px">Publícala</h3>
+          <p style="margin: 0; font-size: 16px; line-height: 1.5; color: #DCDEFF">Con <code style="font-family: ui-monospace, SFMono-Regular, Menlo, monospace; color: #FFFFFF">glimo publish</code> pasa una revisión de seguridad y queda firmada con tu cuenta.</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <footer style="padding: 36px 0 44px">
+    <div style="max-width: 1240px; margin: 0 auto; padding: 0 clamp(20px, 4vw, 40px); display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 16px 32px">
+      <a href="#" aria-label="Glimo, inicio" style="display: flex; align-items: flex-end; gap: 1px; text-decoration: none">
+        <span style="font-family: Unbounded, system-ui, sans-serif; font-weight: 800; font-size: 24px; line-height: 1; letter-spacing: -0.045em; color: #15173A">glim</span>
+        <span style="margin-bottom: 3px; display: flex"><dc-import name="Glim" state="idle" size="18" body="{{brand}}" eye="#FFFFFF" badge="false" alt="o" hint-size="18px,18px"></dc-import></span>
+      </a>
+      <nav aria-label="Pie" style="display: flex; gap: 4px 20px; flex-wrap: wrap">
+        <a href="#mundos" style="font-size: 15px; font-weight: 600; text-decoration: none; padding: 12px 0">Mundos</a>
+        <a href="#tienda" style="font-size: 15px; font-weight: 600; text-decoration: none; padding: 12px 0">Skills</a>
+        <a href="#publicar" style="font-size: 15px; font-weight: 600; text-decoration: none; padding: 12px 0">Publicar</a>
+        <a href="https://github.com" style="font-size: 15px; font-weight: 600; text-decoration: none; padding: 12px 0">GitHub</a>
+      </nav>
+      <p style="margin: 0; font-size: 14px; color: #4B4F7A">Un proyecto abierto de CooWeb.</p>
+    </div>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"brand":{"editor":"color","options":["#2B34D6","#3A2BD6","#1F5FE0"],"default":"#2B34D6"},"$preview":{"width":1440,"height":3000}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      brand: this.props.brand ?? '#2B34D6',
+      officeTop: [
+        { name: 'Ventas', state: 'waiting' },
+        { name: 'Soporte', state: 'working' },
+        { name: 'Agenda', state: 'done' }
+      ],
+      officeBottom: [
+        { name: 'Research', state: 'thinking' },
+        { name: 'Datos', state: 'blocked' },
+        { name: 'Legal', state: 'sleeping' }
+      ],
+      skills: [
+        { name: 'Radar de licitaciones', desc: 'Revisa portales públicos y te trae las que encajan con tu empresa.', tint: '#E4E6FB' },
+        { name: 'Resumen de correo', desc: 'Tres líneas por hilo importante, cada mañana.', tint: '#E4E6FB' },
+        { name: 'Conciliación de facturas', desc: 'Cruza facturas con el banco y marca lo que no cuadra.', tint: '#E4E6FB' },
+        { name: 'Seguimiento de ventas', desc: 'Prepara correos para los clientes que no respondieron.', tint: '#E4E6FB' },
+        { name: 'Informe semanal', desc: 'Junta lo que hicieron tus agentes y te lo manda el viernes.', tint: '#E4E6FB' },
+        { name: 'Respuestas de soporte', desc: 'Contesta dudas frecuentes con tu tono y escala lo difícil.', tint: '#E4E6FB' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

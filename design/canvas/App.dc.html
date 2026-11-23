@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Glimo, la vitrina en el móvil</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&family=Unbounded:wght@500;600;700;800&display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#2B34D6}a:hover{color:#15173A}
+button:focus-visible{outline:3px solid #2B34D6;outline-offset:2px}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; box-sizing: border-box; background: #F3F4FB; font-family: Figtree, system-ui, sans-serif; color: #15173A; display: flex; flex-direction: column; overflow: hidden">
+
+  <header style="padding: 14px 16px 4px 20px; display: flex; align-items: center; justify-content: space-between">
+    <div style="display: flex; align-items: flex-end; gap: 1px" aria-label="glimo">
+      <span style="font-family: Unbounded, system-ui, sans-serif; font-weight: 800; font-size: 26px; line-height: 1; letter-spacing: -0.045em">glim</span>
+      <div style="margin-bottom: 3px">
+        <dc-import name="Glim" state="idle" size="19" body="#2B34D6" eye="#FFFFFF" badge="false" alt="o" hint-size="19px,19px"></dc-import>
+      </div>
+    </div>
+    <button type="button" aria-label="Tu perfil" style="width: 44px; height: 44px; border-radius: 50%; border: 1px solid #D9DCEE; background: #FFFFFF; display: flex; align-items: center; justify-content: center; cursor: pointer">
+      <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#15173A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="9" r="4"></circle><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"></path></svg>
+    </button>
+  </header>
+
+  <section style="padding: 6px 20px 12px; display: flex; flex-direction: column; gap: 4px">
+    <h1 style="margin: 0; font-family: Unbounded, system-ui, sans-serif; font-weight: 600; font-size: 24px; line-height: 1.15; letter-spacing: -0.01em">{{headline}}</h1>
+    <p style="margin: 0; font-size: 15px; color: #4B4F7A">{{subline}}</p>
+  </section>
+
+  <div role="group" aria-label="Mundo" style="padding: 0 16px 0 20px; display: flex; gap: 8px">
+    <sc-for list="{{worlds}}" as="w" hint-placeholder-count="3">
+      <button type="button" onClick="{{w.pick}}" aria-pressed="{{w.pressed}}" style="height: 44px; padding: 0 16px; border-radius: 22px; border: 1px solid {{w.border}}; background: {{w.bg}}; color: {{w.fg}}; font-family: inherit; font-size: 15px; font-weight: 600; cursor: pointer">{{w.name}}</button>
+    </sc-for>
+  </div>
+
+  <section aria-label="Vitrina de agentes" style="margin: 12px 16px 0; border-radius: 28px; background: {{vitrinaBg}}; padding: 12px 10px 4px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: 0; row-gap: 8px">
+    <sc-for list="{{agents}}" as="a" hint-placeholder-count="9">
+      <div style="padding: 0 3px; border-bottom: 5px solid {{shelf}}">
+        <button type="button" onClick="{{a.pick}}" aria-pressed="{{a.pressed}}" style="width: 100%; min-height: 44px; margin: 0 0 6px; padding: 6px 2px 6px; border: none; border-radius: 18px; background: {{a.cellBg}}; display: flex; flex-direction: column; align-items: center; gap: 2px; cursor: pointer; font-family: inherit; color: {{nameColor}}">
+          <dc-import name="Glim" state="{{a.state}}" size="52" hint-size="52px,52px"></dc-import>
+          <span style="font-size: 13px; font-weight: 700">{{a.name}}</span>
+          <span style="font-size: 12px; color: {{subColor}}">{{a.word}}</span>
+        </button>
+      </div>
+    </sc-for>
+  </section>
+
+  <section aria-live="polite" style="margin: 12px 16px 0; background: #FFFFFF; border-radius: 24px; padding: 14px 16px 16px; box-shadow: 0 8px 24px rgba(21, 23, 58, 0.08); display: flex; flex-direction: column; gap: 10px">
+    <div style="display: flex; align-items: center; gap: 10px">
+      <dc-import name="Glim" state="{{cur.state}}" size="40" badge="false" hint-size="40px,40px"></dc-import>
+      <h2 style="margin: 0; font-family: Unbounded, system-ui, sans-serif; font-weight: 600; font-size: 17px; line-height: 1.2">{{cur.title}}</h2>
+    </div>
+    <p style="margin: 0; font-size: 14px; line-height: 1.4; color: #2C2F5A">{{cur.detail}}</p>
+    <div style="display: flex; gap: 8px">
+      <button type="button" style="flex: 1; height: 44px; border: none; border-radius: 14px; background: #2B34D6; color: #FFFFFF; font-family: inherit; font-size: 15px; font-weight: 700; cursor: pointer">{{cur.primary}}</button>
+      <button type="button" style="flex: 1; height: 44px; border: 1px solid #D9DCEE; border-radius: 14px; background: #FFFFFF; color: #15173A; font-family: inherit; font-size: 15px; font-weight: 600; cursor: pointer">{{cur.secondary}}</button>
+    </div>
+  </section>
+
+  <nav aria-label="Principal" style="margin-top: auto; background: #FFFFFF; border-top: 1px solid #E3E5F2; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); padding: 6px 8px 10px">
+    <button type="button" aria-current="page" style="min-height: 52px; border: none; background: transparent; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; color: #2B34D6; font-family: inherit; font-size: 12px; font-weight: 700; cursor: pointer">
+      <svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="7" height="7" rx="2"></rect><rect x="13" y="4" width="7" height="7" rx="2"></rect><rect x="4" y="13" width="7" height="7" rx="2"></rect><rect x="13" y="13" width="7" height="7" rx="2"></rect></svg>
+      Vitrina
+    </button>
+    <button type="button" style="min-height: 52px; border: none; background: transparent; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; color: #4B4F7A; font-family: inherit; font-size: 12px; font-weight: 600; cursor: pointer">
+      <svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l9 5-9 5-9-5 9-5z"></path><path d="M3 13l9 5 9-5"></path></svg>
+      Skills
+    </button>
+    <button type="button" style="min-height: 52px; border: none; background: transparent; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; color: #4B4F7A; font-family: inherit; font-size: 12px; font-weight: 600; cursor: pointer">
+      <svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18"></path><path d="M12 3c2.5 2.5 3.8 5.5 3.8 9s-1.3 6.5-3.8 9c-2.5-2.5-3.8-5.5-3.8-9S9.5 5.5 12 3z"></path></svg>
+      Mundos
+    </button>
+    <button type="button" style="min-height: 52px; border: none; background: transparent; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; color: #4B4F7A; font-family: inherit; font-size: 12px; font-weight: 600; cursor: pointer">
+      <svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h10M18 7h2M4 17h4M12 17h8"></path><circle cx="16" cy="7" r="2"></circle><circle cx="10" cy="17" r="2"></circle></svg>
+      Ajustes
+    </button>
+  </nav>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const WORD = { idle: 'Listo', thinking: 'Pensando', working: 'Trabajando', waiting: 'Te espera', blocked: 'Bloqueado', done: 'Hecho', tired: 'Sin energía', sleeping: 'Durmiendo' };
+    const AGENTS = [
+      { id: 'ventas', name: 'Ventas', state: 'waiting', title: 'Ventas te espera', detail: 'Quiere enviar 12 correos de seguimiento a los clientes de noviembre.', primary: 'Aprobar envío', secondary: 'Ver correos' },
+      { id: 'soporte', name: 'Soporte', state: 'working', title: 'Soporte está trabajando', detail: 'Va por el ticket 18 de 40 y responde con el tono de tu marca.', primary: 'Ver progreso', secondary: 'Pausar' },
+      { id: 'facturas', name: 'Facturas', state: 'tired', title: 'Facturas se quedó sin energía', detail: 'Llegó al límite diario de la API del banco. Sigue mañana a las 00:00.', primary: 'Revisar límites', secondary: 'Avisarme' },
+      { id: 'agenda', name: 'Agenda', state: 'done', title: 'Agenda terminó', detail: 'Movió 3 reuniones para dejarte libre el jueves por la tarde.', primary: 'Ver cambios', secondary: 'Deshacer' },
+      { id: 'research', name: 'Research', state: 'thinking', title: 'Research está pensando', detail: 'Prepara un plan para comparar 5 licitaciones nuevas.', primary: 'Ver plan', secondary: 'Darle contexto' },
+      { id: 'redes', name: 'Redes', state: 'working', title: 'Redes está trabajando', detail: 'Programa las publicaciones de la semana en tres cuentas.', primary: 'Ver progreso', secondary: 'Pausar' },
+      { id: 'legal', name: 'Legal', state: 'sleeping', title: 'Legal está durmiendo', detail: 'Se despierta cuando llegue un contrato nuevo a tu correo.', primary: 'Despertar', secondary: 'Ajustes' },
+      { id: 'datos', name: 'Datos', state: 'blocked', title: 'Datos está bloqueado', detail: 'Perdió el acceso a la base de datos: la credencial caducó.', primary: 'Renovar acceso', secondary: 'Ver error' },
+      { id: 'correo', name: 'Correo', state: 'waiting', title: 'Correo te espera', detail: 'Tiene 2 borradores listos para que los revises antes de enviar.', primary: 'Revisar borradores', secondary: 'Más tarde' }
+    ];
+    const WORLDS = {
+      oficina: { name: 'Oficina', bg: '#FFFFFF', shelf: '#D9DCEE', sel: '#EEF0FB', name1: '#15173A', sub: '#4B4F7A' },
+      jardin: { name: 'Jardín', bg: '#DDF3E4', shelf: '#9FD3AF', sel: '#C6EAD1', name1: '#15173A', sub: '#2F5A3E' },
+      orbita: { name: 'Órbita', bg: '#1C1F5C', shelf: '#3A3F8F', sel: '#2E337A', name1: '#FFFFFF', sub: '#C7C9F5' }
+    };
+    const s = this.state || {};
+    const sel = s.sel || 'ventas';
+    const worldId = s.world || 'oficina';
+    const W = WORLDS[worldId];
+    const count = (k) => AGENTS.filter((a) => a.state === k).length;
+    const waiting = count('waiting');
+    const parts = [];
+    if (count('working')) parts.push(count('working') + ' trabajando');
+    if (count('blocked')) parts.push(count('blocked') + ' bloqueado');
+    if (count('tired')) parts.push(count('tired') + ' sin energía');
+    return {
+      headline: waiting === 1 ? '1 agente te espera' : waiting + ' agentes te esperan',
+      subline: parts.join(', '),
+      vitrinaBg: W.bg,
+      shelf: W.shelf,
+      nameColor: W.name1,
+      subColor: W.sub,
+      worlds: ['oficina', 'jardin', 'orbita'].map((id) => ({
+        name: WORLDS[id].name,
+        pick: () => this.setState({ world: id }),
+        pressed: id === worldId ? 'true' : 'false',
+        bg: id === worldId ? '#15173A' : '#FFFFFF',
+        fg: id === worldId ? '#FFFFFF' : '#15173A',
+        border: id === worldId ? '#15173A' : '#D9DCEE'
+      })),
+      agents: AGENTS.map((a) => ({
+        name: a.name,
+        state: a.state,
+        word: WORD[a.state],
+        pick: () => this.setState({ sel: a.id }),
+        pressed: a.id === sel ? 'true' : 'false',
+        cellBg: a.id === sel ? W.sel : 'transparent'
+      })),
+      cur: AGENTS.find((a) => a.id === sel) || AGENTS[0]
+    };
+  }
+}
+</script>
+</body>
+</html>

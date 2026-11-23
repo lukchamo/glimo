@@ -1,0 +1,51 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "glimo",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-11-20",
+  "upload_source_maps": true,
+  "workers_dev": false,
+  "preview_urls": false,
+  "observability": { "enabled": true },
+
+  // glimo.dev: the site (static assets) and this Worker on the same origin.
+  "routes": [{ "pattern": "glimo.dev", "custom_domain": true }],
+
+  // The web app is built by apps/web. Only these paths run Worker code first.
+  "assets": {
+    "directory": "../../apps/web/dist",
+    "binding": "ASSETS",
+    "html_handling": "auto-trailing-slash",
+    "not_found_handling": "404-page",
+    "run_worker_first": ["/api/*", "/mcp/*", "/v", "/v/*"]
+  },
+
+  // One Durable Object per vitrina: live status and the WebSocket channel.
+  "durable_objects": {
+    "bindings": [{ "name": "VITRINA", "class_name": "Vitrina" }]
+  },
+  "migrations": [{ "tag": "v1", "new_sqlite_classes": ["Vitrina"] }],
+
+  // D1 through Drizzle: skills catalog, vitrina index, audit log.
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "glimo",
+      "database_id": "db5bc275-47c6-4cc7-87e5-6b94095afcc7",
+      "migrations_dir": "migrations"
+    }
+  ],
+
+  // Per Cloudflare location, approximate. Keys: client IP (create, read) and vitrina id (write).
+  "ratelimits": [
+    { "name": "RL_CREATE", "namespace_id": "4301", "simple": { "limit": 10, "period": 60 } },
+    { "name": "RL_WRITE", "namespace_id": "4302", "simple": { "limit": 300, "period": 60 } },
+    { "name": "RL_READ", "namespace_id": "4303", "simple": { "limit": 600, "period": 60 } }
+  ],
+
+  "vars": {
+    // Hours without activity before a hosted vitrina is deleted.
+    "VITRINA_TTL_HOURS": "168"
+  }
+  // Secret (not in this file): ID_SECRET, set with `wrangler secret put ID_SECRET`.
+}

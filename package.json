@@ -1,0 +1,33 @@
+{
+  "name": "glimo-monorepo",
+  "private": true,
+  "description": "Glimo: your agents, at a glance. Open source engine that shows AI agents as living avatars whose expression is their real status.",
+  "license": "Apache-2.0",
+  "packageManager": "pnpm@10.28.0",
+  "engines": {
+    "node": ">=22.12"
+  },
+  "scripts": {
+    "dev": "pnpm --filter @glimo/web build && pnpm --filter @glimo/edge db:migrate:local && pnpm --filter @glimo/edge dev",
+    "dev:web": "pnpm --filter @glimo/web dev",
+    "build": "turbo run build",
+    "test": "turbo run test",
+    "test:unit": "turbo run test --filter=@glimo/spec --filter=@glimo/glim --filter=glimo",
+    "typecheck": "turbo run typecheck",
+    "lint": "biome check .",
+    "format": "biome check --write .",
+    "check": "biome check . && turbo run typecheck test",
+    "e2e": "pnpm --filter @glimo/web e2e",
+    "smoke": "node scripts/smoke.mjs",
+    "pentest": "node scripts/pentest.mjs",
+    "db:generate": "pnpm --filter @glimo/edge db:generate",
+    "db:migrate:local": "pnpm --filter @glimo/edge db:migrate:local",
+    "db:migrate:remote": "pnpm --filter @glimo/edge db:migrate:remote",
+    "deploy": "pnpm --filter @glimo/web build && pnpm --filter @glimo/edge run deploy"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.6.8",
+    "turbo": "^2.11.13",
+    "typescript": "^7.0.2"
+  }
+}

@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /v/
+Disallow: /api/
+Disallow: /mcp/
+
+Sitemap: https://glimo.dev/sitemap.xml

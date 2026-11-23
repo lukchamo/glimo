@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" width="240" height="240" role="img" aria-label="Glim: Trabajando">
+  <clipPath id="working-clip"><path d="M111 53 H111 A101 108.46 0 0 1 212 161.46 V161.46 A88.88 78.54 0 0 1 123.12 240 H98.88 A88.88 78.54 0 0 1 10 161.46 V161.46 A101 108.46 0 0 1 111 53 Z"/></clipPath>
+  <path d="M111 53 H111 A101 108.46 0 0 1 212 161.46 V161.46 A88.88 78.54 0 0 1 123.12 240 H98.88 A88.88 78.54 0 0 1 10 161.46 V161.46 A101 108.46 0 0 1 111 53 Z" fill="#FF8A3D"/>
+  <path d="M111 53 H111 A101 108.46 0 0 1 212 161.46 V161.46 A88.88 78.54 0 0 1 123.12 240 H98.88 A88.88 78.54 0 0 1 10 161.46 V161.46 A101 108.46 0 0 1 111 53 Z" fill="#15173A" fill-opacity="0.14"/>
+  <g clip-path="url(#working-clip)"><path d="M111 53 H111 A101 108.46 0 0 1 212 161.46 V161.46 A88.88 78.54 0 0 1 123.12 240 H98.88 A88.88 78.54 0 0 1 10 161.46 V161.46 A101 108.46 0 0 1 111 53 Z" fill="#FF8A3D" transform="translate(-14 -14)"/></g>
+  <ellipse cx="76.5" cy="135" rx="15.5" ry="8" fill="#15173A"/>
+  <ellipse cx="145.5" cy="135" rx="15.5" ry="8" fill="#15173A"/>
+  <circle cx="206" cy="34" r="24" fill="none" stroke="#15173A" stroke-opacity="0.18" stroke-width="10"/>
+  <path d="M189.03 17.03 A24 24 0 0 1 222.97 50.97" fill="none" stroke="#15173A" stroke-width="10"/>
+</svg>

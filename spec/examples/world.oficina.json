@@ -1,0 +1,31 @@
+{
+  "id": "oficina",
+  "name": "Oficina",
+  "description": "Para equipos: cada agente en su puesto.",
+  "background": "fondo.svg",
+  "colors": { "ground": "#FFFFFF", "shelf": "#D9DCEE", "text": "#15173A" },
+  "zones": [
+    { "id": "escritorios", "label": "Escritorios", "x": 2, "y": 3, "w": 46, "h": 50 },
+    { "id": "reuniones", "label": "Sala de reuniones", "x": 50, "y": 3, "w": 48, "h": 50 },
+    { "id": "cocina", "label": "Cocina", "x": 2, "y": 55, "w": 28, "h": 42 },
+    { "id": "sofa", "label": "Sofá", "x": 32, "y": 55, "w": 32, "h": 42 },
+    { "id": "archivo", "label": "Archivo", "x": 66, "y": 55, "w": 32, "h": 42 }
+  ],
+  "spots": [
+    { "id": "desk-1", "zone": "escritorios", "x": 4, "y": 9, "activity": "desk" },
+    { "id": "desk-2", "zone": "escritorios", "x": 18.5, "y": 16, "activity": "desk" },
+    { "id": "desk-3", "zone": "escritorios", "x": 33, "y": 16, "activity": "phone" },
+    { "id": "meeting-1", "zone": "reuniones", "x": 52.5, "y": 9, "activity": "meeting" },
+    { "id": "meeting-2", "zone": "reuniones", "x": 66, "y": 9, "activity": "meeting" },
+    { "id": "board", "zone": "reuniones", "x": 82, "y": 14, "activity": "board" },
+    { "id": "coffee", "zone": "cocina", "x": 7, "y": 61, "activity": "coffee" },
+    { "id": "sofa", "zone": "sofa", "x": 41, "y": 64, "activity": "sofa" },
+    { "id": "archivo", "zone": "archivo", "x": 73, "y": 60, "activity": "door" }
+  ],
+  "rules": {
+    "tired": "coffee",
+    "sleeping": "sofa",
+    "blocked": "archivo"
+  },
+  "mobile": "movil.json"
+}

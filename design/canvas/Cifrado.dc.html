@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Glimo, alta con frase de cifrado</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&family=Unbounded:wght@500;600;700;800&display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#2B34D6}a:hover{color:#15173A}
+button:focus-visible,a:focus-visible,input:focus-visible{outline:3px solid #2B34D6;outline-offset:2px}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; box-sizing: border-box; background: #F3F4FB; font-family: Figtree, system-ui, sans-serif; color: #15173A; display: flex; flex-direction: column; padding: 16px 20px 24px; gap: 18px">
+
+  <div style="display: flex; align-items: center; gap: 12px; min-height: 44px">
+    <sc-if value="{{canBack}}" hint-placeholder-val="{{ false }}">
+      <button type="button" onClick="{{back}}" aria-label="Volver" style="width: 44px; height: 44px; border-radius: 50%; border: 1px solid #D9DCEE; background: #FFFFFF; display: flex; align-items: center; justify-content: center; cursor: pointer">
+        <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#15173A" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"></path></svg>
+      </button>
+    </sc-if>
+    <div style="flex: 1; display: flex; flex-direction: column; gap: 6px">
+      <span style="font-size: 13px; font-weight: 600; color: #4B4F7A">Paso {{step}} de 4</span>
+      <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px" aria-hidden="true">
+        <sc-for list="{{bars}}" as="b" hint-placeholder-count="4">
+          <span style="height: 6px; border-radius: 3px; background: {{b.c}}"></span>
+        </sc-for>
+      </div>
+    </div>
+  </div>
+
+  <sc-if value="{{s1}}" hint-placeholder-val="{{ true }}">
+    <div style="flex: 1; display: flex; flex-direction: column; gap: 16px">
+      <dc-import name="Glim" state="thinking" size="84" hint-size="84px,84px"></dc-import>
+      <h1 style="margin: 0; font-family: Unbounded, system-ui, sans-serif; font-weight: 600; font-size: 26px; line-height: 1.15">¿Quién piensa por tus glims?</h1>
+      <p style="margin: 0; font-size: 16px; line-height: 1.5; color: #2C2F5A">Elige el cerebro. Puedes cambiarlo cuando quieras.</p>
+      <div role="radiogroup" aria-label="Cerebro" style="display: flex; flex-direction: column; gap: 10px">
+        <sc-for list="{{brains}}" as="o" hint-placeholder-count="3">
+          <button type="button" role="radio" aria-checked="{{o.checked}}" onClick="{{o.pick}}" style="text-align: left; border: 2px solid {{o.border}}; background: #FFFFFF; border-radius: 20px; padding: 14px 16px; display: flex; gap: 12px; align-items: flex-start; cursor: pointer; font-family: inherit; color: #15173A">
+            <span aria-hidden="true" style="width: 20px; height: 20px; flex-shrink: 0; margin-top: 2px; box-sizing: border-box; border-radius: 50%; border: 2px solid {{o.border}}; display: flex; align-items: center; justify-content: center">
+              <span style="width: 10px; height: 10px; border-radius: 50%; background: {{o.dot}}"></span>
+            </span>
+            <span style="display: flex; flex-direction: column; gap: 3px">
+              <span style="font-size: 16px; font-weight: 700">{{o.title}}</span>
+              <span style="font-size: 14px; line-height: 1.4; color: #4B4F7A">{{o.desc}}</span>
+            </span>
+          </button>
+        </sc-for>
+      </div>
+      <button type="button" onClick="{{next}}" style="margin-top: auto; height: 52px; border: none; border-radius: 16px; background: #2B34D6; color: #FFFFFF; font-family: inherit; font-size: 16px; font-weight: 700; cursor: pointer">Continuar</button>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{s2}}" hint-placeholder-val="{{ false }}">
+    <div style="flex: 1; display: flex; flex-direction: column; gap: 14px">
+      <h1 style="margin: 0; font-family: Unbounded, system-ui, sans-serif; font-weight: 600; font-size: 26px; line-height: 1.15">Tu frase de cifrado</h1>
+      <p style="margin: 0; font-size: 16px; line-height: 1.5; color: #2C2F5A">Estas 12 palabras son la única llave de tus datos. Glimo no las guarda y no puede recuperarlas si las pierdes.</p>
+      <ol aria-label="Frase de 12 palabras" style="margin: 0; padding: 14px; list-style: none; background: #15173A; border-radius: 22px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px">
+        <sc-for list="{{words}}" as="w" hint-placeholder-count="12">
+          <li style="background: #23266E; border-radius: 12px; padding: 9px 8px; display: flex; align-items: baseline; gap: 6px; color: #FFFFFF">
+            <span style="font-size: 12px; color: #C7C9F5; min-width: 16px">{{w.n}}</span>
+            <span style="font-size: 15px; font-weight: 700">{{w.word}}</span>
+          </li>
+        </sc-for>
+      </ol>
+      <div style="display: flex; gap: 8px">
+        <button type="button" style="flex: 1; height: 44px; border: 1px solid #D9DCEE; border-radius: 14px; background: #FFFFFF; font-family: inherit; font-size: 15px; font-weight: 600; color: #15173A; cursor: pointer">Copiar</button>
+        <button type="button" style="flex: 1; height: 44px; border: 1px solid #D9DCEE; border-radius: 14px; background: #FFFFFF; font-family: inherit; font-size: 15px; font-weight: 600; color: #15173A; cursor: pointer">Imprimir</button>
+      </div>
+      <label style="display: flex; gap: 12px; align-items: flex-start; font-size: 15px; line-height: 1.4; cursor: pointer; padding: 6px 0">
+        <input type="checkbox" checked="{{saved}}" onChange="{{toggleSaved}}" style="width: 22px; height: 22px; margin: 0; flex-shrink: 0; accent-color: #2B34D6">
+        La guardé en un lugar seguro, fuera de este móvil. Entiendo que si la pierdo, pierdo mis datos.
+      </label>
+      <button type="button" onClick="{{next}}" disabled="{{notSaved}}" style="margin-top: auto; height: 52px; border: none; border-radius: 16px; background: {{saveBtnBg}}; color: #FFFFFF; font-family: inherit; font-size: 16px; font-weight: 700; cursor: pointer">Ya la guardé</button>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{s3}}" hint-placeholder-val="{{ false }}">
+    <div style="flex: 1; display: flex; flex-direction: column; gap: 16px">
+      <dc-import name="Glim" state="{{checkState}}" size="84" hint-size="84px,84px"></dc-import>
+      <h1 style="margin: 0; font-family: Unbounded, system-ui, sans-serif; font-weight: 600; font-size: 26px; line-height: 1.15">Comprueba que la guardaste</h1>
+      <p style="margin: 0; font-size: 16px; line-height: 1.5; color: #2C2F5A">Mira tu copia, no la pantalla anterior. ¿Cuál es la palabra número 4?</p>
+      <div role="group" aria-label="Opciones" style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px">
+        <sc-for list="{{options}}" as="o" hint-placeholder-count="4">
+          <button type="button" onClick="{{o.pick}}" aria-pressed="{{o.pressed}}" style="height: 56px; border: 2px solid {{o.border}}; border-radius: 16px; background: {{o.bg}}; font-family: inherit; font-size: 17px; font-weight: 700; color: #15173A; cursor: pointer">{{o.word}}</button>
+        </sc-for>
+      </div>
+      <p aria-live="polite" style="margin: 0; min-height: 22px; font-size: 15px; font-weight: 600; color: {{feedbackColor}}">{{feedback}}</p>
+      <button type="button" onClick="{{next}}" disabled="{{notRight}}" style="margin-top: auto; height: 52px; border: none; border-radius: 16px; background: {{checkBtnBg}}; color: #FFFFFF; font-family: inherit; font-size: 16px; font-weight: 700; cursor: pointer">Continuar</button>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{s4}}" hint-placeholder-val="{{ false }}">
+    <div style="flex: 1; display: flex; flex-direction: column; gap: 16px">
+      <dc-import name="Glim" state="done" size="104" hint-size="104px,104px"></dc-import>
+      <h1 style="margin: 0; font-family: Unbounded, system-ui, sans-serif; font-weight: 600; font-size: 26px; line-height: 1.15">Listo. Todo va cifrado.</h1>
+      <ul style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 10px">
+        <li style="background: #FFFFFF; border-radius: 18px; padding: 14px 16px; display: flex; gap: 12px; align-items: flex-start">
+          <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2B34D6" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0"><rect x="5" y="11" width="14" height="10" rx="2"></rect><path d="M8 11V8a4 4 0 0 1 8 0v3"></path></svg>
+          <span style="font-size: 15px; line-height: 1.45">Tus datos, memorias y pensamientos se cifran en este dispositivo con tu frase.</span>
+        </li>
+        <li style="background: #FFFFFF; border-radius: 18px; padding: 14px 16px; display: flex; gap: 12px; align-items: flex-start">
+          <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2B34D6" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0"><path d="M4 12a8 8 0 0 1 14-5.3M20 12a8 8 0 0 1-14 5.3"></path><path d="M18 3v4h-4M6 21v-4h4"></path></svg>
+          <span style="font-size: 15px; line-height: 1.45">Se sincronizan cifrados entre tus equipos. Nadie en Glimo puede leerlos.</span>
+        </li>
+        <li style="background: #FFFFFF; border-radius: 18px; padding: 14px 16px; display: flex; gap: 12px; align-items: flex-start">
+          <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2B34D6" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0"><path d="M12 3a6 6 0 0 0-6 6c0 2.2 1.2 3.6 2 4.5V17h8v-3.5c.8-.9 2-2.3 2-4.5a6 6 0 0 0-6-6z"></path><path d="M9 21h6"></path></svg>
+          <span style="font-size: 15px; line-height: 1.45">Para pensar, tu glim envía a {{brainName}} solo lo que cada tarea necesita.</span>
+        </li>
+      </ul>
+      <a href="App.dc.html" style="margin-top: auto; height: 52px; border-radius: 16px; background: #2B34D6; color: #FFFFFF; font-size: 16px; font-weight: 700; text-decoration: none; display: flex; align-items: center; justify-content: center">Abrir mi vitrina</a>
+    </div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const s = this.state || {};
+    const step = s.step || 1;
+    const brain = s.brain || 'sub';
+    const saved = !!s.saved;
+    const picked = s.picked || '';
+    const WORDS = ['faro', 'mango', 'tinta', 'nube', 'puerto', 'salsa', 'cobre', 'lento', 'ruta', 'avena', 'globo', 'trueno'];
+    const BRAINS = [
+      { id: 'sub', title: 'Claude, con tu plan de pago', desc: 'Usa el crédito mensual para agentes que trae tu suscripción.', name: 'Claude' },
+      { id: 'api', title: 'Claude, con clave de API', desc: 'Pagas solo lo que usan tus glims.', name: 'Claude' },
+      { id: 'local', title: 'Tu propio modelo, open source', desc: 'Corre en tu equipo. Nada sale de tu casa.', name: 'tu modelo local' }
+    ];
+    const right = picked === 'nube';
+    const go = (n) => () => this.setState({ step: n });
+    return {
+      step: step,
+      s1: step === 1, s2: step === 2, s3: step === 3, s4: step === 4,
+      canBack: step > 1 && step < 4,
+      back: go(Math.max(1, step - 1)),
+      next: go(Math.min(4, step + 1)),
+      bars: [1, 2, 3, 4].map((n) => ({ c: n <= step ? '#2B34D6' : '#D9DCEE' })),
+      brains: BRAINS.map((b) => ({
+        title: b.title, desc: b.desc,
+        checked: b.id === brain ? 'true' : 'false',
+        border: b.id === brain ? '#2B34D6' : '#D9DCEE',
+        dot: b.id === brain ? '#2B34D6' : 'transparent',
+        pick: () => this.setState({ brain: b.id })
+      })),
+      brainName: (BRAINS.find((b) => b.id === brain) || BRAINS[0]).name,
+      words: WORDS.map((w, i) => ({ n: i + 1, word: w })),
+      saved: saved,
+      notSaved: !saved,
+      toggleSaved: () => this.setState({ saved: !saved }),
+      saveBtnBg: saved ? '#2B34D6' : '#9EA3D9',
+      options: ['puerto', 'nube', 'globo', 'salsa'].map((w) => ({
+        word: w,
+        pressed: w === picked ? 'true' : 'false',
+        border: w === picked ? (right ? '#2B34D6' : '#F0525A') : '#D9DCEE',
+        bg: w === picked ? (right ? '#E4E6FB' : '#FDE2E3') : '#FFFFFF',
+        pick: () => this.setState({ picked: w })
+      })),
+      checkState: !picked ? 'thinking' : (right ? 'done' : 'blocked'),
+      feedback: !picked ? '' : (right ? 'Correcto. Tu copia está bien.' : 'Esa es la palabra ' + (WORDS.indexOf(picked) + 1) + '. Revisa tu copia.'),
+      feedbackColor: right ? '#2B34D6' : '#B42318',
+      notRight: !right,
+      checkBtnBg: right ? '#2B34D6' : '#9EA3D9'
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,65 @@
+name: Bug
+description: Something does not work the way the docs say.
+title: "bug: "
+labels: [bug]
+body:
+  - type: dropdown
+    id: area
+    attributes:
+      label: Where
+      options:
+        - glimo.dev (hosted vitrina, playground)
+        - "@glimo/glim (component)"
+        - "@glimo/spec (validator)"
+        - glimo CLI
+        - MCP endpoint
+        - Self-hosted deployment
+        - Docs
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      description: Package version, or "hosted" with the date.
+      placeholder: "0.1.0"
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: The smallest sequence that shows it. A curl command or a status JSON is ideal.
+      placeholder: |
+        1. curl -X POST …
+        2. Open …
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What you expected
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: What happened
+      description: Include the exact error message. Remove keys (gk_…) and vitrina addresses.
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Environment
+      description: Browser and device, or MCP client and version, or Node version.
+      placeholder: "Claude Code 2.x on macOS, Safari 27 on iPhone"
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before sending
+      options:
+        - label: I searched existing issues.
+          required: true
+        - label: This is not a security vulnerability (those go through SECURITY.md).
+          required: true

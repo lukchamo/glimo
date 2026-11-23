@@ -1,0 +1,13 @@
+{
+  "spec": "glimo/0.1",
+  "agent": { "id": "datos", "name": "Datos" },
+  "state": "blocked",
+  "reason": "auth-error",
+  "say": "Su credencial caducó",
+  "actions": [
+    { "id": "renew-access", "label": "Renovar acceso", "kind": "primary", "sensitive": true },
+    { "id": "open", "label": "Ver error", "kind": "secondary" }
+  ],
+  "world": { "id": "oficina", "spot": "archivo", "activity": "door" },
+  "updatedAt": "2026-11-23T10:15:00Z"
+}

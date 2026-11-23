@@ -1,0 +1,775 @@
+/*
+ * Glim styles. Sizes are in em: the root font-size is the glim size in px.
+ *
+ * Animation rules (see docs/animation-performance.md):
+ *   · only `translate`, `scale`, `rotate` and `opacity` are animated: compositor only
+ *   · each kind of motion owns one element and one property, so they never fight:
+ *       .glim          scale/translate  → pointer reactions (hover, press)
+ *       .glim__actor   translate/scale/rotate → the state's own motion (hop, shake, bob…)
+ *       .glim__body    scale            → breathing
+ *       .glim__face    translate        → gaze (written by life.ts)
+ *       .glim__face    scale            → blinking (both eyes share one layer)
+ *       .glim__badge   scale/opacity/rotate → signal entrance and idle motion
+ *   · every glim has its own rhythm (--glim-blink, --glim-breathe…) so they never sync
+ *   · off-screen glims are paused, reduced motion removes everything
+ *   · <html data-glim-motion="off"> pauses every glim (WCAG 2.2.2 pause/stop/hide)
+ *   · squash and stretch keep the volume: scaleX × scaleY stays close to 1
+ */
+
+.glim {
+  --glim-ink: #15173a;
+  --glim-eye: var(--glim-ink);
+  /* Signal (badge) colours. Dark worlds flip them: see .glim-on-dark below. */
+  --glim-signal: var(--glim-ink);
+  --glim-signal-on: #ffffff;
+  --glim-signal-accent: #ffd43b;
+  --glim-signal-soft: rgb(21 23 58 / 0.18);
+
+  --glim-c-idle: #ffffff;
+  --glim-c-thinking: #b9a6ff;
+  --glim-c-working: #ff8a3d;
+  --glim-c-waiting: #ffd43b;
+  --glim-c-blocked: #f0525a;
+  --glim-c-done: #5bc7f5;
+  --glim-c-tired: #8e93b5;
+  --glim-c-sleeping: #c9cde3;
+
+  --glim-stroke: max(2px, 0.04em);
+  --glim-shade: max(2px, 0.06em);
+  --glim-look-x: 0px;
+  --glim-look-y: 0px;
+  --glim-blink: 5s;
+  --glim-blink-delay: 0s;
+  --glim-breathe: 4s;
+  --glim-breathe-delay: 0s;
+
+  /* Springs. cubic-bezier fallbacks first, real springs where linear() exists. */
+  --glim-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --glim-spring-soft: cubic-bezier(0.3, 1.3, 0.6, 1);
+
+  position: relative;
+  display: inline-block;
+  flex: none;
+  width: 1em;
+  height: 1em;
+  line-height: 1;
+  vertical-align: bottom;
+  transform-origin: 50% 100%;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+
+@supports (transition-timing-function: linear(0, 1)) {
+  .glim {
+    /* Damped springs sampled as linear(): ζ 0.5, ω 16 (700 ms) and ζ 0.7, ω 16 (450 ms). */
+    --glim-spring: linear(
+      0,
+      0.027 2.1%,
+      0.097 4.3%,
+      0.237 7.1%,
+      0.741 15.7%,
+      0.913 19.3%,
+      1.039 22.9%,
+      1.119 26.4%,
+      1.157 30%,
+      1.16 34.3%,
+      1.106 41.4%,
+      1.007 52.9%,
+      0.976 61.4%,
+      0.988 77.1%,
+      1.004 99.3%,
+      1
+    );
+    --glim-spring-soft: linear(
+      0,
+      0.012 2.2%,
+      0.066 5.6%,
+      0.183 10%,
+      0.606 23.3%,
+      0.752 28.9%,
+      0.866 34.4%,
+      0.947 40%,
+      1.007 46.7%,
+      1.039 54.4%,
+      1.043 66.7%,
+      1
+    );
+  }
+}
+
+/* On dark surfaces (Orbit, immersive) the signal flips to white so it stays readable. */
+.glim-on-dark .glim,
+.glim.glim-on-dark {
+  --glim-signal: #ffffff;
+  --glim-signal-on: var(--glim-ink);
+  --glim-signal-accent: var(--glim-ink);
+  --glim-signal-soft: rgb(255 255 255 / 0.28);
+}
+
+.glim[data-state="idle"] {
+  --glim-body: var(--glim-c-idle);
+}
+.glim[data-state="thinking"] {
+  --glim-body: var(--glim-c-thinking);
+  --glim-look-x: 0.05em;
+  --glim-look-y: -0.05em;
+}
+.glim[data-state="working"] {
+  --glim-body: var(--glim-c-working);
+  --glim-look-y: 0.03em;
+}
+.glim[data-state="waiting"] {
+  --glim-body: var(--glim-c-waiting);
+}
+.glim[data-state="blocked"] {
+  --glim-body: var(--glim-c-blocked);
+}
+.glim[data-state="done"] {
+  --glim-body: var(--glim-c-done);
+}
+.glim[data-state="tired"] {
+  --glim-body: var(--glim-c-tired);
+}
+.glim[data-state="sleeping"] {
+  --glim-body: var(--glim-c-sleeping);
+}
+
+/* ---------- Anatomy ---------- */
+
+.glim__actor {
+  position: absolute;
+  inset: 0;
+  transform-origin: 50% 100%;
+}
+
+.glim__body {
+  position: absolute;
+  left: 0.04em;
+  bottom: 0;
+  width: 0.84em;
+  height: 0.78em;
+  background: var(--glim-body);
+  border-radius: 50% 50% 44% 44% / 58% 58% 42% 42%;
+  box-shadow: inset calc(-1 * var(--glim-shade)) calc(-1 * var(--glim-shade)) 0 rgb(21 23 58 / 0.14);
+  transform-origin: 50% 100%;
+}
+
+/* A white body needs an outline to exist on a white shelf. */
+.glim[data-state="idle"]:not([data-custom-body]) .glim__body {
+  box-shadow:
+    inset calc(-1 * var(--glim-shade)) calc(-1 * var(--glim-shade)) 0 rgb(21 23 58 / 0.14),
+    0 0 0 max(1px, 0.012em) rgb(21 23 58 / 0.2);
+}
+
+/* Previous colour, cross-faded with opacity instead of animating background-color. */
+.glim__fade {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: inherit;
+  opacity: 0;
+  pointer-events: none;
+  animation: glim-fade 380ms ease-out;
+}
+.glim__fade[data-from="idle"] {
+  background: var(--glim-c-idle);
+}
+.glim__fade[data-from="thinking"] {
+  background: var(--glim-c-thinking);
+}
+.glim__fade[data-from="working"] {
+  background: var(--glim-c-working);
+}
+.glim__fade[data-from="waiting"] {
+  background: var(--glim-c-waiting);
+}
+.glim__fade[data-from="blocked"] {
+  background: var(--glim-c-blocked);
+}
+.glim__fade[data-from="done"] {
+  background: var(--glim-c-done);
+}
+.glim__fade[data-from="tired"] {
+  background: var(--glim-c-tired);
+}
+.glim__fade[data-from="sleeping"] {
+  background: var(--glim-c-sleeping);
+}
+
+.glim__face {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 36%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.16em;
+  translate: var(--glim-look-x) var(--glim-look-y);
+}
+
+.glim__eye {
+  position: relative;
+  flex: none;
+  background: var(--glim-eye);
+}
+
+/* ---------- Eyes: the shape is the state ---------- */
+
+.glim__face[data-eyes="dot"] > .glim__eye {
+  width: 0.11em;
+  height: 0.11em;
+  border-radius: 50%;
+}
+.glim__face[data-eyes="line"] > .glim__eye {
+  width: 0.14em;
+  height: var(--glim-stroke);
+  border-radius: var(--glim-stroke);
+}
+.glim__face[data-eyes="focus"] > .glim__eye {
+  width: 0.13em;
+  height: 0.065em;
+  border-radius: 50%;
+}
+.glim__face[data-eyes="droop"] > .glim__eye {
+  width: 0.13em;
+  height: 0.07em;
+  border-radius: 0 0 0.13em 0.13em;
+}
+.glim__face[data-eyes="happy"] {
+  align-items: flex-end;
+}
+.glim__face[data-eyes="happy"] > .glim__eye {
+  box-sizing: border-box;
+  width: 0.15em;
+  height: 0.08em;
+  background: none;
+  border: var(--glim-stroke) solid var(--glim-eye);
+  border-bottom: none;
+  border-radius: 0.15em 0.15em 0 0;
+}
+.glim__face[data-eyes="big"] {
+  gap: 0.08em;
+}
+.glim__face[data-eyes="big"] > .glim__eye {
+  width: 0.2em;
+  height: 0.2em;
+  border-radius: 50%;
+  background: #ffffff;
+  box-shadow: 0 0 0 max(1px, 0.008em) rgb(21 23 58 / 0.22);
+}
+.glim__face[data-eyes="big"] > .glim__eye::before {
+  content: "";
+  position: absolute;
+  inset: 25%;
+  border-radius: 50%;
+  background: var(--glim-eye);
+}
+.glim__face[data-eyes="x"] > .glim__eye {
+  width: 0.14em;
+  height: 0.14em;
+  background: none;
+}
+.glim__face[data-eyes="x"] > .glim__eye::before,
+.glim__face[data-eyes="x"] > .glim__eye::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: calc(50% - var(--glim-stroke) / 2);
+  width: 100%;
+  height: var(--glim-stroke);
+  border-radius: var(--glim-stroke);
+  background: var(--glim-eye);
+  rotate: 45deg;
+}
+.glim__face[data-eyes="x"] > .glim__eye::after {
+  rotate: -45deg;
+}
+
+/* ---------- Signals (badges) ---------- */
+
+.glim__badge {
+  position: absolute;
+  top: 0;
+  right: 0;
+  transform-origin: 20% 90%;
+}
+
+.glim__badge--bang,
+.glim__badge--check {
+  width: 0.3em;
+  height: 0.3em;
+  border-radius: 50%;
+  background: var(--glim-signal);
+}
+.glim__badge--bang::before,
+.glim__badge--bang::after {
+  content: "";
+  position: absolute;
+  background: var(--glim-signal-accent);
+}
+.glim__badge--bang::before {
+  left: calc(50% - 0.021em);
+  top: 0.066em;
+  width: 0.042em;
+  height: 0.108em;
+  border-radius: 0.021em;
+}
+.glim__badge--bang::after {
+  left: calc(50% - 0.026em);
+  top: 0.196em;
+  width: 0.052em;
+  height: 0.052em;
+  border-radius: 50%;
+}
+
+.glim__badge--check {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.glim__badge--check > svg {
+  width: 62%;
+  height: 62%;
+  stroke: var(--glim-signal-on);
+  stroke-width: 3;
+}
+
+.glim__badge--zz {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  font-family: Unbounded, system-ui, sans-serif;
+  font-weight: 700;
+  line-height: 0.9;
+  color: var(--glim-signal);
+}
+.glim__badge--zz > span:first-child {
+  font-size: 0.2em;
+}
+.glim__badge--zz > span:last-child {
+  font-size: 0.13em;
+  margin-right: 0.77em;
+}
+
+.glim__badge--think {
+  width: 0.31em;
+  height: 0.25em;
+}
+.glim__badge--think > span {
+  position: absolute;
+  border-radius: 50%;
+  background: var(--glim-signal);
+}
+.glim__badge--think > span:nth-child(1) {
+  top: 0.2em;
+  right: 0.21em;
+  width: 0.05em;
+  height: 0.05em;
+}
+.glim__badge--think > span:nth-child(2) {
+  top: 0.1em;
+  right: 0.12em;
+  width: 0.075em;
+  height: 0.075em;
+}
+.glim__badge--think > span:nth-child(3) {
+  top: 0;
+  right: 0;
+  width: 0.1em;
+  height: 0.1em;
+}
+
+.glim__badge--ring {
+  top: 0.02em;
+  right: 0.02em;
+  box-sizing: border-box;
+  width: 0.24em;
+  height: 0.24em;
+  border-radius: 50%;
+  border: var(--glim-stroke) solid var(--glim-signal-soft);
+  border-top-color: var(--glim-signal);
+  border-right-color: var(--glim-signal);
+  transform-origin: 50% 50%;
+}
+
+.glim__badge--battery {
+  top: 0.04em;
+  display: flex;
+  align-items: center;
+  gap: 1px;
+}
+.glim__badge--battery > span {
+  box-sizing: border-box;
+  display: flex;
+  width: 0.26em;
+  height: 0.15em;
+  padding: max(1px, 0.015em);
+  border: var(--glim-stroke) solid var(--glim-signal);
+  border-radius: 0.03em;
+}
+.glim__badge--battery > span::before {
+  content: "";
+  width: 24%;
+  border-radius: 1px;
+  background: var(--glim-c-blocked);
+}
+.glim__badge--battery::after {
+  content: "";
+  width: max(2px, 0.025em);
+  height: 0.06em;
+  border-radius: 0 2px 2px 0;
+  background: var(--glim-signal);
+}
+
+/* ---------- Life: neutral signs of being alive ---------- */
+
+/* Breathing. */
+.glim[data-alive] .glim__body {
+  animation: glim-breathe var(--glim-breathe) ease-in-out var(--glim-breathe-delay) infinite;
+}
+.glim[data-alive][data-state="sleeping"] .glim__body {
+  animation-name: glim-breathe-deep;
+  animation-duration: calc(var(--glim-breathe) * 1.7);
+}
+
+/* Blinking: only eyes that are open can blink. Both eyes blink as one layer. */
+.glim[data-alive] .glim__face:is([data-eyes="dot"], [data-eyes="focus"], [data-eyes="big"]) {
+  animation: glim-blink var(--glim-blink) ease-in-out var(--glim-blink-delay) infinite;
+}
+.glim[data-alive][data-blink="double"]
+  .glim__face:is([data-eyes="dot"], [data-eyes="focus"], [data-eyes="big"]) {
+  animation-name: glim-blink-double;
+}
+.glim[data-alive] .glim__face[data-eyes="droop"] {
+  animation: glim-blink-slow calc(var(--glim-blink) * 1.5) ease-in-out var(--glim-blink-delay)
+    infinite;
+}
+
+/* Pointer reactions: lift on hover, squish on press, spring back on release. */
+.glim[data-alive] {
+  transition:
+    scale 700ms var(--glim-spring),
+    translate 450ms var(--glim-spring-soft);
+}
+@media (hover: hover) {
+  .glim[data-alive]:hover,
+  :is(a, button, label, [role="button"]):hover .glim[data-alive] {
+    translate: 0 -0.04em;
+    scale: 1.05;
+  }
+}
+.glim[data-alive]:active,
+:is(a, button, label, [role="button"]):active .glim[data-alive] {
+  translate: 0 0;
+  scale: 1.1 0.9;
+  transition-duration: 110ms;
+  transition-timing-function: ease-out;
+}
+
+/* ---------- State motion: how each state carries itself ---------- */
+
+.glim[data-alive][data-state="thinking"] .glim__actor {
+  animation: glim-ponder 3.6s ease-in-out var(--glim-breathe-delay) infinite;
+}
+.glim[data-alive][data-state="working"] .glim__actor {
+  animation: glim-bob 0.64s ease-in-out var(--glim-breathe-delay) infinite alternate;
+}
+.glim[data-alive][data-state="waiting"] .glim__actor {
+  animation: glim-hop 2.8s var(--glim-breathe-delay) infinite;
+}
+.glim[data-alive][data-state="blocked"] .glim__actor {
+  animation: glim-shake 4.2s ease-in-out var(--glim-breathe-delay) infinite;
+}
+.glim[data-alive][data-state="done"] .glim__actor {
+  animation: glim-joy 1.9s ease-in-out var(--glim-breathe-delay) infinite;
+}
+.glim[data-alive][data-state="tired"] .glim__actor {
+  animation: glim-sag 5.2s ease-in-out var(--glim-breathe-delay) infinite;
+}
+
+/* Signals arrive with a spring, then keep their own small motion. */
+.glim[data-alive] .glim__badge {
+  animation: glim-badge-in 620ms var(--glim-spring) backwards;
+}
+.glim[data-alive] .glim__badge--bang {
+  animation:
+    glim-badge-in 620ms var(--glim-spring) backwards,
+    glim-bang 2.8s ease-in-out var(--glim-breathe-delay) infinite;
+}
+.glim[data-alive] .glim__badge--ring {
+  animation:
+    glim-badge-in 620ms var(--glim-spring) backwards,
+    glim-spin 1.1s linear infinite;
+}
+.glim[data-alive] .glim__badge--think > span {
+  animation: glim-bubble 1.8s ease-in-out infinite;
+}
+.glim[data-alive] .glim__badge--think > span:nth-child(2) {
+  animation-delay: 0.22s;
+}
+.glim[data-alive] .glim__badge--think > span:nth-child(3) {
+  animation-delay: 0.44s;
+}
+.glim[data-alive] .glim__badge--zz > span {
+  animation: glim-zz 3.2s ease-in-out infinite;
+}
+.glim[data-alive] .glim__badge--zz > span:last-child {
+  animation-delay: 0.9s;
+}
+.glim[data-alive] .glim__badge--battery > span::before {
+  animation: glim-low 1.5s steps(2, jump-none) infinite;
+}
+
+/* Off-screen: stop spending frames (attribute set by life.ts). */
+.glim[data-offscreen],
+.glim[data-offscreen] *,
+.glim[data-offscreen] *::before,
+.glim[data-offscreen] *::after {
+  animation-play-state: paused !important;
+}
+
+/* ---------- Keyframes ---------- */
+
+@keyframes glim-fade {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes glim-breathe {
+  0%,
+  100% {
+    scale: 1 1;
+  }
+  50% {
+    scale: 0.985 1.03;
+  }
+}
+@keyframes glim-breathe-deep {
+  0%,
+  100% {
+    scale: 1.025 0.965;
+  }
+  50% {
+    scale: 0.985 1.04;
+  }
+}
+
+/* The lid closes faster than it opens: about 60 ms down and 100 ms up on a 5 s cycle. */
+@keyframes glim-blink {
+  0%,
+  3.2%,
+  100% {
+    scale: 1 1;
+  }
+  1.2% {
+    scale: 1.04 0.08;
+  }
+}
+@keyframes glim-blink-double {
+  0%,
+  3%,
+  6%,
+  100% {
+    scale: 1 1;
+  }
+  1.2%,
+  4.2% {
+    scale: 1.04 0.08;
+  }
+}
+@keyframes glim-blink-slow {
+  0%,
+  9%,
+  100% {
+    scale: 1 1;
+  }
+  3%,
+  6% {
+    scale: 1.03 0.12;
+  }
+}
+
+@keyframes glim-ponder {
+  0%,
+  100% {
+    rotate: -2.5deg;
+  }
+  50% {
+    rotate: 2.5deg;
+  }
+}
+
+@keyframes glim-bob {
+  from {
+    translate: 0 0;
+  }
+  to {
+    translate: 0 -0.022em;
+  }
+}
+
+/* Anticipation, jump, squash on landing, small rebound. Then it waits and looks at you. */
+@keyframes glim-hop {
+  0%,
+  34%,
+  100% {
+    translate: 0 0;
+    scale: 1 1;
+  }
+  4% {
+    translate: 0 0;
+    scale: 1.08 0.9;
+    animation-timing-function: cubic-bezier(0.2, 0.7, 0.3, 1);
+  }
+  13% {
+    translate: 0 -0.15em;
+    scale: 0.95 1.07;
+    animation-timing-function: cubic-bezier(0.6, 0, 0.9, 0.4);
+  }
+  21% {
+    translate: 0 0;
+    scale: 1.1 0.9;
+    animation-timing-function: ease-out;
+  }
+  27% {
+    translate: 0 -0.04em;
+    scale: 0.98 1.03;
+    animation-timing-function: ease-in;
+  }
+}
+
+@keyframes glim-shake {
+  0%,
+  14%,
+  100% {
+    translate: 0 0;
+  }
+  2% {
+    translate: -0.035em 0;
+  }
+  5% {
+    translate: 0.035em 0;
+  }
+  8% {
+    translate: -0.025em 0;
+  }
+  11% {
+    translate: 0.02em 0;
+  }
+}
+
+@keyframes glim-joy {
+  0%,
+  100% {
+    translate: 0 0;
+    scale: 1 1;
+  }
+  50% {
+    translate: 0 -0.045em;
+    scale: 0.99 1.02;
+  }
+}
+
+@keyframes glim-sag {
+  0%,
+  100% {
+    scale: 1 1;
+    rotate: 0deg;
+  }
+  50% {
+    scale: 1.03 0.955;
+    rotate: -2deg;
+  }
+}
+
+@keyframes glim-badge-in {
+  from {
+    scale: 0.4;
+    opacity: 0;
+  }
+}
+
+/* Follow-through: the "!" keeps wobbling a moment after the hop. */
+@keyframes glim-bang {
+  0%,
+  34%,
+  100% {
+    rotate: 0deg;
+  }
+  13% {
+    rotate: 14deg;
+  }
+  21% {
+    rotate: -9deg;
+  }
+  27% {
+    rotate: 5deg;
+  }
+}
+
+@keyframes glim-spin {
+  to {
+    rotate: 360deg;
+  }
+}
+
+@keyframes glim-bubble {
+  0%,
+  100% {
+    scale: 1;
+    opacity: 1;
+  }
+  50% {
+    scale: 0.7;
+    opacity: 0.45;
+  }
+}
+
+@keyframes glim-zz {
+  0% {
+    translate: -0.3em 0.4em;
+    opacity: 0;
+  }
+  25%,
+  70% {
+    opacity: 1;
+  }
+  100% {
+    translate: 0.25em -0.5em;
+    opacity: 0;
+  }
+}
+
+@keyframes glim-low {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0.25;
+  }
+}
+
+/* ---------- Motion off: the state stays readable, the motion goes away ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .glim,
+  .glim *,
+  .glim *::before,
+  .glim *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+:root[data-glim-motion="off"] .glim,
+:root[data-glim-motion="off"] .glim *,
+:root[data-glim-motion="off"] .glim *::before,
+:root[data-glim-motion="off"] .glim *::after {
+  animation: none !important;
+  transition: none !important;
+}

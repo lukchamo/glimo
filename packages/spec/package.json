@@ -1,0 +1,56 @@
+{
+  "name": "@glimo/spec",
+  "version": "0.1.0",
+  "description": "Glimo Spec v0.1: types, validator and helpers for the status contract between any agent and a Glimo UI.",
+  "license": "Apache-2.0",
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    ".": "./src/index.ts",
+    "./schema.json": "./schema.json"
+  },
+  "publishConfig": {
+    "access": "public",
+    "exports": {
+      ".": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "./schema.json": "./schema.json"
+    }
+  },
+  "files": [
+    "dist",
+    "schema.json",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "sync": "cp ../../spec/glimo-spec.schema.json schema.json",
+    "prebuild": "pnpm run sync"
+  },
+  "dependencies": {
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@types/node": "^22.19.0",
+    "typescript": "^7.0.2",
+    "vitest": "^4.1.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lukchamo/glimo.git",
+    "directory": "packages/spec"
+  },
+  "homepage": "https://glimo.dev/spec",
+  "keywords": [
+    "glimo",
+    "agents",
+    "mcp",
+    "agent-status",
+    "avatar",
+    "status-protocol"
+  ]
+}

@@ -1,0 +1,17 @@
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+    groups:
+      dev-tooling:
+        patterns:
+          ["@biomejs/*", "turbo", "typescript", "vitest", "@playwright/*", "vite", "@vitejs/*"]
+      cloudflare:
+        patterns: ["wrangler", "@cloudflare/*"]
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly

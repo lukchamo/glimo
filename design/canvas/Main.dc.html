@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Glimo, propuesta de marca</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&family=Unbounded:wght@500;600;700;800&display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#2B34D6}a:hover{color:#15173A}
+</style>
+</helmet>
+<div style="width: 1440px; height: 1480px; box-sizing: border-box; background: #F3F4FB; font-family: Figtree, system-ui, sans-serif; color: #15173A; display: flex; flex-direction: column">
+
+  <section style="height: 560px; box-sizing: border-box; background: {{brand}}; padding: 64px 80px 56px; display: grid; grid-template-columns: 1.15fr 1fr; gap: 64px; align-items: end">
+    <div style="display: flex; flex-direction: column; gap: 24px">
+      <div style="display: flex; align-items: flex-end; gap: 4px" aria-label="glimo">
+        <span style="font-family: Unbounded, system-ui, sans-serif; font-weight: 800; font-size: 200px; line-height: 1; letter-spacing: -0.045em; color: #FFFFFF">glim</span>
+        <div style="margin-bottom: 26px">
+          <dc-import name="Glim" state="idle" size="146" body="#FFFFFF" eye="{{brand}}" badge="false" alt="La o de glimo: un glim" hint-size="146px,146px"></dc-import>
+        </div>
+      </div>
+      <p style="margin: 0; font-size: 20px; font-weight: 600; color: #DCDEFF">glimo.dev</p>
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 20px; padding-bottom: 44px">
+      <h1 style="margin: 0; font-family: Unbounded, system-ui, sans-serif; font-weight: 600; font-size: 46px; line-height: 1.08; letter-spacing: -0.02em; color: #FFFFFF; text-wrap: balance">Tus agentes, de un vistazo.</h1>
+      <p style="margin: 0; font-size: 20px; line-height: 1.5; color: #DCDEFF; max-width: 520px; text-wrap: pretty">Glimo es un motor open source que conecta tus agentes por MCP y los muestra como avatares vivos. Cada gesto es un estado real: trabajando, esperándote, bloqueado o listo.</p>
+    </div>
+  </section>
+
+  <div style="flex: 1; box-sizing: border-box; padding: 64px 80px 64px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 48px 40px; align-content: start">
+
+    <section style="display: flex; flex-direction: column; gap: 16px">
+      <h2 style="margin: 0; font-family: Unbounded, system-ui, sans-serif; font-weight: 600; font-size: 24px">La idea</h2>
+      <p style="margin: 0; font-size: 17px; line-height: 1.55; color: #2C2F5A; text-wrap: pretty">Glimo viene de <em>glimpse</em>: un vistazo. Cada agente vive como un glim, un avatar cuyo gesto cuenta lo que está haciendo. No hace falta abrir un panel: basta con mirar.</p>
+      <ul style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 12px; font-size: 16px; line-height: 1.5; color: #2C2F5A">
+        <li><strong style="color: #15173A">Un vistazo basta.</strong> El estado se entiende en un segundo, también desde el móvil.</li>
+        <li><strong style="color: #15173A">Cada gesto es un dato.</strong> Nada es decorativo: si el glim cambia, algo pasó.</li>
+        <li><strong style="color: #15173A">Abierto por defecto.</strong> Código, spec y skills que cualquiera puede usar y publicar.</li>
+      </ul>
+    </section>
+
+    <section style="grid-column: span 2; display: flex; flex-direction: column; gap: 16px">
+      <h2 style="margin: 0; font-family: Unbounded, system-ui, sans-serif; font-weight: 600; font-size: 24px">Color</h2>
+      <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px">
+        <div style="height: 120px; box-sizing: border-box; border-radius: 20px; background: {{brand}}; padding: 16px; display: flex; flex-direction: column; justify-content: flex-end; color: #FFFFFF">
+          <span style="font-size: 16px; font-weight: 700">Ultramar</span>
+          <span style="font-size: 14px">{{brand}}</span>
+        </div>
+        <div style="height: 120px; box-sizing: border-box; border-radius: 20px; background: #15173A; padding: 16px; display: flex; flex-direction: column; justify-content: flex-end; color: #FFFFFF">
+          <span style="font-size: 16px; font-weight: 700">Tinta</span>
+          <span style="font-size: 14px">#15173A</span>
+        </div>
+        <div style="height: 120px; box-sizing: border-box; border-radius: 20px; background: #F3F4FB; border: 1px solid #D9DCEE; padding: 16px; display: flex; flex-direction: column; justify-content: flex-end; color: #15173A">
+          <span style="font-size: 16px; font-weight: 700">Nube</span>
+          <span style="font-size: 14px">#F3F4FB</span>
+        </div>
+        <div style="height: 120px; box-sizing: border-box; border-radius: 20px; background: #FFFFFF; border: 1px solid #D9DCEE; padding: 16px; display: flex; flex-direction: column; justify-content: flex-end; color: #15173A">
+          <span style="font-size: 16px; font-weight: 700">Blanco</span>
+          <span style="font-size: 14px">#FFFFFF</span>
+        </div>
+      </div>
+      <p style="margin: 4px 0 0; font-size: 15px; color: #4B4F7A">Cada estado tiene su color, y siempre va con una forma de ojos distinta para no depender solo del color.</p>
+      <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px">
+        <sc-for list="{{stateColors}}" as="c" hint-placeholder-count="8">
+          <div style="background: #FFFFFF; border-radius: 16px; padding: 10px 14px 10px 10px; display: flex; align-items: center; gap: 12px">
+            <dc-import name="Glim" state="{{c.state}}" size="44" badge="false" hint-size="44px,44px"></dc-import>
+            <div style="display: flex; flex-direction: column">
+              <span style="font-size: 15px; font-weight: 700">{{c.name}}</span>
+              <span style="font-size: 13px; color: #4B4F7A">{{c.hex}}</span>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+
+    <section style="display: flex; flex-direction: column; gap: 16px">
+      <h2 style="margin: 0; font-family: Unbounded, system-ui, sans-serif; font-weight: 600; font-size: 24px">Tipografía</h2>
+      <div style="background: #FFFFFF; border-radius: 24px; padding: 24px; display: flex; flex-direction: column; gap: 20px">
+        <div style="display: flex; align-items: center; gap: 20px">
+          <span style="font-family: Unbounded, system-ui, sans-serif; font-weight: 700; font-size: 60px; line-height: 1; min-width: 104px">Aa</span>
+          <div style="display: flex; flex-direction: column; gap: 4px">
+            <span style="font-size: 16px; font-weight: 700">Unbounded</span>
+            <span style="font-size: 14px; line-height: 1.45; color: #4B4F7A">Logotipo y titulares. Redonda y ancha, con presencia a cualquier tamaño.</span>
+          </div>
+        </div>
+        <div style="height: 1px; background: #E3E5F2"></div>
+        <div style="display: flex; align-items: center; gap: 20px">
+          <span style="font-family: Figtree, system-ui, sans-serif; font-weight: 600; font-size: 60px; line-height: 1; min-width: 104px">Aa</span>
+          <div style="display: flex; flex-direction: column; gap: 4px">
+            <span style="font-size: 16px; font-weight: 700">Figtree</span>
+            <span style="font-size: 14px; line-height: 1.45; color: #4B4F7A">Texto e interfaz. Clara en pantallas pequeñas y en el reloj.</span>
+          </div>
+        </div>
+        <p style="margin: 0; font-size: 15px; line-height: 1.5; color: #2C2F5A">Ventas te espera. Soporte terminó. Facturas se quedó sin energía.</p>
+      </div>
+    </section>
+
+    <section style="display: flex; flex-direction: column; gap: 16px">
+      <h2 style="margin: 0; font-family: Unbounded, system-ui, sans-serif; font-weight: 600; font-size: 24px">Logotipo y símbolo</h2>
+      <div style="background: #FFFFFF; border-radius: 24px; padding: 28px 24px; display: flex; flex-direction: column; gap: 24px">
+        <div style="display: flex; align-items: flex-end; gap: 2px" aria-label="glimo">
+          <span style="font-family: Unbounded, system-ui, sans-serif; font-weight: 800; font-size: 72px; line-height: 1; letter-spacing: -0.045em; color: #15173A">glim</span>
+          <div style="margin-bottom: 9px">
+            <dc-import name="Glim" state="idle" size="53" body="{{brand}}" eye="#FFFFFF" badge="false" alt="La o de glimo" hint-size="53px,53px"></dc-import>
+          </div>
+        </div>
+        <div style="display: flex; align-items: flex-end; gap: 16px">
+          <div style="width: 96px; height: 96px; border-radius: 28px; background: {{brand}}; display: flex; align-items: center; justify-content: center">
+            <dc-import name="Glim" state="idle" size="62" body="#FFFFFF" eye="{{brand}}" badge="false" alt="Icono de app" hint-size="62px,62px"></dc-import>
+          </div>
+          <div style="width: 64px; height: 64px; border-radius: 19px; background: #15173A; display: flex; align-items: center; justify-content: center">
+            <dc-import name="Glim" state="idle" size="42" body="#FFFFFF" eye="#15173A" badge="false" alt="Icono sobre tinta" hint-size="42px,42px"></dc-import>
+          </div>
+          <div style="width: 40px; height: 40px; box-sizing: border-box; border-radius: 12px; background: #F3F4FB; border: 1px solid #D9DCEE; display: flex; align-items: center; justify-content: center">
+            <dc-import name="Glim" state="idle" size="26" body="{{brand}}" eye="#FFFFFF" badge="false" alt="Favicon" hint-size="26px,26px"></dc-import>
+          </div>
+        </div>
+        <p style="margin: 0; font-size: 14px; line-height: 1.5; color: #4B4F7A">El glim ocupa el lugar de la o. Como símbolo va solo, dentro de un cuadrado redondeado.</p>
+      </div>
+    </section>
+
+    <section style="display: flex; flex-direction: column; gap: 16px">
+      <h2 style="margin: 0; font-family: Unbounded, system-ui, sans-serif; font-weight: 600; font-size: 24px">Voz</h2>
+      <p style="margin: 0; font-size: 16px; line-height: 1.5; color: #2C2F5A">Habla como un compañero que avisa, no como una alarma. Primero el agente, después lo que pasa.</p>
+      <div style="display: flex; flex-direction: column; gap: 10px">
+        <sc-for list="{{voice}}" as="v" hint-placeholder-count="3">
+          <div style="background: #FFFFFF; border-radius: 18px; padding: 10px 16px 10px 10px; display: flex; align-items: center; gap: 12px">
+            <dc-import name="Glim" state="{{v.state}}" size="40" badge="false" hint-size="40px,40px"></dc-import>
+            <p style="margin: 0; font-size: 15px; line-height: 1.4"><strong>{{v.who}}</strong> {{v.what}}</p>
+          </div>
+        </sc-for>
+      </div>
+      <p style="margin: 0; font-size: 14px; line-height: 1.5; color: #4B4F7A">En vez de “Error 429: rate limit”, decimos “Facturas se quedó sin energía”.</p>
+    </section>
+
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"brand":{"editor":"color","options":["#2B34D6","#3A2BD6","#1F5FE0"],"default":"#2B34D6"},"$preview":{"width":1440,"height":1480}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      brand: this.props.brand ?? '#2B34D6',
+      stateColors: [
+        { state: 'idle', name: 'Listo', hex: '#FFFFFF' },
+        { state: 'thinking', name: 'Pensando', hex: '#B9A6FF' },
+        { state: 'working', name: 'Trabajando', hex: '#FF8A3D' },
+        { state: 'waiting', name: 'Te espera', hex: '#FFD43B' },
+        { state: 'blocked', name: 'Bloqueado', hex: '#F0525A' },
+        { state: 'done', name: 'Hecho', hex: '#5BC7F5' },
+        { state: 'tired', name: 'Sin energía', hex: '#8E93B5' },
+        { state: 'sleeping', name: 'Durmiendo', hex: '#C9CDE3' }
+      ],
+      voice: [
+        { state: 'waiting', who: 'Ventas te espera:', what: 'quiere enviar 12 correos.' },
+        { state: 'done', who: 'Soporte terminó:', what: 'cerró 34 tickets.' },
+        { state: 'tired', who: 'Facturas se quedó sin energía:', what: 'llegó al límite de la API.' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

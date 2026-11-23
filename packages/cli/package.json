@@ -1,0 +1,41 @@
+{
+  "name": "glimo",
+  "version": "0.1.0",
+  "description": "Your agents, at a glance. Show any AI agent as a living avatar whose expression is its real status. CLI and stdio MCP bridge for Glimo.",
+  "license": "Apache-2.0",
+  "type": "module",
+  "bin": {
+    "glimo": "bin/glimo.mjs"
+  },
+  "files": [
+    "bin",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "test": "vitest run",
+    "typecheck": "node --check bin/glimo.mjs"
+  },
+  "devDependencies": {
+    "vitest": "^4.1.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lukchamo/glimo.git",
+    "directory": "packages/cli"
+  },
+  "homepage": "https://glimo.dev",
+  "bugs": "https://github.com/lukchamo/glimo/issues",
+  "keywords": [
+    "glimo",
+    "agents",
+    "mcp",
+    "ai-agents",
+    "status",
+    "avatar",
+    "claude-code",
+    "cli"
+  ]
+}
