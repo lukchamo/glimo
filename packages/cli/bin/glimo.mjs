@@ -4,6 +4,7 @@
 //   npx glimo init                         create a vitrina and remember it in .glimo/
 //   npx glimo status sales waiting "Wants to send 12 emails" --action approve:"Approve sending":sensitive
 //   npx glimo wait sales                   wait for the person's decision
+//   npx glimo hooks install                show every Claude Code session as a glim, on its own
 //   npx glimo demo                         bring a sample team to life
 //   npx glimo open                         print the address of your vitrina
 //   npx glimo mcp                          stdio MCP server (for clients without HTTP transport)
@@ -20,6 +21,7 @@ import {
 import { dirname, join, resolve } from 'node:path';
 import { createInterface } from 'node:readline';
 import { fileURLToPath } from 'node:url';
+import { hooks } from './hooks.mjs';
 
 export const VERSION = '0.1.0';
 const DEFAULT_URL = 'https://glimo.dev';
@@ -34,12 +36,22 @@ Usage
         [--action <id>:<label>[:sensitive]]…
   glimo wait <agent> [--seconds <0-20>]     Wait for the person's decision (prints JSON)
   glimo remove <agent>                      Take an agent off the vitrina
+  glimo hooks install [--global]            Show every Claude Code session as a glim, on its own
+        [--detail] [--approve] [--name <display name>]
+  glimo hooks status [--global]             Say whether the hooks are installed, and for which vitrina
+  glimo hooks uninstall [--global]          Remove the hooks and their runner, nothing else
   glimo demo                                Bring a sample team to life (Ctrl+C to stop)
   glimo open                                Print the address of your vitrina
   glimo mcp                                 Run a stdio MCP server for this vitrina
 
 States
   ${STATES.join(', ')}
+
+Claude Code hooks (they report on their own, the model does not have to remember)
+  --global                                  Every project on this machine, not only this one
+  --detail                                  Also send the tool name and a short summary
+  --approve [--approve-seconds <10-600>]    Answer permission prompts from the vitrina
+  --name <display name>                     Name of the glim (or GLIMO_AGENT_NAME)
 
 Configuration (first match wins)
   GLIMO_URL, GLIMO_VITRINA, GLIMO_KEY       environment variables
@@ -353,6 +365,8 @@ export async function main(argv = process.argv.slice(2), out = console.log) {
       return wait(rest, flags, out);
     case 'remove':
       return remove(rest, out);
+    case 'hooks':
+      return hooks(rest, flags, out, { loadConfig, findConfig, defaultUrl: DEFAULT_URL });
     case 'demo':
       return demo(out);
     case 'open': {
