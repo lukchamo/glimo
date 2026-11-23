@@ -27,25 +27,25 @@ escaparate y español desde el día 1 (`README.es.md`, `glimo.dev/es/`).
 
 ## Auditoría del repositorio
 
-| Punto                                                                                      | Estado                                                           |
-| ------------------------------------------------------------------------------------------ | ---------------------------------------------------------------- |
-| Promesa en una línea en la primera pantalla                                                | ✓                                                                |
-| Comando de instalación antes de la línea 30                                                | ✓ línea 26. Requiere publicar `glimo` en npm                     |
-| Demo en la cabecera                                                                        | ✓ `docs/assets/demo.gif`, 17 s, del comando al resultado         |
-| 4 a 6 insignias                                                                            | ✓ 4. La de npm se verá vacía hasta publicar                      |
-| Tabla de compatibilidad                                                                    | ✓ con estado "MCP estándar". Falta verificar cliente por cliente |
-| Licencia permisiva y negocio separado                                                      | ✓ Apache-2.0, `GOVERNANCE.md`                                    |
-| CONTRIBUTING con política de IA, issue antes de features, tests, Conventional Commits, DCO | ✓                                                                |
-| AGENTS.md con mapa, comandos y reglas                                                      | ✓ más `CLAUDE.md`                                                |
-| SECURITY.md y código de conducta                                                           | ✓ El correo `hola@glimo.dev` aún no existe                       |
-| Formularios de issue, plantilla de PR, CODEOWNERS, Dependabot                              | ✓                                                                |
-| CI en cada PR                                                                              | ✓                                                                |
-| Release automático con changelog                                                           | ✗ El changelog es manual por ahora                               |
-| README en español                                                                          | ✓                                                                |
-| Discord y X enlazados                                                                      | ✗ No existen todavía                                             |
-| Integraciones como plugins fuera del núcleo                                                | ✓ Las skills viven en su carpeta y en repositorios propios       |
-| Nombre verificado (marca, dominio, cuentas)                                                | Parcial: dominio, npm y PyPI sí; GitHub, X y EUIPO no            |
-| Repositorio bajo la organización de CooWeb                                                 | ✗ Está en `lukchamo/glimo`                                       |
+| Punto                                                                                      | Estado                                                                                                     |
+| ------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------- |
+| Promesa en una línea en la primera pantalla                                                | ✓                                                                                                          |
+| Comando de instalación antes de la línea 30                                                | ✓ línea 26. `npx glimo` requiere publicar en npm; mientras, funciona el archivo del release                |
+| Demo en la cabecera                                                                        | ✓ `docs/assets/demo.gif`, 17 s, del comando al resultado                                                   |
+| 4 a 6 insignias                                                                            | ✓ 4: CI, release, licencia y spec                                                                          |
+| Tabla de compatibilidad                                                                    | ✓ con estado "MCP estándar". Falta verificar cliente por cliente                                           |
+| Licencia permisiva y negocio separado                                                      | ✓ Apache-2.0, `GOVERNANCE.md`                                                                              |
+| CONTRIBUTING con política de IA, issue antes de features, tests, Conventional Commits, DCO | ✓                                                                                                          |
+| AGENTS.md con mapa, comandos y reglas                                                      | ✓ más `CLAUDE.md`                                                                                          |
+| SECURITY.md y código de conducta                                                           | ✓ El correo `hola@glimo.dev` aún no existe                                                                 |
+| Formularios de issue, plantilla de PR, CODEOWNERS, Dependabot                              | ✓                                                                                                          |
+| CI en cada PR                                                                              | ✓                                                                                                          |
+| Release automático con changelog                                                           | ✓ Al subir una etiqueta `vX.Y.Z` se publica el release con las notas del changelog y los paquetes adjuntos |
+| README en español                                                                          | ✓                                                                                                          |
+| Discord y X enlazados                                                                      | ✗ No existen todavía                                                                                       |
+| Integraciones como plugins fuera del núcleo                                                | ✓ Las skills viven en su carpeta y en repositorios propios                                                 |
+| Nombre verificado (marca, dominio, cuentas)                                                | Parcial: dominio, npm y PyPI sí; GitHub, X y EUIPO no                                                      |
+| Repositorio bajo la organización de CooWeb                                                 | ✗ Está en `lukchamo/glimo`                                                                                 |
 
 ## Antes de lanzar, por orden de impacto
 
