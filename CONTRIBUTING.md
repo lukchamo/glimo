@@ -72,6 +72,24 @@ Non-trivial work by an agent still needs an accepted issue first.
 
 A maintainer replies within 5 business days.
 
+## Releasing (maintainers)
+
+Releases are cut from `main` by pushing a tag. Everything else is automatic.
+
+1. Set the new version in every package, `workers/edge/src/version.ts` and the CLI
+   (`node scripts/check-version.mjs` tells you if one is out of step).
+2. Add a `## x.y.z (date)` section to `CHANGELOG.md`.
+3. Merge to `main`, then tag and push:
+
+   ```bash
+   git tag -a v0.2.0 -m "Glimo 0.2.0" && git push origin v0.2.0
+   ```
+
+The `release` workflow checks that the tag matches every version, runs lint, types and
+tests, builds the packages and publishes a GitHub release with the changelog section as
+notes and the package tarballs attached. If the repository has an `NPM_TOKEN` secret, it
+also publishes `glimo`, `@glimo/spec` and `@glimo/glim` to npm.
+
 ## Conduct, security and license
 
 By participating you accept the [Code of Conduct](CODE_OF_CONDUCT.md). Report

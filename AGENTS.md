@@ -17,7 +17,8 @@ a vitrina and decide from it. English first, Spanish second.
 - `apps/web` — glimo.dev: landing (`/`, `/es/`), `/playground`, live page `/v/:id`. React + Vite, prerendered.
 - `workers/edge` — Cloudflare Worker: REST API (Hono), MCP endpoint, Durable Object `Vitrina`, D1 schema (Drizzle) and migrations.
 - `skills/` — starter skills (Agent Skills format) and `catalog.json`.
-- `scripts/` — `smoke.mjs`, `pentest.mjs`, `gen-skills-seed.mjs`.
+- `scripts/` — `smoke.mjs`, `pentest.mjs`, `gen-skills-seed.mjs`, `check-version.mjs`, `release-notes.mjs`.
+- `.github/workflows` — `ci.yml` (every PR and `main`), `release.yml` (on a `v*` tag: GitHub release, npm when `NPM_TOKEN` exists).
 - `docs/` — English docs; `docs/es/` product documents in Spanish (PRD, brand, privacy).
 - `design/` — design sources. Read-only reference: copy structure, text, sizes and colours from `design/canvas/*.dc.html`, never the format.
 
@@ -29,6 +30,7 @@ a vitrina and decide from it. English first, Spanish second.
 - Run locally `pnpm dev` (http://localhost:8787) · browser tests `pnpm e2e`
 - Check a deployment `pnpm smoke <url>` · `pnpm pentest <url>`
 - New D1 migration: edit `workers/edge/src/db/schema.ts`, then `pnpm db:generate`
+- Release: see "Releasing" in `CONTRIBUTING.md`. Never tag or publish without being asked.
 
 ## Rules
 

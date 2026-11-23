@@ -9,7 +9,7 @@
 
 <p align="center">
   <a href="https://github.com/lukchamo/glimo/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/lukchamo/glimo/ci.yml?branch=main&label=ci" alt="CI"></a>
-  <a href="https://www.npmjs.com/package/glimo"><img src="https://img.shields.io/npm/v/glimo?label=npm" alt="npm"></a>
+  <a href="https://github.com/lukchamo/glimo/releases/latest"><img src="https://img.shields.io/github/v/release/lukchamo/glimo?label=release&color=2B34D6" alt="Latest release"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-Apache--2.0-blue" alt="Apache-2.0"></a>
   <a href="docs/spec.md"><img src="https://img.shields.io/badge/spec-glimo%2F0.1-2B34D6" alt="Glimo Spec 0.1"></a>
 </p>
@@ -30,6 +30,12 @@ Nothing to install? Create a vitrina with one request, or in the [playground](ht
 
 ```bash
 curl -X POST https://glimo.dev/api/vitrinas
+```
+
+Every version also ships the CLI as a file in its [release](https://github.com/lukchamo/glimo/releases/latest):
+
+```bash
+npx https://github.com/lukchamo/glimo/releases/download/v0.1.0/glimo-0.1.0.tgz init
 ```
 
 ## Demo
