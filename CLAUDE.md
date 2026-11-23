@@ -8,4 +8,5 @@
 - After touching the Worker, run `pnpm --filter @glimo/edge test` and then `pnpm dev` once:
   the test runtime is more forgiving than the real one about what an entry module exports.
 - After touching the glim or the site, look at it: `pnpm dev`, then `pnpm e2e`.
-- Deploying (`pnpm deploy`) changes production at glimo.dev. Ask first.
+- Deploying (`pnpm run deploy`; plain `pnpm deploy` is another pnpm command) changes
+  production at glimo.dev. Ask first.

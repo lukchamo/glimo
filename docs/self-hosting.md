@@ -19,7 +19,7 @@ pnpm --filter @glimo/edge exec wrangler d1 create glimo
 pnpm db:migrate:remote
 
 # 4. Build the site and deploy
-pnpm deploy
+pnpm run deploy
 
 # 5. Set the secret that signs vitrina ids (any long random string)
 openssl rand -base64 48 | pnpm --filter @glimo/edge exec wrangler secret put ID_SECRET

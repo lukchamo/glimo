@@ -19,13 +19,14 @@ escaparate y español desde el día 1 (`README.es.md`, `glimo.dev/es/`).
 
 - `glimo.dev` en producción sobre Cloudflare: Worker con la web, la API, el canal en vivo
   (Durable Objects), D1 con Drizzle y el endpoint MCP.
-- 110 pruebas unitarias y de Worker (7 s), 18 de navegador (15 s), prueba de humo (2 s) y
-  28 sondas de seguridad, todas en verde contra producción.
+- 242 pruebas unitarias y de Worker (18 s), 42 de navegador (44 s contra producción),
+  prueba de humo (12 comprobaciones, 4 s) y 29 sondas de seguridad: 28 pasan, ninguna falla
+  y 1 se confirma a mano (el límite de creación, que depende de la ubicación de Cloudflare).
 - Carga: LCP 0,26 s en escritorio y 0,94 s en móvil con 4G lento y CPU ×4; CLS 0; un
   solo dominio, sin terceros.
 - Animación: 60 fps estables con 28 glims; solo se animan propiedades compuestas.
 
-### Motivo para volver (hecho, pendiente de desplegar)
+### Motivo para volver (en producción desde el 23 de noviembre)
 
 El diagnóstico de producto fue que la vitrina no daba un motivo para volver: el glim solo
 se movía si el modelo se acordaba de avisar, y nada te llamaba cuando te necesitaba.
@@ -34,11 +35,12 @@ se movía si el modelo se acordaba de avisar, y nada te llamaba cuando te necesi
   sin que el modelo llame a nada. Por defecto no sale del equipo ningún prompt, comando ni
   nombre de archivo. Con `--approve` se responden los permisos desde la vitrina.
 - **Avisos**: Web Push cuando un glim empieza a esperarte o se bloquea, con la página
-  cerrada. Probado de punta a punta con el servicio push de Mozilla.
+  cerrada. Probado de punta a punta desde producción con el servicio push de Mozilla: el
+  aviso llega unos 165 ms después de escribir el estado.
 - **Tiempo de espera**: la vitrina dice desde cuándo te espera cada glim y la pestaña
   cuenta cuántos te necesitan.
-- En local: 242 pruebas unitarias y de Worker, 42 de navegador, humo 12 de 12 y 29 sondas
-  de seguridad (28 pasan, 1 se confirma a mano).
+- Sin probar todavía: avisos en un iPhone, en Android y en Edge, una sesión real completa
+  de Claude Code con los hooks, y Windows.
 
 ## Auditoría del repositorio
 
@@ -64,10 +66,11 @@ se movía si el modelo se acordaba de avisar, y nada te llamaba cuando te necesi
 
 ## Antes de lanzar, por orden de impacto
 
-0. **Desplegar el motivo para volver**: generar las claves con `node scripts/gen-vapid.mjs`,
-   guardarlas como secretos del Worker y desplegar. Después, probar el aviso en un iPhone
-   (desde la pantalla de inicio), en Android y en escritorio, y una sesión real de Claude
-   Code con los hooks. Usarlo dos semanas con agentes reales antes de lanzar.
+0. **Usar el motivo para volver**: probar el aviso en un iPhone (desde la pantalla de
+   inicio), en Android y en escritorio, y una sesión real de Claude Code con los hooks.
+   Usarlo dos semanas con agentes reales antes de lanzar. La clave privada de los avisos
+   solo existe como secreto del Worker: si se cambia, cada dispositivo tiene que volver a
+   activar los avisos.
 1. **Publicar en npm** `glimo`, `@glimo/spec` y `@glimo/glim` (reservar la organización
    `glimo`). Después, poner `cliPublished: true` en `apps/web/src/lib/site.ts` para que la
    web muestre `npx glimo@latest init`. Hasta entonces el comando principal del README falla.
