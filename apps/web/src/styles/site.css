@@ -608,6 +608,68 @@ pre {
   background: #f0525a;
 }
 
+/* How long a glim has been waiting. The line is reserved before the words are known
+   (they arrive after mounting), so nothing moves when they do. */
+.since {
+  display: block;
+  min-height: 1.4em;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.4;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-muted);
+}
+.ask .since {
+  margin-top: 2px;
+  color: var(--on-dark-muted);
+}
+
+/* Notifications opt-in: one row that keeps its height from "off" to "on". */
+.notify {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 12px;
+  min-height: var(--touch);
+}
+.notify__status {
+  /* Narrow enough to share the row with "Turn off" on a small phone. */
+  flex: 1 1 9em;
+  min-width: 0;
+  font-size: 14px;
+  line-height: 1.4;
+  color: var(--text-muted);
+}
+/* Empty, it stays in the page (a live region must exist before it speaks) but out of the row. */
+.notify__status:empty {
+  position: absolute;
+}
+.notify .icon-btn {
+  padding: 6px 16px;
+  background: var(--white);
+  color: var(--ink);
+  line-height: 1.2;
+  text-align: left;
+  transition: scale 140ms var(--ease-out);
+}
+.notify .icon-btn:hover {
+  background: var(--tint);
+}
+.notify .icon-btn:active {
+  scale: 0.97;
+}
+.notify .icon-btn[aria-disabled="true"] {
+  cursor: progress;
+  opacity: 0.55;
+}
+.notify .icon-btn[aria-disabled="true"]:active {
+  scale: none;
+}
+.notify .icon-btn svg {
+  flex: none;
+}
+
 /* World selector */
 .worlds {
   display: flex;
@@ -1312,6 +1374,9 @@ input[type="range"] {
   display: flex;
   align-items: center;
   gap: 10px;
+}
+.sheet__title {
+  min-width: 0;
 }
 .sheet__head h2 {
   font-size: 17px;

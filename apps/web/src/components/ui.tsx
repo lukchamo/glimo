@@ -155,6 +155,12 @@ const ICONS: Record<string, ReactNode> = {
       <path d="M17 9a4 4 0 0 1 0 6" />
     </>
   ),
+  bell: (
+    <>
+      <path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15z" />
+      <path d="M10 21h4" />
+    </>
+  ),
   pause: <path d="M8 5v14M16 5v14" />,
   play: <path d="M7 4.5v15l12-7.5z" />,
 };

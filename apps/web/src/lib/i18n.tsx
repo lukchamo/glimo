@@ -151,6 +151,28 @@ const en = {
     loading: 'Opening your vitrina',
     selectHint: 'Pick a glim to see what it wants.',
   },
+  // How long a glim has been waiting or blocked, after its sentence.
+  since: {
+    now: 'just now',
+    minutes: (n: number) => `for ${n} min`,
+    hours: (n: number) => `for ${n} h`,
+    yesterday: 'since yesterday',
+    days: (n: number) => `for ${n} days`,
+  },
+  notify: {
+    cta: 'Notify me when a glim needs me',
+    asking: 'Turning notifications on',
+    on: 'Notifications are on for this device.',
+    off: 'Turn off',
+    offLabel: 'Turn off notifications',
+    stopping: 'Turning off',
+    denied:
+      'Notifications are blocked for this site. To get them, allow notifications for this site in your browser settings, then reload this page.',
+    homeScreen:
+      'To get notifications on this iPhone or iPad, add Glimo to your Home Screen: tap Share, then Add to Home Screen, and open it from there.',
+    failed: 'Could not turn notifications on. Try again.',
+    failedOff: 'Could not turn notifications off. Try again.',
+  },
   playground: {
     title: 'Playground',
     lead: 'Everything you need to try Glimo in a minute: poke a glim, validate a status, open a live vitrina and feed it from a terminal or any MCP client.',
@@ -361,6 +383,27 @@ const es: Dict = {
     noId: 'Esta dirección no tiene vitrina.',
     loading: 'Abriendo tu vitrina',
     selectHint: 'Elige un glim para ver qué quiere.',
+  },
+  since: {
+    now: 'ahora mismo',
+    minutes: (n: number) => `desde hace ${n} min`,
+    hours: (n: number) => `desde hace ${n} h`,
+    yesterday: 'desde ayer',
+    days: (n: number) => `desde hace ${n} días`,
+  },
+  notify: {
+    cta: 'Avísame cuando un glim me necesite',
+    asking: 'Activando los avisos',
+    on: 'Los avisos están activados en este dispositivo.',
+    off: 'Desactivar',
+    offLabel: 'Desactivar los avisos',
+    stopping: 'Desactivando',
+    denied:
+      'Las notificaciones están bloqueadas para este sitio. Para recibir avisos, permite las notificaciones de este sitio en los ajustes del navegador y recarga esta página.',
+    homeScreen:
+      'Para recibir avisos en este iPhone o iPad, añade Glimo a la pantalla de inicio: toca Compartir, luego Añadir a pantalla de inicio, y ábrelo desde ahí.',
+    failed: 'No se pudieron activar los avisos. Inténtalo de nuevo.',
+    failedOff: 'No se pudieron desactivar los avisos. Inténtalo de nuevo.',
   },
   playground: {
     title: 'Playground',

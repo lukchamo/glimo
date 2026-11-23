@@ -1,6 +1,6 @@
 // Thin client for the Glimo REST API (same origin).
 
-import type { GlimoStatus } from '@glimo/spec';
+import type { GlimoStatus, Locale } from '@glimo/spec';
 
 export interface CreatedVitrina {
   id: string;
@@ -66,6 +66,37 @@ export const sendAction = (
     body: JSON.stringify(action),
   });
 
+// ---------- notifications ----------
+// Watching is a read capability, and so is being told: these calls carry no key.
+
+/** The key this deployment signs push messages with, or why there is none to use. */
+export type PushKey =
+  | { publicKey: string }
+  | { publicKey: null; reason: 'not-configured' | 'unreachable' };
+
+export async function pushKey(): Promise<PushKey> {
+  try {
+    const { publicKey } = await request<{ publicKey?: unknown }>('/api/push/key');
+    if (typeof publicKey === 'string' && publicKey) return { publicKey };
+    return { publicKey: null, reason: 'not-configured' };
+  } catch (cause) {
+    const off = cause instanceof ApiError && cause.code === 'push_not_configured';
+    return { publicKey: null, reason: off ? 'not-configured' : 'unreachable' };
+  }
+}
+
+export const subscribePush = (id: string, subscription: PushSubscriptionJSON, locale: Locale) =>
+  request<{ ok: true }>(`/api/vitrinas/${id}/push`, {
+    method: 'POST',
+    body: JSON.stringify({ ...subscription, locale }),
+  });
+
+export const unsubscribePush = (id: string, endpoint: string) =>
+  request<{ ok: true }>(`/api/vitrinas/${id}/push`, {
+    method: 'DELETE',
+    body: JSON.stringify({ endpoint }),
+  });
+
 // ---------- what this browser remembers ----------
 
 const read = (name: string): string | null => {
@@ -86,6 +117,12 @@ const write = (name: string, value: string | null) => {
 
 export const keyFor = (id: string) => read(`glimo:key:${id}`);
 export const rememberKey = (id: string, key: string) => write(`glimo:key:${id}`, key);
+
+/** The push endpoint this device subscribed to a vitrina with, if it did. */
+export const PUSH_PREFIX = 'glimo:push:';
+export const pushFor = (id: string) => read(`${PUSH_PREFIX}${id}`);
+export const rememberPush = (id: string, endpoint: string | null) =>
+  write(`${PUSH_PREFIX}${id}`, endpoint);
 
 export function playgroundVitrina(): CreatedVitrina | null {
   try {

@@ -11,11 +11,13 @@ import {
   urgencyOf,
 } from '@glimo/spec';
 import { useEffect, useMemo, useState } from 'react';
+import { NotifyControl } from '../components/NotifyControl';
 import { Link, Logo } from '../components/ui';
 import { AgentPanel, Vitrina, type World } from '../components/Vitrina';
 import { keyFor, rememberKey, sendAction } from '../lib/api';
 import { localePath, sentence, useCopy, useLocale } from '../lib/i18n';
 import { useLiveVitrina } from '../lib/useLiveVitrina';
+import { callsYou, tabTitle } from '../lib/waiting';
 
 const ID_PATTERN = /^v[0-9a-hjkmnp-tv-z]{24}$/;
 const KEY_PATTERN = /^gk_[A-Za-z0-9_-]{43}$/;
@@ -71,10 +73,12 @@ export default function VitrinaPage({ path }: { path: string }) {
   const current = agents.find((agent) => agent.agent.id === selected) ?? byUrgency[0];
   const needsYou = byUrgency.filter((agent) => urgencyOf(agent) !== 'low');
 
-  // The tab title is a vitrina too: "2 agents are waiting for you".
+  // The tab title is a vitrina too: "(2) 2 agents are waiting for you". The number in
+  // front is how many cannot go on without the person, readable in a narrow tab.
+  const calling = agents.filter((agent) => callsYou(agent.state)).length;
   useEffect(() => {
-    if (id && agents.length > 0) document.title = `${summary.headline} · Glimo`;
-  }, [id, agents.length, summary.headline]);
+    if (id && agents.length > 0) document.title = tabTitle(summary.headline, calling);
+  }, [id, agents.length, summary.headline, calling]);
 
   const pickWorld = (next: World) => {
     setWorld(next);
@@ -127,6 +131,8 @@ export default function VitrinaPage({ path }: { path: string }) {
             <h1>{summary.headline}</h1>
             {summary.detail && <p>{summary.detail}</p>}
           </div>
+
+          <NotifyControl key={id} id={id} />
 
           <fieldset className="field">
             <legend className="sr-only">{copy.worlds.label}</legend>

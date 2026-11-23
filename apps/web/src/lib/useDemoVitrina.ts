@@ -15,6 +15,9 @@ import {
 
 type Team = Record<string, DemoStatus>;
 
+/** How long the example team has been at it when the page opens: a little over 4 minutes. */
+const STARTED_AGO = 4 * 60_000 + 15_000;
+
 const initialTeam = (): Team =>
   Object.fromEntries(DEMO_AGENTS.map((agent) => [agent.id, agent.initial]));
 
@@ -33,6 +36,13 @@ export function useDemoVitrina(locale: Locale): {
   const busyUntil = useRef<Record<string, number>>({});
   const stamps = useRef<Record<string, string>>({});
   const cache = useRef(new WeakMap<DemoStatus, Partial<Record<Locale, GlimoStatus>>>());
+  // The first paint is prerendered, so the team starts at a fixed time. Once mounted it
+  // started a few minutes ago: "waiting for 4 min" has to be about this visit.
+  const [epoch, setEpoch] = useState(DEMO_EPOCH);
+  useEffect(() => {
+    cache.current = new WeakMap();
+    setEpoch(new Date(Date.now() - STARTED_AGO).toISOString());
+  }, []);
 
   const update = useCallback((agentId: string, status: DemoStatus) => {
     stamps.current[agentId] = new Date().toISOString();
@@ -93,15 +103,10 @@ export function useDemoVitrina(locale: Locale): {
           byLocale = {};
           cache.current.set(status, byLocale);
         }
-        byLocale[locale] ??= toStatus(
-          agent,
-          status,
-          locale,
-          stamps.current[agent.id] ?? DEMO_EPOCH,
-        );
+        byLocale[locale] ??= toStatus(agent, status, locale, stamps.current[agent.id] ?? epoch);
         return byLocale[locale] as GlimoStatus;
       }),
-    [team, locale],
+    [team, locale, epoch],
   );
 
   return { agents, playing, setPlaying, decide, stage };

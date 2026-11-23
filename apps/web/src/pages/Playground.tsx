@@ -15,6 +15,7 @@ import {
   type ValidationIssue,
 } from '@glimo/spec';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { NotifyControl } from '../components/NotifyControl';
 import { Snippet } from '../components/ui';
 import { AgentPanel, Vitrina, type World } from '../components/Vitrina';
 import {
@@ -180,6 +181,19 @@ const PRESETS: { name: string; value: object }[] = [
   { name: 'minimal', value: { agent: { id: 'research', name: 'Research' }, state: 'thinking' } },
 ];
 
+/**
+ * An example as text. With `now`, its timestamp becomes a few minutes ago, so that
+ * "waiting for 12 min" reads true whenever the page is opened.
+ */
+function exampleText(value: object, now?: number): string {
+  const fresh =
+    now !== undefined && 'updatedAt' in value
+      ? { ...value, updatedAt: new Date(now - 12 * 60_000).toISOString().replace(/\.\d+Z$/, 'Z') }
+      : value;
+  return JSON.stringify(fresh, null, 2);
+}
+const FIRST_EXAMPLE = exampleText(PRESETS[0]?.value ?? {});
+
 type Verdict =
   | { kind: 'ok'; status: GlimoStatus }
   | { kind: 'issues'; issues: ValidationIssue[] }
@@ -200,7 +214,7 @@ function validate(text: string): Verdict {
   const parsed = parseGlimoStatus({
     ...input,
     spec: input.spec ?? SPEC_VERSION,
-    updatedAt: input.updatedAt ?? '2026-11-23T10:30:00Z',
+    updatedAt: input.updatedAt ?? new Date().toISOString(),
   });
   return parsed.ok
     ? { kind: 'ok', status: parsed.status }
@@ -210,8 +224,15 @@ function validate(text: string): Verdict {
 function SpecEditor() {
   const copy = useCopy();
   const p = copy.playground.spec;
-  const [text, setText] = useState(() => JSON.stringify(PRESETS[0]?.value, null, 2));
+  const [text, setText] = useState(FIRST_EXAMPLE);
   const verdict = useMemo(() => validate(text), [text]);
+  // The first paint is prerendered with a fixed time; once here, the example is recent.
+  useEffect(() => {
+    const first = PRESETS[0]?.value;
+    if (first) {
+      setText((current) => (current === FIRST_EXAMPLE ? exampleText(first, Date.now()) : current));
+    }
+  }, []);
   const [last, setLast] = useState<GlimoStatus | null>(null);
   useEffect(() => {
     if (verdict.kind === 'ok') setLast(verdict.status);
@@ -231,7 +252,7 @@ function SpecEditor() {
                 <button
                   key={preset.name}
                   type="button"
-                  onClick={() => setText(JSON.stringify(preset.value, null, 2))}
+                  onClick={() => setText(exampleText(preset.value, Date.now()))}
                 >
                   {preset.name}
                 </button>
@@ -488,6 +509,7 @@ function Live() {
                 {p.again}
               </button>
             </div>
+            <NotifyControl key={vitrina.id} id={vitrina.id} />
             {error && <p className="verdict verdict--bad">{error}</p>}
             <div className="meter" aria-live="polite">
               <div>

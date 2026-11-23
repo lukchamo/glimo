@@ -35,7 +35,7 @@ test.describe('live vitrina', () => {
 
     await expect(page.locator('.vitrina__cell')).toHaveCount(2);
     await expect(page.getByRole('heading', { level: 1 })).toHaveText('1 agent is waiting for you');
-    await expect(page).toHaveTitle('1 agent is waiting for you · Glimo');
+    await expect(page).toHaveTitle('(1) 1 agent is waiting for you · Glimo');
     // The panel opens on whoever needs you most.
     await expect(page.locator('.sheet h2').first()).toHaveText('Sales is waiting for you.');
 

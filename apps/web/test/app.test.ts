@@ -1,3 +1,4 @@
+import { readFileSync } from 'node:fs';
 import { parseGlimoStatus, STATES } from '@glimo/spec';
 import { describe, expect, it } from 'vitest';
 import catalog from '../../../skills/catalog.json';
@@ -111,6 +112,26 @@ describe('demo data', () => {
         if (['approve', 'renew-access'].includes(action.id)) expect(action.sensitive).toBe(true);
       }
     }
+  });
+});
+
+describe('web app manifests', () => {
+  const read = (name: string) =>
+    JSON.parse(readFileSync(new URL(`../public/${name}`, import.meta.url), 'utf8')) as Record<
+      string,
+      unknown
+    >;
+
+  it('a vitrina added to the Home Screen opens on itself, the site on its home page', () => {
+    const { start_url: siteStart, ...site } = read('site.webmanifest');
+    const { scope, ...vitrina } = read('vitrina.webmanifest');
+    expect(siteStart).toBe('/');
+    // No start_url: the page it was added from. The whole site stays inside the app.
+    expect(vitrina).not.toHaveProperty('start_url');
+    expect(scope).toBe('/');
+    expect(vitrina).toEqual(site);
+    // Installed like an app: on iOS that is what makes notifications available.
+    expect(vitrina.display).toBe('standalone');
   });
 });
 

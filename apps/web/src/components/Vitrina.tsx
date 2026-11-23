@@ -5,6 +5,8 @@ import { Glim } from '@glimo/glim';
 import { type GlimAction, type GlimoStatus, STATE_LABEL } from '@glimo/spec';
 import { memo, type ReactNode, useEffect, useState } from 'react';
 import { sentence, useCopy, useLocale } from '../lib/i18n';
+import { useNow } from '../lib/useNow';
+import { callsYou, sinceLabel } from '../lib/waiting';
 
 export type World = 'office' | 'garden' | 'orbit';
 
@@ -122,6 +124,9 @@ export function AgentPanel({
   const [busy, setBusy] = useState(false);
   const agentId = agent?.agent.id;
   const state = agent?.state;
+  // "for 12 min": only for a glim that waits for the person, and only once mounted.
+  const waits = callsYou(state);
+  const now = useNow(waits);
 
   // A new agent or a new state: whatever was pending no longer applies.
   // biome-ignore lint/correctness/useExhaustiveDependencies: reset on identity change only
@@ -163,6 +168,13 @@ export function AgentPanel({
   };
 
   const title = sentence(locale, agent.agent.name, agent.state);
+  // Its line is there from the first render and the words arrive after mounting, so the
+  // panel keeps its height. Not announced: it changes every minute, the sentence does not.
+  const since = waits ? (
+    <time className="since" dateTime={agent.updatedAt} aria-live="off">
+      {now === null ? null : sinceLabel(locale, agent.updatedAt, now)}
+    </time>
+  ) : null;
   const buttons = confirming ? (
     <>
       <button
@@ -212,7 +224,10 @@ export function AgentPanel({
       <section className="sheet" aria-live="polite">
         <div className="sheet__head">
           <Glim state={agent.state} size={40} badge={false} seed={agent.agent.id} alt="" />
-          <h2>{title}</h2>
+          <div className="sheet__title">
+            <h2>{title}</h2>
+            {since}
+          </div>
         </div>
         <p>{agent.say ?? copy.vitrina.nothing}</p>
         {(actions.length > 0 || confirming) && <div className="sheet__actions">{buttons}</div>}
@@ -225,6 +240,7 @@ export function AgentPanel({
     <div className="ask on-dark" aria-live="polite">
       <p className="ask__text">
         <strong>{title}</strong> {agent.say}
+        {since}
       </p>
       {(actions.length > 0 || confirming) && <div className="ask__actions">{buttons}</div>}
       {status && <p className="ask__status">{status}</p>}

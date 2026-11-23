@@ -67,6 +67,12 @@ for (const [path, file, full] of pages) {
   const html = template
     .replace('<html lang="en">', `<html lang="${route.locale}">`)
     .replace('<!--head-->', head)
+    // A vitrina added to the Home Screen opens on that vitrina, not on the landing page:
+    // its manifest has no start_url. On an iPhone that is where notifications work.
+    .replace(
+      'href="/site.webmanifest"',
+      route.kind === 'vitrina' ? 'href="/vitrina.webmanifest"' : 'href="/site.webmanifest"',
+    )
     .replace(
       '<div id="root"><!--app--></div>',
       `<div id="root" data-prerender="${full ? 'full' : 'shell'}" data-path="${path}">${render(path)}</div>`,
